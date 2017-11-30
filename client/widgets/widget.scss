@@ -1,0 +1,48 @@
+$base-widget-size: 300px;
+
+.widget {
+  min-width: $base-widget-size;
+  min-height: $base-widget-size;
+
+  display: flex;
+  flex: 1 1 $base-widget-size;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 0.75em;
+  margin: 0.5em;
+
+  font-size: calc(100% + 0.5vw);
+  text-align: center;
+  color: #fff;
+
+  word-wrap: break-word;
+  hyphens: auto;
+  position: relative;
+}
+
+.inner {
+  margin-top: auto;
+  margin-bottom: auto;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+}
+
+.labelLarge {
+  font-size: 4em;
+}
+
+.labelMedium {
+  font-size: 2em;
+}
+
+.labelSmall {
+  font-size: 1.5em;
+}
+
+span {
+  display: block;
+  width: 100%;
+  text-align: center;
+}

@@ -1,0 +1,24 @@
+/**
+ * Mixins / Helpers
+ */
+
+ @mixin font-smoothing {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  
+  @mixin pulse-animation($name, $color-1, $color-2) {
+    @keyframes #{$name} {
+      0%   { background-color: $color-1; }
+      50%  { background-color: $color-2; }
+      100% { background-color: $color-1; }
+    }
+  }
+  
+  %fullscreen {
+    width: 100vw;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  

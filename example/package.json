@@ -1,0 +1,13 @@
+{
+  "name": "my-dashboard",
+  "version": "1.0.0",
+  "author": "Pascal Widdershoven",
+  "license": "MIT",
+  "scripts": {
+    "dev": "NODE_ENV=development ../cli.js start",
+    "start": "NODE_ENV=production ../cli.js start"
+  },
+  "dependencies": {
+    "dashbling": "file:../"
+  }
+}
