@@ -1,0 +1,11 @@
+@import "../styles/mixins";
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  @extend %fullscreen;
+}
+
+.meta {
+  margin: auto 1em 1em;
+}
