@@ -14,15 +14,10 @@ module.exports.start = async () => {
 
   require("./server/support/logging").install(server);
 
-  const webpackConfig = require("./client/webpack.config");
-
   if (environment === "production") {
     await require("./server/support/compiled-assets").install(server);
   } else {
-    require("./server/support/webpack-dev-middleware").install(
-      server,
-      webpackConfig
-    );
+    require("./server/support/webpack-dev-middleware").install(server);
   }
 
   server.route({

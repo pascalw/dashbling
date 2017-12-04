@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const server = require("./server");
+const assets = require("./lib/assets");
 const program = require("commander");
 program.version(require("./package.json").version);
 
@@ -9,14 +10,7 @@ program.command("start").action(() => {
 
 program.command("compile").action(() => {
   process.env.NODE_ENV = process.env.NODE_ENV || "production";
-
-  // FIXME
-  const webpackConfig = require("./client/webpack.config");
-  const Webpack = require("webpack");
-  const compiler = Webpack(webpackConfig);
-  compiler.run(() => {
-    console.log("done!");
-  });
+  assets.compile();
 });
 
 program.on("--help", () => process.exit(1));
