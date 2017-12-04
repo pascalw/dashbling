@@ -1,6 +1,8 @@
+import { projectPath } from "../../lib/project";
+
 const path = require("path");
 
-module.exports.install = async server => {
+module.exports.install = async (server, projectPath) => {
   await server.register(require("inert"));
 
   server.route({
@@ -8,7 +10,7 @@ module.exports.install = async server => {
     path: "/{param*}",
     handler: {
       directory: {
-        path: path.join(process.cwd(), "dist/")
+        path: path.join(projectPath, "dist/")
       }
     }
   });

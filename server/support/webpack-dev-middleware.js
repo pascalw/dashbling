@@ -17,8 +17,8 @@ const addMiddleware = (server, middleware) => {
   });
 };
 
-module.exports.install = server => {
-  assets.devMiddlewares().forEach(middleware => {
+module.exports.install = (server, projectPath) => {
+  assets.devMiddlewares(projectPath).forEach(middleware => {
     addMiddleware(server, middleware);
   });
 };

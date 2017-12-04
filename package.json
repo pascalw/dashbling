@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development nodemon --ignore src/ server.js",
-    "prettier": "prettier '{,!(node_modules|lib|example/dist)/**/}*.js'"
+    "prettier": "prettier '{,!(node_modules)/**/}*.js'"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-beta.34",
