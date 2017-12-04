@@ -1,10 +1,11 @@
 const path = require("path");
 const cron = require("node-cron");
+const logger = require("../lib/logger");
 
 let jobs;
 
 const executeJob = sendEvent => job => {
-  console.log("Executing job");
+  logger.debug("Executing job: %s", job.id || job.fn.name || "unknown");
   job.fn(sendEvent);
 };
 
