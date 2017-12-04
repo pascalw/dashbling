@@ -4,13 +4,15 @@ const assets = require("./lib/assets");
 const program = require("commander");
 program.version(require("./package.json").version);
 
+const projectPath = process.cwd();
+
 program.command("start").action(() => {
-  server.start();
+  server.start(projectPath);
 });
 
 program.command("compile").action(() => {
   process.env.NODE_ENV = process.env.NODE_ENV || "production";
-  assets.compile();
+  assets.compile(projectPath);
 });
 
 program.on("--help", () => process.exit(1));

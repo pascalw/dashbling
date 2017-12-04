@@ -4,7 +4,7 @@ const PassThrough = Stream.PassThrough;
 const jobs = require("./server/jobs");
 const eventBus = require("./server/eventBus");
 
-module.exports.start = async () => {
+module.exports.start = async projectPath => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
 
@@ -15,9 +15,15 @@ module.exports.start = async () => {
   require("./server/support/logging").install(server);
 
   if (environment === "production") {
-    await require("./server/support/compiled-assets").install(server);
+    await require("./server/support/compiled-assets").install(
+      server,
+      projectPath
+    );
   } else {
-    require("./server/support/webpack-dev-middleware").install(server);
+    require("./server/support/webpack-dev-middleware").install(
+      server,
+      projectPath
+    );
   }
 
   server.route({
@@ -57,7 +63,7 @@ module.exports.start = async () => {
     }
   });
 
-  jobs.start(eventBus.publish);
+  jobs.start(projectPath, eventBus.publish);
 
   await server.initialize();
 

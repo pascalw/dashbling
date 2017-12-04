@@ -14,8 +14,8 @@ const scheduleJob = sendEvent => job => {
   boundExecuteJob(job);
 };
 
-module.exports.start = sendEvent => {
-  const jobsPath = path.join(process.cwd(), "jobs");
+module.exports.start = (projectPath, sendEvent) => {
+  const jobsPath = path.join(projectPath, "jobs");
   jobs = require(jobsPath);
 
   jobs.forEach(scheduleJob(sendEvent));
