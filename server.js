@@ -3,6 +3,7 @@ const Stream = require("stream");
 const PassThrough = Stream.PassThrough;
 const jobs = require("./server/jobs");
 const eventBus = require("./server/eventBus");
+const logger = require("./lib/logger");
 
 module.exports.start = async projectPath => {
   const port = process.env.PORT || 3000;
@@ -70,10 +71,10 @@ module.exports.start = async projectPath => {
   server
     .start()
     .then(() => {
-      console.log("Server running at:", server.info.uri);
+      logger.info("Server running at: %s", server.info.uri);
     })
     .catch(e => {
-      console.log(e);
+      logger.error(e);
       process.exit(1);
     });
 };

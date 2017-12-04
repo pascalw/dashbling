@@ -37,6 +37,7 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
     "timezone": "^1.0.13",
+    "tracer": "^0.8.11",
     "webpack": "^3.9.1",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-hot-middleware": "^2.21.0"
