@@ -8,10 +8,11 @@ const exclude = /node_modules/;
 
 const webpack = require("webpack");
 const HTML = require("html-webpack-plugin");
+const Clean = require("clean-webpack-plugin");
 
 const plugins = [
-  new webpack.optimize.CommonsChunkPlugin({ name: "vendor" }),
   new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify(env) }),
+  new Clean([out], { root: basePath }),
   new HTML({
     template: path.join(basePath, "./index.html"),
     inject: true,
@@ -40,7 +41,6 @@ if (isProd) {
 module.exports = {
   entry: {
     app: path.join(basePath, "./index.js"),
-    vendor: ["react", "react-dom"],
     ...(!isProd ? { hot: "webpack-hot-middleware/client" } : {})
   },
   output: {
