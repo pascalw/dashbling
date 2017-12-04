@@ -9,5 +9,6 @@
   },
   "dependencies": {
     "dashbling": "file:../"
-  }
+  },
+  "browserslist": "last 2 versions"
 }
