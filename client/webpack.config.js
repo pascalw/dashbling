@@ -4,7 +4,6 @@ const basePath = process.cwd();
 const env = process.env.NODE_ENV || "development";
 const isProd = env === "production";
 const out = path.join(basePath, "./dist");
-const exclude = /node_modules/;
 
 const webpack = require("webpack");
 const HTML = require("html-webpack-plugin");
@@ -52,7 +51,12 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: exclude,
+        exclude: modulePath => {
+          return (
+            /node_modules/.test(modulePath) &&
+            !/node_modules\/dashbling\/client/.test(modulePath)
+          );
+        },
         loader: "babel-loader",
         options: {
           extends: path.join(__dirname, ".babelrc")
@@ -78,13 +82,12 @@ module.exports = {
             }
           },
           { loader: "sass-loader" }
-        ],
-        exclude: /shell.scss/
+        ]
       },
       {
         test: /\.(png|svg)$/,
         loader: "file-loader",
-        exclude: exclude
+        exclude: /node_modules/
       }
     ]
   },
