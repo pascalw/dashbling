@@ -1,4 +1,4 @@
-const Webpack = require("webpack");
+const assets = require("../../lib/assets");
 
 const addMiddleware = (server, middleware) => {
   server.ext("onRequest", (request, h) => {
@@ -17,11 +17,8 @@ const addMiddleware = (server, middleware) => {
   });
 };
 
-module.exports.install = (server, webpackConfig) => {
-  const compiler = Webpack(webpackConfig);
-  const devMiddleware = require("webpack-dev-middleware")(compiler);
-  const hotMiddleware = require("webpack-hot-middleware")(compiler);
-
-  addMiddleware(server, devMiddleware);
-  addMiddleware(server, hotMiddleware);
+module.exports.install = server => {
+  assets.devMiddlewares().forEach(middleware => {
+    addMiddleware(server, middleware);
+  });
 };
