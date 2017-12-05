@@ -1,4 +1,5 @@
 const subscribers = [];
+const history = {};
 
 module.exports.subscribe = subscriber => {
   subscribers.push(subscriber);
@@ -10,6 +11,12 @@ module.exports.unsubscribe = subscriber => {
 };
 
 module.exports.publish = (id, data) => {
-  const eventData = { id, data, updatedAt: new Date().getTime() };
-  subscribers.forEach(subscriber => subscriber(eventData));
+  const event = { id, data, updatedAt: new Date().getTime() };
+  subscribers.forEach(subscriber => subscriber(event));
+
+  history[id] = event;
+};
+
+module.exports.replayHistory = subscriber => {
+  Object.values(history).forEach(event => subscriber(event));
 };

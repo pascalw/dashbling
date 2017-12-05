@@ -58,6 +58,7 @@ module.exports.start = async projectPath => {
       };
 
       eventBus.subscribe(subscriber);
+      eventBus.replayHistory(subscriber);
 
       stream.once("close", () => {
         eventBus.unsubscribe(subscriber);
