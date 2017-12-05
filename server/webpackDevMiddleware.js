@@ -1,4 +1,4 @@
-const assets = require("../../lib/assets");
+const assets = require("../lib/assets");
 
 const addMiddleware = (server, middleware) => {
   server.ext("onRequest", (request, h) => {
@@ -21,4 +21,6 @@ module.exports.install = (server, projectPath) => {
   assets.devMiddlewares(projectPath).forEach(middleware => {
     addMiddleware(server, middleware);
   });
+
+  return Promise.resolve();
 };

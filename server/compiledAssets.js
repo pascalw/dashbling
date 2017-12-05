@@ -1,4 +1,4 @@
-import { projectPath } from "../../lib/project";
+import { projectPath } from "../lib/project";
 
 const path = require("path");
 
