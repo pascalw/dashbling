@@ -7,7 +7,7 @@ const dashbling = (state = {}, action) => {
   switch (action.type) {
     case EVENT_RECEIVED:
       return Object.assign({}, state, {
-        lastUpdatedAt: new Date(action.data.updatedAt * 1000),
+        lastUpdatedAt: new Date(action.updatedAt),
         data: Object.assign({}, state.data, { [action.id]: action.data })
       });
     case DASHBLING_CONNECTED:
@@ -29,6 +29,6 @@ export const dashblingConnected = connected => {
   return { type: DASHBLING_CONNECTED, connected };
 };
 
-export const eventReceived = (id, data) => {
-  return { type: EVENT_RECEIVED, id: id, data: data };
+export const eventReceived = (id, data, updatedAt) => {
+  return { type: EVENT_RECEIVED, id, data, updatedAt };
 };

@@ -20,6 +20,7 @@
     "clean-webpack-plugin": "^0.1.17",
     "commander": "^2.12.2",
     "css-loader": "^0.28.7",
+    "date-fns": "^1.29.0",
     "file-loader": "^1.1.5",
     "hapi": "17.1.1",
     "html-webpack-plugin": "^2.30.1",

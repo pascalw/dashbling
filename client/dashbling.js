@@ -22,8 +22,9 @@ export const connectStoreToDashbling = store => {
     const eventData = JSON.parse(e.data);
     const id = eventData.id;
     const data = eventData.data;
+    const updatedAt = eventData.updatedAt;
 
-    store.dispatch(eventReceived(id, data));
+    store.dispatch(eventReceived(id, data, updatedAt));
   };
 
   eventSource.onerror = function() {

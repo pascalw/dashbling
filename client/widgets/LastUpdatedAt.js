@@ -16,6 +16,6 @@ const LastUpdatedAt = function(props) {
   );
 };
 
-export default connect(function(state) {
+export default connect(state => {
   return { lastUpdatedAt: state.lastUpdatedAt };
 })(LastUpdatedAt);
