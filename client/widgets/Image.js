@@ -1,5 +1,5 @@
 import React from "react";
-import Widget from "./Widget";
+import Widget from "../Widget";
 
 const styles = {
   padding: "1.5em",
