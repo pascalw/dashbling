@@ -5,6 +5,22 @@ const jobs = require("./server/jobs");
 const eventBus = require("./server/eventBus");
 const logger = require("./lib/logger");
 
+const postEventToken =
+  process.env.AUTH_TOKEN ||
+  (() => {
+    const token = require("crypto")
+      .randomBytes(20)
+      .toString("base64")
+      .replace(/\W/g, "");
+
+    logger.warn(
+      "No AUTH_TOKEN was specified, using random token %s for authentication.",
+      token
+    );
+
+    return token;
+  })();
+
 module.exports.start = async projectPath => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
@@ -59,6 +75,10 @@ module.exports.start = async projectPath => {
       payload: { allow: "application/json" }
     },
     handler: (req, h) => {
+      if (`bearer ${postEventToken}` !== req.headers.authorization) {
+        return h.response("Unauthorized").code(401);
+      }
+
       eventBus.publish(req.params.id, req.payload);
       return "OK";
     }
