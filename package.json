@@ -7,8 +7,9 @@
     "dashbling": "./cli.js"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --ignore src/ server.js",
-    "prettier": "prettier '{,!(node_modules)/**/}*.js'"
+    "dev": "NODE_ENV=development nodemon --ignore example/ --exec 'bash -c ' 'cd example && ../cli.js start'",
+    "prettier": "prettier '{,!(node_modules)/**/}*.js'",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-beta.34",
@@ -44,5 +45,8 @@
   },
   "engines": {
     "node": ">= 8.9.0"
+  },
+  "devDependencies": {
+    "jest": "^21.2.1"
   }
 }
