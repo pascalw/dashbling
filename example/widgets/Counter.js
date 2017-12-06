@@ -1,7 +1,7 @@
 import React from "react";
 import Widget, { LargeLabel } from "dashbling/client/Widget";
 
-class Counter extends React.Component {
+export const Counter = class Counter extends React.Component {
   constructor(props) {
     super(props);
     this.state = { count: 0 };
@@ -25,6 +25,4 @@ class Counter extends React.Component {
       </Widget>
     );
   }
-}
-
-export default Counter;
+};

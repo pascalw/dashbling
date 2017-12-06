@@ -1,6 +1,4 @@
 const Hapi = require("hapi");
-const Stream = require("stream");
-const PassThrough = Stream.PassThrough;
 const eventBus = require("./lib/eventBus");
 const jobs = require("./lib/jobs");
 const logger = require("./lib/logger");
