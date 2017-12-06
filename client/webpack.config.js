@@ -32,14 +32,17 @@ module.exports = projectPath => {
     // dev only
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
-      new webpack.NamedModulesPlugin()
+      new webpack.NamedModulesPlugin(),
+      new webpack.NoEmitOnErrorsPlugin()
     );
   }
 
   return {
     entry: {
-      app: path.join(projectPath, "./index.js"),
-      ...(!isProd ? { hot: "webpack-hot-middleware/client" } : {})
+      app: [
+        path.join(projectPath, "./index.js"),
+        ...(isProd ? [] : ["webpack-hot-middleware/client"])
+      ]
     },
     output: {
       path: out,
