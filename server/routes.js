@@ -1,3 +1,5 @@
+const Stream = require("stream");
+const PassThrough = Stream.PassThrough;
 const eventBus = require("../lib/eventBus");
 
 module.exports.install = server => {

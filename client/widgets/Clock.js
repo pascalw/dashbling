@@ -2,16 +2,15 @@ import React from "react";
 import Widget, { MediumLabel, LargeLabel } from "../Widget";
 import tz from "timezone";
 
-function dateFormatter(tzdata, timezone, format) {
-  return function(date) {
-    return tz(tzdata)(date, format, "en_US", timezone);
-  };
-}
+const dateFormatter = (tzdata, timezone, format) => date => {
+  return tz(tzdata)(date, format, "en_US", timezone);
+};
 
-class Clock extends React.Component {
+export const Clock = class Clock extends React.Component {
   constructor(props) {
     super(props);
     this.state = { time: new Date() };
+
     this.formatDate = dateFormatter(
       props.tzdata,
       props.timezone,
@@ -32,17 +31,17 @@ class Clock extends React.Component {
     return (
       <Widget style={{ backgroundColor: this.props.backgroundColor }}>
         <MediumLabel>{this.formatDate(this.state.time)}</MediumLabel>
+
         <LargeLabel style={{ marginTop: "10px" }}>
           {this.formatTime(this.state.time)}
         </LargeLabel>
+
         {this.props.title && <MediumLabel>{this.props.title}</MediumLabel>}
       </Widget>
     );
   }
-}
+};
 
 Clock.defaultProps = {
   backgroundColor: "#359c94"
 };
-
-export default Clock;
