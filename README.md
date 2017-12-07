@@ -1,1 +1,1 @@
-# 💎 Dashbling - hackable React-based dashboards 
+# 💎 Dashbling 💎 - hackable React-based dashboards 
