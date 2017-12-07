@@ -4,13 +4,13 @@ const jobs = require("./lib/jobs");
 const logger = require("./lib/logger");
 
 const installAssetHandling = (environment, server, projectPath) => {
-  if (environment === "production") {
-    return require("./server/compiledAssets").install(server, projectPath);
-  } else {
+  if (environment === "development") {
     return require("./server/webpackDevMiddleware").install(
       server,
       projectPath
     );
+  } else {
+    return require("./server/compiledAssets").install(server, projectPath);
   }
 };
 
@@ -18,7 +18,7 @@ module.exports.start = async projectPath => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
 
-  const server = new Hapi.Server({
+  server = new Hapi.Server({
     port: port
   });
 
@@ -32,6 +32,7 @@ module.exports.start = async projectPath => {
     await server.initialize();
     await server.start();
     logger.info("Server running at: %s", server.info.uri);
+    return server;
   } catch (e) {
     logger.error(e);
     process.exit(1);
