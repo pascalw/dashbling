@@ -1,5 +1,3 @@
-import { projectPath } from "../lib/project";
-
 const path = require("path");
 
 module.exports.install = async (server, projectPath) => {
