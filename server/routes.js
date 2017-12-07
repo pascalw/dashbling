@@ -1,5 +1,4 @@
-const Stream = require("stream");
-const PassThrough = Stream.PassThrough;
+const { PassThrough } = require("stream");
 const eventBus = require("../lib/eventBus");
 const logger = require("../lib/logger");
 
