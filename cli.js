@@ -1,13 +1,19 @@
 #!/usr/bin/env node
 const server = require("./server");
 const assets = require("./lib/assets");
+const logger = require("./lib/logger");
 const program = require("commander");
 program.version(require("./package.json").version);
 
 const projectPath = process.cwd();
 
-program.command("start").action(() => {
-  server.start(projectPath);
+program.command("start").action(async () => {
+  try {
+    await server.start(projectPath);
+  } catch (e) {
+    logger.error(e);
+    process.exit(1);
+  }
 });
 
 program.command("compile").action(() => {
