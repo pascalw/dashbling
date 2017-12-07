@@ -28,13 +28,9 @@ module.exports.start = async projectPath => {
 
   jobs.start(projectPath, eventBus.publish);
 
-  try {
-    await server.initialize();
-    await server.start();
-    logger.info("Server running at: %s", server.info.uri);
-    return server;
-  } catch (e) {
-    logger.error(e);
-    process.exit(1);
-  }
+  await server.initialize();
+  await server.start();
+
+  logger.info("Server running at: %s", server.info.uri);
+  return server;
 };
