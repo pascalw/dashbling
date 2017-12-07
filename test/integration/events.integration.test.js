@@ -3,6 +3,7 @@ const eventBus = require("../../lib/eventBus");
 const path = require("path");
 const http = require("http");
 const { mockDate } = require("../utils");
+const logger = require("../../lib/logger");
 
 let serverInstance;
 
@@ -17,6 +18,10 @@ const extractEvents = onEvent => response => {
 };
 
 const NOW = Date.now();
+
+beforeAll(() => {
+  logger.setLevel("error");
+});
 
 beforeEach(async () => {
   mockDate(NOW);
