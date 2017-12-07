@@ -4,6 +4,7 @@ const path = require("path");
 const http = require("http");
 const { mockDate } = require("../utils");
 const logger = require("../../lib/logger");
+const jobs = require("./fixture/jobs");
 
 let serverInstance;
 
@@ -27,15 +28,16 @@ beforeEach(async () => {
   mockDate(NOW);
   process.env.PORT = 12345;
   process.env.AUTH_TOKEN = "foobar";
-  serverInstance = await server.start(path.join(__dirname, "fixture"));
+  serverInstance = null;
 });
 
 afterEach(() => {
   Date.now.restore();
-  serverInstance.stop();
+  serverInstance && serverInstance.stop();
 });
 
-test("sends events over /events stream", () => {
+test("sends events over /events stream", async () => {
+  serverInstance = await server.start(path.join(__dirname, "fixture"));
   eventBus.publish("myEvent", { some: "arg" });
 
   return new Promise((resolve, reject) => {
@@ -55,7 +57,9 @@ test("sends events over /events stream", () => {
   });
 });
 
-test("supports receiving events over HTTP", () => {
+test("supports receiving events over HTTP", async () => {
+  serverInstance = await server.start(path.join(__dirname, "fixture"));
+
   return new Promise((resolve, reject) => {
     eventBus.subscribe(event => {
       expect(event).toEqual({
@@ -79,4 +83,16 @@ test("supports receiving events over HTTP", () => {
     request.write(JSON.stringify({ some: "arg" }));
     request.end();
   });
+});
+
+test("executes jobs on start", async () => {
+  const jobFn = jest.fn();
+
+  jobs.push({
+    schedule: "*/5 * * * *",
+    fn: jobFn
+  });
+
+  serverInstance = await server.start(path.join(__dirname, "fixture"));
+  expect(jobFn).toHaveBeenCalledWith(eventBus.publish);
 });
