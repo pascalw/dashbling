@@ -8,5 +8,22 @@
         "useBuiltIns": "usage"
       }
     ]
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/react",
+        [
+          "@babel/preset-env",
+          {
+            "modules": "commonjs",
+            "useBuiltIns": "usage",
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }
