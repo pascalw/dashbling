@@ -1,6 +1,7 @@
 const { PassThrough } = require("stream");
 const eventBus = require("../lib/eventBus");
 const logger = require("../lib/logger");
+const { heartbeat } = require("../lib/constants");
 
 module.exports.install = server => {
   server.route({
@@ -47,11 +48,16 @@ const streamEventsHandler = (req, h) => {
     stream.write(`data: ${JSON.stringify(event)}\n\n`);
   };
 
+  const sendHeartBeat = setInterval(() => {
+    stream.write(`data: ${heartbeat}\n\n`);
+  }, 20 * 1000);
+
   eventBus.subscribe(subscriber);
   eventBus.replayHistory(subscriber);
 
   stream.once("close", () => {
     eventBus.unsubscribe(subscriber);
+    clearInterval(sendHeartBeat);
   });
 
   stream.write("\n\n");
