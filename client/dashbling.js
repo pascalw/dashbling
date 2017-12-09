@@ -1,5 +1,6 @@
 import { connect as connectRedux } from "react-redux";
 import { eventReceived, dashblingConnected } from "./store";
+import { heartbeat } from "../lib/constants";
 
 export const connectStoreToDashbling = store => {
   const eventSource = new EventSource("/events");
@@ -19,6 +20,10 @@ export const connectStoreToDashbling = store => {
   };
 
   eventSource.onmessage = function(e) {
+    if (isHeartbeat(e.data)) {
+      return;
+    }
+
     const eventData = JSON.parse(e.data);
     const id = eventData.id;
     const data = eventData.data;
@@ -43,6 +48,8 @@ export const connectStoreToDashbling = store => {
     }, 30000);
   };
 };
+
+const isHeartbeat = message => message === heartbeat;
 
 export const connect = id =>
   connectRedux((state, ownProps) => (state.data && state.data[id]) || {});
