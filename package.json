@@ -7,7 +7,7 @@
     "dashbling": "./cli.js"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --ignore example/ --exec 'bash -c ' 'cd example && ../cli.js start'",
+    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --exec 'bash -c ' 'cd example && ../cli.js start'",
     "prettier": "prettier '{,!(node_modules)/**/}*.js'",
     "test": "jest"
   },
