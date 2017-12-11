@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-const server = require("./server");
-const assets = require("./lib/assets");
-const logger = require("./lib/logger");
-const program = require("commander");
-program.version(require("./package.json").version);
+import * as server from "./server";
+import * as assets from "./lib/assets";
+import logger from "./lib/logger";
+import * as program from "commander";
+program.version(require("../package.json").version);
 
 const projectPath = process.cwd();
 

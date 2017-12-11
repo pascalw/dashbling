@@ -1,9 +1,13 @@
-const { PassThrough } = require("stream");
-const eventBus = require("../lib/eventBus");
-const logger = require("../lib/logger");
-const { heartbeat } = require("../lib/constants");
+import { PassThrough } from "stream";
+import * as eventBus from "../lib/eventBus";
+import logger from "../lib/logger";
+import { heartbeat } from "../lib/constants";
 
-module.exports.install = server => {
+interface PassThroughWithHeaders extends PassThrough {
+  headers: { [key: string]: string };
+}
+
+module.exports.install = (server: any) => {
   server.route({
     method: "GET",
     path: "/events",
@@ -20,8 +24,8 @@ module.exports.install = server => {
   });
 };
 
-const postEventToken = () => {
-  let token = process.env.AUTH_TOKEN;
+const postEventToken = (): string => {
+  let token = process.env.AUTH_TOKEN as string;
   if (token) return token;
 
   token = require("crypto")
@@ -37,15 +41,18 @@ const postEventToken = () => {
   return token;
 };
 
-const streamEventsHandler = (req, h) => {
-  const stream = new PassThrough();
+const streamEventsHandler = (req: any, h: any) => {
+  const stream = new PassThrough() as PassThroughWithHeaders;
   stream.headers = {
     "content-type": "text/event-stream",
     "content-encoding": "identity"
   };
 
-  const subscriber = event => {
-    stream.write(`data: ${JSON.stringify(event)}\n\n`);
+  const subscriber = (event: eventBus.Event) => {
+    const outEvent = { ...event } as any;
+    outEvent.updatedAt = event.updatedAt.getTime();
+
+    stream.write(`data: ${JSON.stringify(outEvent)}\n\n`);
   };
 
   const sendHeartBeat = setInterval(() => {
@@ -64,7 +71,7 @@ const streamEventsHandler = (req, h) => {
   return stream;
 };
 
-const postEventHandler = token => (req, h) => {
+const postEventHandler = (token: string) => (req: any, h: any) => {
   if (`bearer ${token}` !== req.headers.authorization) {
     return h.response("Unauthorized").code(401);
   }

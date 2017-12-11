@@ -1,9 +1,13 @@
 const Hapi = require("hapi");
-const eventBus = require("./lib/eventBus");
-const jobs = require("./lib/jobs");
-const logger = require("./lib/logger");
+import * as eventBus from "./lib/eventBus";
+import * as jobs from "./lib/jobs";
+import logger from "./lib/logger";
 
-const installAssetHandling = (environment, server, projectPath) => {
+const installAssetHandling = (
+  environment: string,
+  server: any,
+  projectPath: string
+) => {
   if (environment === "development") {
     return require("./server/webpackDevMiddleware").install(
       server,
@@ -14,11 +18,11 @@ const installAssetHandling = (environment, server, projectPath) => {
   }
 };
 
-module.exports.start = async projectPath => {
+export const start = async (projectPath: string) => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
 
-  server = new Hapi.Server({
+  const server = new Hapi.Server({
     port: port
   });
 

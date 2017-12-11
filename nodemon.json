@@ -1,3 +1,4 @@
 {
-  "ignore": ["example", "test", "client"]
+  "ignore": ["example", "test", "client"],
+  "ext": "js json ts"
 }
