@@ -1,4 +1,2 @@
-lib/
-/node_modules/
 example/dist/
 .DS_Store

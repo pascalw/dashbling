@@ -4,13 +4,21 @@
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "bin": {
-    "dashbling": "./cli.js"
+    "dashbling": "./lib/cli.js"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --exec 'bash -c ' 'cd example && ../cli.js start'",
-    "prettier": "prettier '{,!(node_modules)/**/}*.js'",
-    "test": "jest"
+    "dev":
+      "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
+    "prettier": "prettier '**/*.@(js|ts|json)'",
+    "test": "jest",
+    "prepare": "./node_modules/.bin/tsc -p ."
   },
+  "files": [
+    "./client/",
+    "./example/",
+    "./lib/",
+    "./src/"
+  ],
   "dependencies": {
     "@babel/core": "^7.0.0-beta.34",
     "@babel/preset-env": "^7.0.0-beta.34",
@@ -47,8 +55,21 @@
     "node": ">= 8.9.0"
   },
   "devDependencies": {
+    "@types/jest": "^21.1.8",
+    "@types/node": "^8.0.57",
     "babel-core": "^7.0.0-0",
     "babel-jest": "^21.2.0",
-    "jest": "^21.2.1"
+    "jest": "^21.2.1",
+    "ts-jest": "^21.2.4",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx"]
   }
 }

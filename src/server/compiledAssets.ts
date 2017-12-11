@@ -1,6 +1,6 @@
-const path = require("path");
+import * as path from "path";
 
-module.exports.install = async (server, projectPath) => {
+module.exports.install = async (server: any, projectPath: string) => {
   await server.register(require("inert"));
 
   server.route({
