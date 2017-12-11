@@ -1,9 +1,9 @@
-const server = require("../../server");
-const eventBus = require("../../lib/eventBus");
-const path = require("path");
-const http = require("http");
-const { mockDate } = require("../utils");
-const logger = require("../../lib/logger");
+import * as server from "../../src/server";
+import * as eventBus from "../../src/lib/eventBus";
+import * as path from "path";
+import * as http from "http";
+import { mockDate, restoreDate } from "../utils";
+import logger from "../../src/lib/logger";
 const jobs = require("./fixture/jobs");
 
 let serverInstance;
@@ -18,7 +18,7 @@ const extractEvents = onEvent => response => {
   });
 };
 
-const NOW = Date.now();
+const NOW = new Date();
 
 beforeAll(() => {
   logger.setLevel("error");
@@ -26,13 +26,13 @@ beforeAll(() => {
 
 beforeEach(async () => {
   mockDate(NOW);
-  process.env.PORT = 12345;
+  process.env.PORT = "12345";
   process.env.AUTH_TOKEN = "foobar";
   serverInstance = null;
 });
 
 afterEach(() => {
-  Date.now.restore();
+  restoreDate();
   serverInstance && serverInstance.stop();
 });
 
@@ -47,7 +47,7 @@ test("sends events over /events stream", async () => {
         expect(event).toEqual({
           id: "myEvent",
           data: { some: "arg" },
-          updatedAt: NOW
+          updatedAt: NOW.getTime()
         });
 
         req.abort();

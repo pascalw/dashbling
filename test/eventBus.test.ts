@@ -1,14 +1,14 @@
-const eventBus = require("../lib/eventBus");
-const { mockDate } = require("./utils");
+import * as eventBus from "../src/lib/eventBus";
+import { mockDate, restoreDate } from "./utils";
 
-const NOW = Date.now();
+const NOW = new Date();
 
 beforeEach(() => {
   mockDate(NOW);
 });
 
 afterEach(() => {
-  Date.now.restore();
+  restoreDate();
 });
 
 test("sends events to all subscribers", () => {
