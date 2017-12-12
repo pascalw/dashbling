@@ -1,5 +1,6 @@
 import * as server from "../../src/server";
-import * as eventBus from "../../src/lib/eventBus";
+import { EventBus } from "../../src/lib/eventBus";
+import { SendEvent } from "../../src/lib/sendEvent";
 import * as path from "path";
 import * as http from "http";
 import { mockDate, restoreDate } from "../utils";
@@ -37,7 +38,11 @@ afterEach(() => {
 });
 
 test("sends events over /events stream", async () => {
-  serverInstance = await server.start(path.join(__dirname, "fixture"));
+  const eventBus = new EventBus();
+  serverInstance = await server.start(
+    path.join(__dirname, "fixture"),
+    eventBus
+  );
   eventBus.publish("myEvent", { some: "arg" });
 
   return new Promise((resolve, reject) => {
@@ -58,7 +63,11 @@ test("sends events over /events stream", async () => {
 });
 
 test("supports receiving events over HTTP", async () => {
-  serverInstance = await server.start(path.join(__dirname, "fixture"));
+  const eventBus = new EventBus();
+  serverInstance = await server.start(
+    path.join(__dirname, "fixture"),
+    eventBus
+  );
 
   return new Promise((resolve, reject) => {
     eventBus.subscribe(event => {
@@ -86,13 +95,21 @@ test("supports receiving events over HTTP", async () => {
 });
 
 test("executes jobs on start", async () => {
-  const jobFn = jest.fn();
+  const eventBus = new EventBus();
+  const publishSpy = jest.spyOn(eventBus, "publish");
+
+  const jobFn = (sendEvent: SendEvent) => {
+    sendEvent("myJob", {});
+  };
 
   jobs.push({
     schedule: "*/5 * * * *",
     fn: jobFn
   });
 
-  serverInstance = await server.start(path.join(__dirname, "fixture"));
-  expect(jobFn).toHaveBeenCalledWith(eventBus.publish);
+  serverInstance = await server.start(
+    path.join(__dirname, "fixture"),
+    eventBus
+  );
+  expect(publishSpy).toHaveBeenCalledWith("myJob", {});
 });

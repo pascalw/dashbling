@@ -1,5 +1,5 @@
 import { PassThrough } from "stream";
-import * as eventBus from "../lib/eventBus";
+import { EventBus, Event } from "../lib/eventBus";
 import logger from "../lib/logger";
 import { heartbeat } from "../lib/constants";
 
@@ -7,11 +7,11 @@ interface PassThroughWithHeaders extends PassThrough {
   headers: { [key: string]: string };
 }
 
-module.exports.install = (server: any) => {
+module.exports.install = (server: any, eventBus: EventBus) => {
   server.route({
     method: "GET",
     path: "/events",
-    handler: streamEventsHandler
+    handler: streamEventsHandler(eventBus)
   });
 
   server.route({
@@ -20,7 +20,7 @@ module.exports.install = (server: any) => {
     options: {
       payload: { allow: "application/json" }
     },
-    handler: postEventHandler(postEventToken())
+    handler: postEventHandler(eventBus, postEventToken())
   });
 };
 
@@ -41,14 +41,14 @@ const postEventToken = (): string => {
   return token;
 };
 
-const streamEventsHandler = (req: any, h: any) => {
+const streamEventsHandler = (eventBus: EventBus) => (req: any, h: any) => {
   const stream = new PassThrough() as PassThroughWithHeaders;
   stream.headers = {
     "content-type": "text/event-stream",
     "content-encoding": "identity"
   };
 
-  const subscriber = (event: eventBus.Event) => {
+  const subscriber = (event: Event) => {
     const outEvent = { ...event } as any;
     outEvent.updatedAt = event.updatedAt.getTime();
 
@@ -71,7 +71,10 @@ const streamEventsHandler = (req: any, h: any) => {
   return stream;
 };
 
-const postEventHandler = (token: string) => (req: any, h: any) => {
+const postEventHandler = (eventBus: EventBus, token: string) => (
+  req: any,
+  h: any
+) => {
   if (`bearer ${token}` !== req.headers.authorization) {
     return h.response("Unauthorized").code(401);
   }

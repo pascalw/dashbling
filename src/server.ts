@@ -1,5 +1,5 @@
 const Hapi = require("hapi");
-import * as eventBus from "./lib/eventBus";
+import { EventBus } from "./lib/eventBus";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 
@@ -18,19 +18,20 @@ const installAssetHandling = (
   }
 };
 
-export const start = async (projectPath: string) => {
+export const start = async (projectPath: string, eventBus?: EventBus) => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
+  eventBus = eventBus || new EventBus();
 
   const server = new Hapi.Server({
     port: port
   });
 
   require("./server/logging").install(server);
-  require("./server/routes").install(server);
+  require("./server/routes").install(server, eventBus);
   await installAssetHandling(environment, server, projectPath);
 
-  jobs.start(projectPath, eventBus.publish);
+  jobs.start(projectPath, eventBus.publish.bind(eventBus));
 
   await server.initialize();
   await server.start();
