@@ -10,8 +10,9 @@
     "dev":
       "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
     "prettier": "prettier '**/*.@(js|ts|json)'",
-    "test": "jest",
-    "prepare": "./node_modules/.bin/tsc -p ."
+    "test": "yarn run --silent compile && jest",
+    "compile": "./node_modules/.bin/tsc -p .",
+    "prepare": "yarn run --silent compile"
   },
   "files": [
     "./client/",
