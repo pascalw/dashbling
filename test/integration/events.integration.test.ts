@@ -3,7 +3,12 @@ import { EventBus } from "../../src/lib/eventBus";
 import { SendEvent } from "../../src/lib/sendEvent";
 import * as path from "path";
 import * as http from "http";
-import { mockDate, restoreDate } from "../utils";
+import {
+  mockDate,
+  restoreDate,
+  createEventHistory,
+  mkTempFile
+} from "../utils";
 import logger from "../../src/lib/logger";
 const jobs = require("./fixture/jobs");
 
@@ -29,6 +34,7 @@ beforeEach(async () => {
   mockDate(NOW);
   process.env.PORT = "12345";
   process.env.AUTH_TOKEN = "foobar";
+  process.env.EVENT_STORAGE_PATH = await mkTempFile("test-events");
   serverInstance = null;
 });
 
@@ -38,7 +44,7 @@ afterEach(() => {
 });
 
 test("sends events over /events stream", async () => {
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   serverInstance = await server.start(
     path.join(__dirname, "fixture"),
     eventBus
@@ -63,7 +69,7 @@ test("sends events over /events stream", async () => {
 });
 
 test("supports receiving events over HTTP", async () => {
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   serverInstance = await server.start(
     path.join(__dirname, "fixture"),
     eventBus
@@ -95,7 +101,7 @@ test("supports receiving events over HTTP", async () => {
 });
 
 test("executes jobs on start", async () => {
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   const publishSpy = jest.spyOn(eventBus, "publish");
 
   const jobFn = (sendEvent: SendEvent) => {

@@ -1,16 +1,18 @@
-export interface Event {
-  id: string;
-  data: any;
-  updatedAt: Date;
-}
+import { EventHistory } from "./EventHistory";
+import { Event } from "./Event";
 
 export interface Subscriber {
   (event: Event): void;
 }
 
 export class EventBus {
-  subscribers: Subscriber[] = [];
-  history: { [key: string]: Event } = {};
+  subscribers: Subscriber[];
+  history: EventHistory;
+
+  constructor(history: EventHistory) {
+    this.subscribers = [];
+    this.history = history;
+  }
 
   subscribe(subscriber: Subscriber) {
     this.subscribers.push(subscriber);
@@ -25,10 +27,10 @@ export class EventBus {
     const event: Event = { id, data, updatedAt: new Date(Date.now()) };
     this.subscribers.forEach(subscriber => subscriber(event));
 
-    this.history[id] = event;
+    this.history.put(event);
   }
 
   replayHistory(subscriber: Subscriber) {
-    Object.values(this.history).forEach(event => subscriber(event));
+    this.history.get().forEach(event => subscriber(event));
   }
 }

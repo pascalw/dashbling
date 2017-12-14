@@ -1,5 +1,6 @@
 import { PassThrough } from "stream";
-import { EventBus, Event } from "../lib/eventBus";
+import { EventBus } from "../lib/eventBus";
+import { Event } from "../lib/Event";
 import logger from "../lib/logger";
 import { heartbeat } from "../lib/constants";
 
