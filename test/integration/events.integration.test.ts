@@ -10,7 +10,7 @@ import {
   mkTempFile
 } from "../utils";
 import logger from "../../src/lib/logger";
-const jobs = require("./fixture/jobs");
+const jobs = require("./fixture/dashbling.config").jobs;
 
 let serverInstance;
 

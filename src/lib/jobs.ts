@@ -23,8 +23,8 @@ const scheduleJob = (sendEvent: SendEvent) => (job: Job) => {
 };
 
 export const start = (projectPath: string, sendEvent: SendEvent) => {
-  const jobsPath = path.join(projectPath, "jobs");
-  jobs = require(jobsPath);
+  const configPath = path.join(projectPath, "dashbling.config");
+  jobs = require(configPath).jobs || [];
 
   jobs.forEach(scheduleJob(sendEvent));
 };

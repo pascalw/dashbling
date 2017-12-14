@@ -1,4 +1,4 @@
-module.exports = [
+module.exports.jobs = [
   {
     schedule: "*/5 * * * *",
     fn: require("./jobs/githubStars")(
