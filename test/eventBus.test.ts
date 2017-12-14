@@ -1,5 +1,5 @@
 import { EventBus } from "../src/lib/eventBus";
-import { mockDate, restoreDate } from "./utils";
+import { mockDate, restoreDate, createEventHistory } from "./utils";
 
 const NOW = new Date();
 
@@ -15,7 +15,7 @@ test("sends events to all subscribers", () => {
   const subscriber1 = jest.fn();
   const subscriber2 = jest.fn();
 
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
 
@@ -36,7 +36,7 @@ test("sends events to all subscribers", () => {
 test("replays previously received events", () => {
   const subscriber = jest.fn();
 
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   eventBus.publish("myEvent", { arg: "1" });
   eventBus.publish("myEvent", { arg: "2" }); // last per id is replayed
   eventBus.publish("myOtherEvent", { arg: "3" });
@@ -60,7 +60,7 @@ test("stops sending events after unsubscribe", () => {
   const subscriber1 = jest.fn();
   const subscriber2 = jest.fn();
 
-  const eventBus = new EventBus();
+  const eventBus = new EventBus(createEventHistory());
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
   eventBus.unsubscribe(subscriber1);

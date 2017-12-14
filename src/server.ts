@@ -1,7 +1,9 @@
 const Hapi = require("hapi");
 import { EventBus } from "./lib/eventBus";
+import { createHistory } from "./lib/PersistentEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
+import * as path from "path";
 
 const installAssetHandling = (
   environment: string,
@@ -21,7 +23,13 @@ const installAssetHandling = (
 export const start = async (projectPath: string, eventBus?: EventBus) => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
-  eventBus = eventBus || new EventBus();
+
+  const eventStorageFile =
+    process.env.EVENT_STORAGE_PATH ||
+    path.join(process.cwd(), "dashbling-events");
+
+  const history = await createHistory(eventStorageFile);
+  eventBus = eventBus || new EventBus(history);
 
   const server = new Hapi.Server({
     port: port
