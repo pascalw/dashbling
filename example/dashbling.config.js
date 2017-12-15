@@ -5,5 +5,12 @@ module.exports.jobs = [
       "pascalw/dashbling",
       "github-stars-dashbling"
     )
+  },
+  {
+    schedule: "*/5 * * * *",
+    fn: require("./jobs/circleBuildStatus")(
+      "github/pascalw/dashbling",
+      "dashbling-ci-status"
+    )
   }
 ];
