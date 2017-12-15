@@ -1,14 +1,16 @@
 import React from "react";
 import Widget, { LargeLabel, MediumLabel } from "dashbling/client/Widget";
-import styles from "./circleCi.scss";
 
-const className = props => {
-  return props.outcome === "success" ? styles.success : styles.failed;
+const bgColor = props => {
+  return props.outcome === "success" ? "#429c6a" : "#dd1506";
 };
 
 export const CircleCiStatus = props => {
   return (
-    <Widget className={className(props)}>
+    <Widget
+      bgImage={require("./circleci.svg")}
+      style={{ backgroundColor: bgColor(props) }}
+    >
       <LargeLabel>{props.repo}</LargeLabel>
       <MediumLabel>{props.outcome}</MediumLabel>
     </Widget>
