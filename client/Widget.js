@@ -1,14 +1,25 @@
 import React from "react";
-import styles from "./widget.scss";
+import styles from "./Widget.scss";
+
+const bgImage = image => {
+  return (
+    <div
+      style={{ backgroundImage: `url(${image})` }}
+      className={styles.bgImage}
+    />
+  );
+};
 
 export default function(props) {
   const className =
     styles.widget + (props.className ? " " + props.className : "");
+
   return (
     <div className={className} style={props.style}>
       {props.title && <MediumLabel>{props.title}</MediumLabel>}
 
       <div className={styles.inner}>{props.children}</div>
+      {props.bgImage && bgImage(props.bgImage)}
     </div>
   );
 }

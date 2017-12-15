@@ -21,6 +21,18 @@ $base-widget-size: 300px;
   position: relative;
 }
 
+.bgImage {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 1em;
+  bottom: 1em;
+  right: 1em;
+  left: 1em;
+  opacity: 0.15;
+}
+
 .inner {
   margin-top: auto;
   margin-bottom: auto;
