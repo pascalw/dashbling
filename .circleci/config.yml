@@ -1,24 +1,39 @@
 version: 2
+
+shared: &shared
+  working_directory: ~/repo
+
+  steps:
+    - checkout
+
+    - restore_cache:
+        keys:
+        - v1-dependencies-{{ checksum "package.json" }}
+        - v1-dependencies-
+
+    - run: yarn install
+
+    - save_cache:
+        paths:
+          - node_modules
+        key: v1-dependencies-{{ checksum "package.json" }}
+
+    - run: yarn test
+
+
 jobs:
-  build:
+  "node-8.9":
+    <<: *shared
     docker:
       - image: node:8.9
+  "node-9":
+    <<: *shared
+    docker:
+      - image: node:9
 
-    working_directory: ~/repo
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: yarn install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn test
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "node-8.9"
+      - "node-9"
