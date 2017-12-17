@@ -1,0 +1,21 @@
+{
+  "name": "@dashbling/create-dashboard",
+  "version": "0.0.1",
+  "author": "Pascal Widdershoven",
+  "license": "MIT",
+  "bin": {
+    "create-dashboard": "./create-dashboard.js"
+  },
+  "scripts": {
+    "prepare": "./script/prepare"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "yargs": "^10.0.3",
+    "yeoman-environment": "^2.0.5",
+    "yeoman-generator": "^2.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0"
+  }
+}
