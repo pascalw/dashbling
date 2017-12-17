@@ -12,7 +12,7 @@
     "prettier": "prettier '**/*.@(js|ts|json)'",
     "test": "yarn run --silent compile && jest",
     "compile": "./node_modules/.bin/tsc -p .",
-    "prepare": "yarn run --silent compile"
+    "prepare": "yarn run --silent compile && chmod +x lib/cli.js"
   },
   "files": [
     "./client/",
