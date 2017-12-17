@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+rsync -av --progress ../../example/ ./generators/dashboard/templates/ \
+  --exclude node_modules \
+  --exclude package.json \
+  --exclude yarn.lock
