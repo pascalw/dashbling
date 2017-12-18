@@ -4,8 +4,8 @@
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development ../cli.js start",
-    "start": "NODE_ENV=production ../cli.js start"
+    "dev": "NODE_ENV=development ../lib/cli.js start",
+    "start": "NODE_ENV=production ../lib/cli.js start"
   },
   "dependencies": {
     "dashbling": "file:../"
