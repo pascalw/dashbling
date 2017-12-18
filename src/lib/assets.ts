@@ -6,13 +6,14 @@ const buildCompiler = (projectPath: string) => {
 };
 
 export const compile = (projectPath: string) => {
-  buildCompiler(projectPath).run((err: Error, stats: any) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-
-    console.log(stats.toString({ colors: true }));
+  return new Promise((resolve, reject) => {
+    buildCompiler(projectPath).run((err: Error, stats: any) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(stats);
+      }
+    });
   });
 };
 
