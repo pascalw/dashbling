@@ -56,7 +56,7 @@ module.exports = projectPath => {
           exclude: modulePath => {
             return (
               /node_modules/.test(modulePath) &&
-              !/node_modules\/dashbling\/client/.test(modulePath)
+              !/node_modules\/@dashbling\/core\/client/.test(modulePath)
             );
           },
           loader: "babel-loader",
