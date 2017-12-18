@@ -16,9 +16,20 @@ program.command("start").action(async () => {
   }
 });
 
-program.command("compile").action(() => {
+program.command("compile").action(async () => {
   process.env.NODE_ENV = process.env.NODE_ENV || "production";
-  assets.compile(projectPath);
+
+  try {
+    const stats: any = await assets.compile(projectPath);
+    console.log(stats.toString({ colors: true }));
+
+    if (stats.hasErrors()) {
+      process.exit(1);
+    }
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
 });
 
 program.on("--help", () => process.exit(1));
