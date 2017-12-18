@@ -1,14 +1,13 @@
 {
   "name": "@dashbling/core",
-  "version": "0.0.1",
+  "version": "0.0.1-beta2",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "bin": {
     "dashbling": "./lib/cli.js"
   },
   "scripts": {
-    "dev":
-      "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
+    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
     "prettier": "prettier '**/*.@(js|ts|json)'",
     "test": "yarn run --silent compile && jest",
     "compile": "./node_modules/.bin/tsc -p .",
@@ -71,6 +70,11 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ]
   }
 }
