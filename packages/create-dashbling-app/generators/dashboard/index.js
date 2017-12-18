@@ -1,14 +1,15 @@
 const { ensureDirSync, readJsonSync, writeJsonSync } = require("fs-extra");
 const { resolve } = require("path");
+const { sync: commandExistsSync } = require("command-exists");
 const Generator = require("yeoman-generator");
 
-const isYarn = !!process.env.npm_execpath.match(/yarn.js/);
-const installer = isYarn ? "yarn" : "npm";
+const supportsYarn = commandExistsSync("yarnpkg");
+const installer = supportsYarn ? "yarn" : "npm";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-    this.installDependency = isYarn ? this.yarnInstall : this.npmInstall;
+    this.installDependency = supportsYarn ? this.yarnInstall : this.npmInstall;
   }
 
   paths() {

@@ -10,6 +10,7 @@
     "prepare": "./script/prepare"
   },
   "dependencies": {
+    "command-exists": "^1.2.2",
     "fs-extra": "^5.0.0",
     "yargs": "^10.0.3",
     "yeoman-environment": "^2.0.5",
