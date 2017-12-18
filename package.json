@@ -15,10 +15,10 @@
     "prepare": "yarn run --silent compile && chmod +x lib/cli.js"
   },
   "files": [
-    "./client/",
-    "./example/",
-    "./lib/",
-    "./src/"
+    "/client/",
+    "/example/",
+    "/lib/",
+    "/src/"
   ],
   "dependencies": {
     "@babel/core": "^7.0.0-beta.34",
