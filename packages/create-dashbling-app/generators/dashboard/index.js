@@ -1,5 +1,5 @@
 const { ensureDirSync, readJsonSync, writeJsonSync } = require("fs-extra");
-const { resolve } = require("path");
+const { resolve, dirname } = require("path");
 const { sync: commandExistsSync } = require("command-exists");
 const Generator = require("yeoman-generator");
 
@@ -24,8 +24,7 @@ module.exports = class extends Generator {
     ensureDirSync(this.destinationPath());
 
     this.spawnCommandSync(installer, ["init", "--yes"]);
-
-    this.installDependency(["dashbling"]);
+    this.installDependency(["@dashbling/core"]);
 
     const jsonPath = this.destinationPath("package.json");
     const json = readJsonSync(jsonPath);
@@ -38,6 +37,16 @@ module.exports = class extends Generator {
     });
 
     writeJsonSync(jsonPath, packageJson, { spaces: 2 });
+  }
+
+  end() {
+    const exampleDir = resolve(
+      this.destinationPath(),
+      "node_modules",
+      "@dashbling/core",
+      "example"
+    );
+    this.sourceRoot(dirname(require.resolve(exampleDir)));
 
     [
       ".gitignore",
