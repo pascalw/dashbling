@@ -1,4 +1,4 @@
-import * as dashbling from "dashbling/client";
+import * as dashbling from "@dashbling/core/client";
 import "./styles/main.scss";
 
 import Dashboard from "./Dashboard";
