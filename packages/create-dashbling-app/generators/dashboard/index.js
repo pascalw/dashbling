@@ -32,6 +32,7 @@ module.exports = class extends Generator {
     const packageJson = Object.assign(json, {
       scripts: {
         start: "dashbling start",
+        build: "dashbling compile",
         dev: "NODE_ENV=development dashbling start"
       },
       browserslist: "last 2 versions"
