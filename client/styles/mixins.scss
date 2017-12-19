@@ -1,13 +1,3 @@
-/**
- * Mixins / Helpers
- */
-
- @mixin font-smoothing {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  
   @mixin pulse-animation($name, $color-1, $color-2) {
     @keyframes #{$name} {
       0%   { background-color: $color-1; }
