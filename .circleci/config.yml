@@ -19,6 +19,7 @@ shared: &shared
         key: v1-dependencies-{{ checksum "package.json" }}
 
     - run: yarn test
+    - run: yarn test:e2e
 
 
 jobs:

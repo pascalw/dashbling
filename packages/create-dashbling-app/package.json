@@ -7,6 +7,9 @@
     "create-dashbling-dashboard": "./create-dashboard.js",
     "create-dashboard": "./create-dashboard.js"
   },
+  "scripts": {
+    "test": "./test.sh"
+  },
   "dependencies": {
     "command-exists": "^1.2.2",
     "fs-extra": "^5.0.0",
