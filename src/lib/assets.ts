@@ -1,3 +1,5 @@
+import { ClientConfig } from "./clientConfig";
+
 const Webpack = require("webpack");
 
 const buildCompiler = (projectPath: string) => {
@@ -17,8 +19,8 @@ export const compile = (projectPath: string) => {
   });
 };
 
-export const devMiddlewares = (projectPath: string) => {
-  const compiler = buildCompiler(projectPath);
+export const devMiddlewares = (clientConfig: ClientConfig) => {
+  const compiler = buildCompiler(clientConfig.projectPath);
 
   const devMiddleware = require("webpack-dev-middleware")(compiler);
   const hotMiddleware = require("webpack-hot-middleware")(compiler);
