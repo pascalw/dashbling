@@ -4,25 +4,27 @@ import { createHistory } from "./lib/PersistentEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 import * as path from "path";
+import { ClientConfig, load } from "./lib/clientConfig";
 
 const installAssetHandling = (
   environment: string,
   server: any,
-  projectPath: string
+  clientConfig: ClientConfig
 ) => {
   if (environment === "development") {
     return require("./server/webpackDevMiddleware").install(
       server,
-      projectPath
+      clientConfig
     );
   } else {
-    return require("./server/compiledAssets").install(server, projectPath);
+    return require("./server/compiledAssets").install(server, clientConfig);
   }
 };
 
 export const start = async (projectPath: string, eventBus?: EventBus) => {
   const port = process.env.PORT || 3000;
   const environment = process.env.NODE_ENV || "production";
+  const clientConfig: ClientConfig = load(projectPath);
 
   const eventStorageFile =
     process.env.EVENT_STORAGE_PATH ||
@@ -37,9 +39,9 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
 
   require("./server/logging").install(server);
   require("./server/routes").install(server, eventBus);
-  await installAssetHandling(environment, server, projectPath);
+  await installAssetHandling(environment, server, clientConfig);
 
-  jobs.start(projectPath, eventBus.publish.bind(eventBus));
+  jobs.start(clientConfig, eventBus.publish.bind(eventBus));
 
   await server.initialize();
   await server.start();

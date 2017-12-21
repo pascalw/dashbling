@@ -2,9 +2,10 @@ const path = require("path");
 const cron = require("node-cron");
 import logger from "../lib/logger";
 import { SendEvent } from "../lib/sendEvent";
+import { ClientConfig } from "./clientConfig";
 
 interface Job {
-  id: string;
+  id?: string;
   schedule: string;
   fn: (sendEvent: SendEvent) => void;
 }
@@ -22,9 +23,6 @@ const scheduleJob = (sendEvent: SendEvent) => (job: Job) => {
   boundExecuteJob(job);
 };
 
-export const start = (projectPath: string, sendEvent: SendEvent) => {
-  const configPath = path.join(projectPath, "dashbling.config");
-  jobs = require(configPath).jobs || [];
-
-  jobs.forEach(scheduleJob(sendEvent));
+export const start = (clientConfig: ClientConfig, sendEvent: SendEvent) => {
+  clientConfig.jobs.forEach(scheduleJob(sendEvent));
 };

@@ -10,7 +10,7 @@ import {
   mkTempFile
 } from "../utils";
 import logger from "../../src/lib/logger";
-const jobs = require("./fixture/dashbling.config").jobs;
+const jobs = require("../fixture/dashbling.config").jobs;
 
 let serverInstance;
 
@@ -46,7 +46,7 @@ afterEach(() => {
 test("sends events over /events stream", async () => {
   const eventBus = new EventBus(createEventHistory());
   serverInstance = await server.start(
-    path.join(__dirname, "fixture"),
+    path.join(__dirname, "..", "fixture"),
     eventBus
   );
   eventBus.publish("myEvent", { some: "arg" });
@@ -71,7 +71,7 @@ test("sends events over /events stream", async () => {
 test("supports receiving events over HTTP", async () => {
   const eventBus = new EventBus(createEventHistory());
   serverInstance = await server.start(
-    path.join(__dirname, "fixture"),
+    path.join(__dirname, "..", "fixture"),
     eventBus
   );
 
@@ -114,7 +114,7 @@ test("executes jobs on start", async () => {
   });
 
   serverInstance = await server.start(
-    path.join(__dirname, "fixture"),
+    path.join(__dirname, "..", "fixture"),
     eventBus
   );
   expect(publishSpy).toHaveBeenCalledWith("myJob", {});

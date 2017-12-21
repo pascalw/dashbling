@@ -1,6 +1,7 @@
 import * as path from "path";
+import { ClientConfig } from "../lib/clientConfig";
 
-module.exports.install = async (server: any, projectPath: string) => {
+module.exports.install = async (server: any, clientConfig: ClientConfig) => {
   await server.register(require("inert"));
 
   server.route({
@@ -8,7 +9,7 @@ module.exports.install = async (server: any, projectPath: string) => {
     path: "/{param*}",
     handler: {
       directory: {
-        path: path.join(projectPath, "dist/")
+        path: path.join(clientConfig.projectPath, "dist/")
       }
     }
   });
