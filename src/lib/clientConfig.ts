@@ -1,5 +1,7 @@
 const cron = require("node-cron");
 import * as path from "path";
+import logger from "./logger";
+import { SendEvent } from "./sendEvent";
 
 export class JobConfig {
   public readonly id?: string;
@@ -15,6 +17,7 @@ export class JobConfig {
 export class ClientConfig {
   public readonly projectPath: string;
   public readonly jobs: JobConfig[] = [];
+  public readonly onStart: (sendEvent: SendEvent) => void = () => {};
 
   constructor(projectPath: string) {
     this.projectPath = projectPath;
@@ -34,6 +37,10 @@ const error = (name: string, expectation: string, actualValue: any): string => {
   return `Invalid '${name}' configuration. Expected '${name}' to be ${expectation}, but was '${actualValue}'.`;
 };
 
+const isFunction = (val: any): boolean => {
+  return typeof val === "function";
+};
+
 export const parse = (input: any, projectPath: string): ClientConfig => {
   const errors = new Array<string>();
 
@@ -41,7 +48,7 @@ export const parse = (input: any, projectPath: string): ClientConfig => {
     errors.push(error("jobs", "an array", input.jobs));
   } else {
     input.jobs.forEach((job: any) => {
-      if (!(job.fn instanceof Function)) {
+      if (!isFunction(job.fn)) {
         errors.push(error("job.fn", "a funciton", job.fn));
       }
 
@@ -51,6 +58,10 @@ export const parse = (input: any, projectPath: string): ClientConfig => {
         );
       }
     });
+  }
+
+  if (input.onStart != null && !isFunction(input.onStart)) {
+    errors.push(error("onStart", "a function", input.onStart));
   }
 
   if (errors.length > 0) {
@@ -64,10 +75,13 @@ export const parse = (input: any, projectPath: string): ClientConfig => {
 };
 
 export const load = (projectPath: string): ClientConfig => {
+  const configPath = path.join(projectPath, "dashbling.config.js");
+
   try {
-    const rawConfig = require(path.join(projectPath, "dashbling.config.js"));
+    const rawConfig = require(configPath);
     return parse(rawConfig, projectPath);
   } catch (e) {
-    throw new Error(`Unable to load configuration at path '${path}'.`);
+    logger.error(e);
+    throw new Error(`Unable to load configuration at path '${configPath}'.`);
   }
 };

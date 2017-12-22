@@ -41,7 +41,9 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   require("./server/routes").install(server, eventBus);
   await installAssetHandling(environment, server, clientConfig);
 
-  jobs.start(clientConfig, eventBus.publish.bind(eventBus));
+  const sendEvent = eventBus.publish.bind(eventBus);
+  jobs.start(clientConfig, sendEvent);
+  clientConfig.onStart(sendEvent);
 
   await server.initialize();
   await server.start();

@@ -10,6 +10,7 @@ export interface Logger {
   error(error: Error): void;
 
   setLevel(level: Level): void;
+  close(): void;
 }
 
 export const defaultLevel: Level = (process.env.LOG_LEVEL as Level) || "info";
@@ -21,6 +22,10 @@ const logger: Logger = tracer.colorConsole({
 
 logger.setLevel = (level: Level) => {
   tracer.setLevel(level);
+};
+
+logger.close = () => {
+  tracer.close();
 };
 
 export default logger;

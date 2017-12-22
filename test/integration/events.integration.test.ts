@@ -10,7 +10,10 @@ import {
   mkTempFile
 } from "../utils";
 import logger from "../../src/lib/logger";
-const jobs = require("../fixture/dashbling.config").jobs;
+import { isFunction } from "util";
+
+const dashblingConfig = require("../fixture/dashbling.config");
+const jobs = dashblingConfig.jobs;
 
 let serverInstance;
 
@@ -27,7 +30,7 @@ const extractEvents = onEvent => response => {
 const NOW = new Date();
 
 beforeAll(() => {
-  logger.setLevel("error");
+  logger.close();
 });
 
 beforeEach(async () => {
@@ -118,4 +121,21 @@ test("executes jobs on start", async () => {
     eventBus
   );
   expect(publishSpy).toHaveBeenCalledWith("myJob", {});
+});
+
+test("calls config.onStart", async () => {
+  const eventBus = new EventBus(createEventHistory());
+  const publishSpy = jest.spyOn(eventBus, "publish");
+
+  dashblingConfig.onStart = jest.fn((sendEvent: SendEvent) => {
+    sendEvent("myEvent", {});
+  });
+
+  serverInstance = await server.start(
+    path.join(__dirname, "..", "fixture"),
+    eventBus
+  );
+
+  expect(dashblingConfig.onStart).toHaveBeenCalled(); // can't compare bound functions :(
+  expect(publishSpy).toHaveBeenCalledWith("myEvent", {});
 });
