@@ -5,8 +5,17 @@ import {
   load,
   ValidationError
 } from "../src/lib/clientConfig";
+import logger from "../src/lib/logger";
+logger.close();
 
 const projectPath = "/fake";
+const parseAndExtractErrors = (config: any) => {
+  try {
+    parse(config, projectPath);
+  } catch (e) {
+    return e.errors;
+  }
+};
 
 test("returns typed configuration if valid", () => {
   const raw = {
@@ -24,6 +33,16 @@ test("throws if configuration invalid", () => {
   expect(() => {
     parse(raw, projectPath);
   }).toThrow();
+});
+
+test("validates onStart", () => {
+  const config = {
+    jobs: [],
+    onStart: "wrong type"
+  };
+
+  const errors = parseAndExtractErrors(config);
+  expect(errors[0]).toMatch(/Invalid 'onStart'/);
 });
 
 test("throws if passed invalid cron expression", () => {
@@ -50,7 +69,6 @@ test("loads and validates config from file", () => {
   const projectPath = path.join(__dirname, "fixture");
   const config: ClientConfig = load(projectPath);
 
-  expect(config).toEqual(new ClientConfig(projectPath));
   expect(config.projectPath).toEqual(projectPath);
 });
 
