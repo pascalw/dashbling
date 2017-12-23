@@ -3,7 +3,6 @@ import { EventBus } from "./lib/eventBus";
 import { createHistory } from "./lib/PersistentEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
-import * as path from "path";
 import { ClientConfig, load } from "./lib/clientConfig";
 import { install as installHttpsEnforcement } from "./server/forceHttps";
 
@@ -26,11 +25,7 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   const clientConfig: ClientConfig = load(projectPath);
   const environment = process.env.NODE_ENV || "production";
 
-  const eventStorageFile =
-    process.env.EVENT_STORAGE_PATH ||
-    path.join(process.cwd(), "dashbling-events");
-
-  const history = await createHistory(eventStorageFile);
+  const history = await createHistory(clientConfig.eventStoragePath);
   eventBus = eventBus || new EventBus(history);
 
   const server = new Hapi.Server({

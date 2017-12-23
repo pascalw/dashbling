@@ -20,8 +20,13 @@ export class ClientConfig {
   public readonly projectPath: string;
   public readonly jobs: JobConfig[] = [];
   public readonly onStart: (sendEvent: SendEvent) => void = () => {};
+
   public readonly forceHttps: boolean = false;
   public readonly port: number = 3000;
+  public readonly eventStoragePath: string = path.join(
+    process.cwd(),
+    "dashbling-events"
+  );
 
   constructor(projectPath: string) {
     this.projectPath = projectPath;
@@ -110,14 +115,21 @@ export const parse = (
   }
 
   tryLoadEnvVar("forceHttps", env, input, tryParseBool);
-  tryLoadEnvVar("port", env, input, tryParseNumber);
-
   if (input.forceHttps != null && typeof input.forceHttps !== "boolean") {
     errors.push(error("forceHttps", "a boolean", input.forceHttps));
   }
 
+  tryLoadEnvVar("port", env, input, tryParseNumber);
   if (input.port != null && typeof input.port !== "number") {
     errors.push(error("port", "a number", input.port));
+  }
+
+  tryLoadEnvVar("eventStoragePath", env, input);
+  if (
+    input.eventStoragePath != null &&
+    typeof input.eventStoragePath !== "string"
+  ) {
+    errors.push(error("eventStoragePath", "a string", input.eventStoragePath));
   }
 
   if (errors.length > 0) {
