@@ -18,6 +18,7 @@ export class ClientConfig {
   public readonly projectPath: string;
   public readonly jobs: JobConfig[] = [];
   public readonly onStart: (sendEvent: SendEvent) => void = () => {};
+  public readonly forceHttps: boolean = false;
 
   constructor(projectPath: string) {
     this.projectPath = projectPath;
@@ -64,6 +65,10 @@ export const parse = (input: any, projectPath: string): ClientConfig => {
     errors.push(error("onStart", "a function", input.onStart));
   }
 
+  if (input.forceHttps != null && typeof input.forceHttps !== "boolean") {
+    errors.push(error("forceHttps", "a boolean", input.forceHttps));
+  }
+
   if (errors.length > 0) {
     throw new ValidationError(errors);
   }
@@ -82,6 +87,11 @@ export const load = (projectPath: string): ClientConfig => {
     return parse(rawConfig, projectPath);
   } catch (e) {
     logger.error(e);
+
+    if (e instanceof ValidationError) {
+      throw e;
+    }
+
     throw new Error(`Unable to load configuration at path '${configPath}'.`);
   }
 };

@@ -9,6 +9,10 @@ import logger from "../src/lib/logger";
 logger.close();
 
 const projectPath = "/fake";
+const basicValidConfig = {
+  jobs: []
+};
+
 const parseAndExtractErrors = (config: any) => {
   try {
     parse(config, projectPath);
@@ -63,6 +67,15 @@ test("throws if passed invalid cron expression", () => {
   expect(validationError.errors[0]).toEqual(
     "Invalid 'job.schedule' configuration. Expected 'job.schedule' to be a valid cron expression, but was 'not a cron exp'."
   );
+});
+
+test("throws if invalid forceHttps", () => {
+  const rawConfig = Object.assign({}, basicValidConfig, {
+    forceHttps: "not a bool"
+  });
+
+  const errors = parseAndExtractErrors(rawConfig);
+  expect(errors[0]).toMatch(/forceHttps/);
 });
 
 test("loads and validates config from file", () => {
