@@ -112,6 +112,31 @@ describe("port", () => {
   });
 });
 
+describe("eventStoragePath", () => {
+  test("sets default", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+    expect(config.eventStoragePath).toEqual(
+      path.join(process.cwd(), "dashbling-events")
+    );
+  });
+
+  test("supports env var", () => {
+    const env = { EVENT_STORAGE_PATH: "/tmp/some/where" };
+
+    const config: ClientConfig = parse(basicValidConfig, projectPath, env);
+    expect(config.eventStoragePath).toEqual("/tmp/some/where");
+  });
+
+  test("throws if not a string", () => {
+    const rawConfig = Object.assign({}, basicValidConfig, {
+      eventStoragePath: 123
+    });
+
+    const errors = parseAndExtractErrors(rawConfig);
+    expect(errors[0]).toMatch(/eventStoragePath/);
+  });
+});
+
 test("loads and validates config from file", () => {
   const projectPath = path.join(__dirname, "fixture");
   const config: ClientConfig = load(projectPath);
