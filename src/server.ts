@@ -23,9 +23,8 @@ const installAssetHandling = (
 };
 
 export const start = async (projectPath: string, eventBus?: EventBus) => {
-  const port = process.env.PORT || 3000;
-  const environment = process.env.NODE_ENV || "production";
   const clientConfig: ClientConfig = load(projectPath);
+  const environment = process.env.NODE_ENV || "production";
 
   const eventStorageFile =
     process.env.EVENT_STORAGE_PATH ||
@@ -35,7 +34,7 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   eventBus = eventBus || new EventBus(history);
 
   const server = new Hapi.Server({
-    port: port
+    port: clientConfig.port
   });
 
   require("./server/logging").install(server);
