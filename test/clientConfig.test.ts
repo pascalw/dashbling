@@ -69,13 +69,26 @@ test("throws if passed invalid cron expression", () => {
   );
 });
 
-test("throws if invalid forceHttps", () => {
-  const rawConfig = Object.assign({}, basicValidConfig, {
-    forceHttps: "not a bool"
+describe("forceHttps", () => {
+  test("throws if invalid forceHttps", () => {
+    const rawConfig = Object.assign({}, basicValidConfig, {
+      forceHttps: "not a bool"
+    });
+
+    const errors = parseAndExtractErrors(rawConfig);
+    expect(errors[0]).toMatch(/forceHttps/);
   });
 
-  const errors = parseAndExtractErrors(rawConfig);
-  expect(errors[0]).toMatch(/forceHttps/);
+  test("takes env var over config.js", () => {
+    const rawConfig = Object.assign({}, basicValidConfig, {
+      forceHttps: false
+    });
+
+    const env = { FORCE_HTTPS: "true" };
+
+    const config: ClientConfig = parse(rawConfig, projectPath, env);
+    expect(config.forceHttps).toBe(true);
+  });
 });
 
 test("loads and validates config from file", () => {
