@@ -21,6 +21,7 @@ export class ClientConfig {
   public readonly jobs: JobConfig[] = [];
   public readonly onStart: (sendEvent: SendEvent) => void = () => {};
   public readonly forceHttps: boolean = false;
+  public readonly port: number = 3000;
 
   constructor(projectPath: string) {
     this.projectPath = projectPath;
@@ -62,7 +63,12 @@ const tryParseBool = (input: any) => {
   return input;
 };
 
-const getEnvOrConfig = (
+const tryParseNumber = (input: any) => {
+  const parsed = Number(input);
+  return isNaN(parsed) ? input : parsed;
+};
+
+const tryLoadEnvVar = (
   option: string,
   env: NodeJS.ProcessEnv,
   config: any,
@@ -72,7 +78,7 @@ const getEnvOrConfig = (
   value = value == null ? config[option] : value;
 
   if (value == null) return value;
-  return parse(value);
+  config[option] = parse(value);
 };
 
 export const parse = (
@@ -80,6 +86,7 @@ export const parse = (
   projectPath: string,
   env = process.env
 ): ClientConfig => {
+  input = Object.assign({}, input);
   const errors = new Array<string>();
 
   if (!(input.jobs instanceof Array)) {
@@ -102,11 +109,15 @@ export const parse = (
     errors.push(error("onStart", "a function", input.onStart));
   }
 
-  const forceHttps = getEnvOrConfig("forceHttps", env, input, tryParseBool);
-  input.forceHttps = forceHttps;
+  tryLoadEnvVar("forceHttps", env, input, tryParseBool);
+  tryLoadEnvVar("port", env, input, tryParseNumber);
 
   if (input.forceHttps != null && typeof input.forceHttps !== "boolean") {
     errors.push(error("forceHttps", "a boolean", input.forceHttps));
+  }
+
+  if (input.port != null && typeof input.port !== "number") {
+    errors.push(error("port", "a number", input.port));
   }
 
   if (errors.length > 0) {

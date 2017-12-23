@@ -13,9 +13,9 @@ const basicValidConfig = {
   jobs: []
 };
 
-const parseAndExtractErrors = (config: any) => {
+const parseAndExtractErrors = (config: any, env?) => {
   try {
-    parse(config, projectPath);
+    parse(config, projectPath, env);
   } catch (e) {
     return e.errors;
   }
@@ -88,6 +88,27 @@ describe("forceHttps", () => {
 
     const config: ClientConfig = parse(rawConfig, projectPath, env);
     expect(config.forceHttps).toBe(true);
+  });
+});
+
+describe("port", () => {
+  test("defaults to 3000", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+    expect(config.port).toEqual(3000);
+  });
+
+  test("supports env var", () => {
+    const env = { PORT: "1234" };
+
+    const config: ClientConfig = parse(basicValidConfig, projectPath, env);
+    expect(config.port).toEqual(1234);
+  });
+
+  test("throws if not a number", () => {
+    const env = { PORT: "foobar" };
+
+    const errors = parseAndExtractErrors(basicValidConfig, env);
+    expect(errors[0]).toMatch(/port/);
   });
 });
 

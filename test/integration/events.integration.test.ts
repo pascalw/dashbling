@@ -49,6 +49,9 @@ beforeEach(async () => {
 
 afterEach(() => {
   restoreDate();
+  delete process.env.PORT;
+  delete process.env.AUTH_TOKEN;
+  delete process.env.EVENT_STORAGE_PATH;
   serverInstance && serverInstance.stop();
 });
 
