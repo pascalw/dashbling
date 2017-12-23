@@ -3,6 +3,7 @@ module.exports = {
     // start custom code that sends events here,
     // for example listen to streams etc.
   },
+  forceHttps: false,
   jobs: [
     {
       schedule: "*/5 * * * *",

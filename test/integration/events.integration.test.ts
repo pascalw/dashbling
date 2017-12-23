@@ -10,10 +10,10 @@ import {
   mkTempFile
 } from "../utils";
 import logger from "../../src/lib/logger";
-import { isFunction } from "util";
+import fetch from "node-fetch";
 
 const dashblingConfig = require("../fixture/dashbling.config");
-const jobs = dashblingConfig.jobs;
+const originalConfig = Object.assign({}, dashblingConfig);
 
 let serverInstance;
 
@@ -35,6 +35,12 @@ beforeAll(() => {
 
 beforeEach(async () => {
   mockDate(NOW);
+
+  Object.keys(dashblingConfig).forEach(key => {
+    delete dashblingConfig[key];
+  });
+  Object.assign(dashblingConfig, originalConfig);
+
   process.env.PORT = "12345";
   process.env.AUTH_TOKEN = "foobar";
   process.env.EVENT_STORAGE_PATH = await mkTempFile("test-events");
@@ -111,7 +117,7 @@ test("executes jobs on start", async () => {
     sendEvent("myJob", {});
   };
 
-  jobs.push({
+  dashblingConfig.jobs.push({
     schedule: "*/5 * * * *",
     fn: jobFn
   });
@@ -138,4 +144,64 @@ test("calls config.onStart", async () => {
 
   expect(dashblingConfig.onStart).toHaveBeenCalled(); // can't compare bound functions :(
   expect(publishSpy).toHaveBeenCalledWith("myEvent", {});
+});
+
+describe("forcing https", () => {
+  test("supports forcing https", async () => {
+    dashblingConfig.forceHttps = true;
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`, {
+      redirect: "manual"
+    });
+
+    expect(response.status).toEqual(301);
+    expect(response.headers.get("location")).toEqual(
+      `https://localhost:${process.env.PORT}/`
+    );
+  });
+
+  test("redirects to x-forwarded-host", async () => {
+    dashblingConfig.forceHttps = true;
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`, {
+      redirect: "manual",
+      headers: {
+        "X-Forwarded-Host": "example.org"
+      }
+    });
+
+    expect(response.status).toEqual(301);
+    expect(response.headers.get("location")).toEqual(`https://example.org/`);
+  });
+
+  test("does not redirect if x-forwarded-proto is https", async () => {
+    dashblingConfig.forceHttps = true;
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`, {
+      redirect: "manual",
+      headers: {
+        "X-Forwarded-Proto": "https"
+      }
+    });
+
+    expect(response.status).not.toEqual(301);
+  });
 });
