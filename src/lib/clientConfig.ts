@@ -3,7 +3,14 @@ import * as path from "path";
 import logger from "./logger";
 import { SendEvent } from "./sendEvent";
 
-const IDENTITY = (a: any) => a;
+interface ConfigSource {
+  get: (option: string) => any;
+}
+
+interface Parser {
+  (input: any): any;
+  expected?: string;
+}
 
 export class JobConfig {
   public readonly id?: string;
@@ -16,34 +23,27 @@ export class JobConfig {
   }
 }
 
-export class ClientConfig {
-  public readonly projectPath: string;
-  public readonly jobs: JobConfig[] = [];
-  public readonly onStart: (sendEvent: SendEvent) => void = () => {};
+export interface ClientConfig {
+  readonly projectPath: string;
+  readonly jobs: JobConfig[];
+  readonly onStart: (sendEvent: SendEvent) => void;
 
-  public readonly forceHttps: boolean = false;
-  public readonly port: number = 3000;
-  public readonly eventStoragePath: string = path.join(
-    process.cwd(),
-    "dashbling-events"
+  readonly forceHttps: boolean;
+  readonly port: number;
+  readonly eventStoragePath: string;
+}
+
+const DEFAULTS: any = {
+  port: 3000,
+  forceHttps: false,
+  eventStoragePath: path.join(process.cwd(), "dashbling-events"),
+  onStart: () => {}
+};
+
+const error = (name: string, expectation: string, actualValue: any): Error => {
+  return new Error(
+    `Invalid '${name}' configuration. Expected '${name}' to be ${expectation}, but was '${actualValue}'.`
   );
-
-  constructor(projectPath: string) {
-    this.projectPath = projectPath;
-  }
-}
-
-export class ValidationError extends Error {
-  public errors: string[];
-
-  constructor(errors: string[]) {
-    super();
-    this.errors = errors;
-  }
-}
-
-const error = (name: string, expectation: string, actualValue: any): string => {
-  return `Invalid '${name}' configuration. Expected '${name}' to be ${expectation}, but was '${actualValue}'.`;
 };
 
 const isFunction = (val: any): boolean => {
@@ -57,7 +57,7 @@ const envify = (option: string) => {
     .toUpperCase();
 };
 
-const tryParseBool = (input: any) => {
+const tryParseBool: Parser = (input: any) => {
   if (typeof input === "boolean") return input;
 
   if (typeof input === "string") {
@@ -65,25 +65,77 @@ const tryParseBool = (input: any) => {
     if (input.toLocaleLowerCase() === "false") return false;
   }
 
-  return input;
+  return null;
 };
+tryParseBool.expected = "a boolean";
 
-const tryParseNumber = (input: any) => {
+const tryParseNumber: Parser = (input: any) => {
   const parsed = Number(input);
-  return isNaN(parsed) ? input : parsed;
+  return isNaN(parsed) ? null : parsed;
+};
+tryParseNumber.expected = "a number";
+
+const tryParseString: Parser = (input: any) => {
+  return typeof input === "string" ? input : null;
 };
 
-const tryLoadEnvVar = (
+const getConfigOption = (configSources: ConfigSource[]) => (
   option: string,
-  env: NodeJS.ProcessEnv,
-  config: any,
-  parse = IDENTITY
+  parse: Parser
 ) => {
-  let value = env[envify(option)];
-  value = value == null ? config[option] : value;
+  for (const configSource of configSources) {
+    const value = configSource.get(option);
 
-  if (value == null) return value;
-  config[option] = parse(value);
+    if (value != null) {
+      const parsedValue = parse(value);
+
+      if (parsedValue == null) {
+        throw error(option, parse.expected!, value);
+      }
+
+      return parsedValue;
+    }
+  }
+
+  throw new Error("Missing required config option " + option);
+};
+
+const envConfigSource = (env: NodeJS.ProcessEnv) => {
+  return <ConfigSource>{
+    get(option) {
+      return env[envify(option)];
+    }
+  };
+};
+
+const objectConfigSource = (object: any) => {
+  return <ConfigSource>{
+    get(option) {
+      return object[option];
+    }
+  };
+};
+
+const valideJobs = (config: any) => {
+  if (!(config.jobs instanceof Array))
+    throw error("jobs", "an array", config.jobs);
+
+  config.jobs.forEach((job: any) => {
+    if (!isFunction(job.fn)) {
+      throw error("job.fn", "a function", job.fn);
+    }
+
+    if (!cron.validate(job.schedule)) {
+      throw error("job.schedule", "a valid cron expression", job.schedule);
+    }
+  });
+};
+
+export const load = (projectPath: string): ClientConfig => {
+  const configPath = path.join(projectPath, "dashbling.config.js");
+
+  const rawConfig = require(configPath);
+  return parse(rawConfig, projectPath);
 };
 
 export const parse = (
@@ -91,70 +143,24 @@ export const parse = (
   projectPath: string,
   env = process.env
 ): ClientConfig => {
-  input = Object.assign({}, input);
-  const errors = new Array<string>();
-
-  if (!(input.jobs instanceof Array)) {
-    errors.push(error("jobs", "an array", input.jobs));
-  } else {
-    input.jobs.forEach((job: any) => {
-      if (!isFunction(job.fn)) {
-        errors.push(error("job.fn", "a funciton", job.fn));
-      }
-
-      if (!cron.validate(job.schedule)) {
-        errors.push(
-          error("job.schedule", "a valid cron expression", job.schedule)
-        );
-      }
-    });
-  }
+  valideJobs(input);
 
   if (input.onStart != null && !isFunction(input.onStart)) {
-    errors.push(error("onStart", "a function", input.onStart));
+    throw error("onStart", "a function", input.onStart);
   }
 
-  tryLoadEnvVar("forceHttps", env, input, tryParseBool);
-  if (input.forceHttps != null && typeof input.forceHttps !== "boolean") {
-    errors.push(error("forceHttps", "a boolean", input.forceHttps));
-  }
+  const loadConfigOption = getConfigOption([
+    envConfigSource(env),
+    objectConfigSource(input),
+    objectConfigSource(DEFAULTS)
+  ]);
 
-  tryLoadEnvVar("port", env, input, tryParseNumber);
-  if (input.port != null && typeof input.port !== "number") {
-    errors.push(error("port", "a number", input.port));
-  }
-
-  tryLoadEnvVar("eventStoragePath", env, input);
-  if (
-    input.eventStoragePath != null &&
-    typeof input.eventStoragePath !== "string"
-  ) {
-    errors.push(error("eventStoragePath", "a string", input.eventStoragePath));
-  }
-
-  if (errors.length > 0) {
-    throw new ValidationError(errors);
-  }
-
-  const config = new ClientConfig(projectPath);
-  Object.assign(config, input);
-
-  return config;
-};
-
-export const load = (projectPath: string): ClientConfig => {
-  const configPath = path.join(projectPath, "dashbling.config.js");
-
-  try {
-    const rawConfig = require(configPath);
-    return parse(rawConfig, projectPath);
-  } catch (e) {
-    logger.error(e);
-
-    if (e instanceof ValidationError) {
-      throw e;
-    }
-
-    throw new Error(`Unable to load configuration at path '${configPath}'.`);
-  }
+  return {
+    projectPath: projectPath,
+    onStart: input.onStart || DEFAULTS.onStart,
+    jobs: input.jobs,
+    forceHttps: loadConfigOption("forceHttps", tryParseBool),
+    port: loadConfigOption("port", tryParseNumber),
+    eventStoragePath: loadConfigOption("eventStoragePath", tryParseString)
+  };
 };

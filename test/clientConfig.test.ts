@@ -1,10 +1,5 @@
 import * as path from "path";
-import {
-  ClientConfig,
-  parse,
-  load,
-  ValidationError
-} from "../src/lib/clientConfig";
+import { ClientConfig, parse, load } from "../src/lib/clientConfig";
 import logger from "../src/lib/logger";
 logger.close();
 
@@ -13,11 +8,11 @@ const basicValidConfig = {
   jobs: []
 };
 
-const parseAndExtractErrors = (config: any, env?) => {
+const parseAndExtractError = (config: any, env?) => {
   try {
     parse(config, projectPath, env);
   } catch (e) {
-    return e.errors;
+    return e.message;
   }
 };
 
@@ -45,26 +40,16 @@ test("validates onStart", () => {
     onStart: "wrong type"
   };
 
-  const errors = parseAndExtractErrors(config);
-  expect(errors[0]).toMatch(/Invalid 'onStart'/);
+  const error = parseAndExtractError(config);
+  expect(error).toMatch(/Invalid 'onStart'/);
 });
 
 test("throws if passed invalid cron expression", () => {
   const raw = { jobs: [{ schedule: "not a cron exp", fn: () => {} }] };
 
-  let caughtException = null;
+  const error = parseAndExtractError(raw);
 
-  try {
-    parse(raw, projectPath);
-  } catch (e) {
-    caughtException = e;
-  }
-
-  expect(caughtException).not.toBeNull;
-  expect(caughtException).toBeInstanceOf(ValidationError);
-
-  const validationError = caughtException as ValidationError;
-  expect(validationError.errors[0]).toEqual(
+  expect(error).toEqual(
     "Invalid 'job.schedule' configuration. Expected 'job.schedule' to be a valid cron expression, but was 'not a cron exp'."
   );
 });
@@ -75,8 +60,8 @@ describe("forceHttps", () => {
       forceHttps: "not a bool"
     });
 
-    const errors = parseAndExtractErrors(rawConfig);
-    expect(errors[0]).toMatch(/forceHttps/);
+    const error = parseAndExtractError(rawConfig);
+    expect(error).toMatch(/forceHttps/);
   });
 
   test("takes env var over config.js", () => {
@@ -107,8 +92,8 @@ describe("port", () => {
   test("throws if not a number", () => {
     const env = { PORT: "foobar" };
 
-    const errors = parseAndExtractErrors(basicValidConfig, env);
-    expect(errors[0]).toMatch(/port/);
+    const error = parseAndExtractError(basicValidConfig, env);
+    expect(error).toMatch(/port/);
   });
 });
 
@@ -132,8 +117,8 @@ describe("eventStoragePath", () => {
       eventStoragePath: 123
     });
 
-    const errors = parseAndExtractErrors(rawConfig);
-    expect(errors[0]).toMatch(/eventStoragePath/);
+    const error = parseAndExtractError(rawConfig);
+    expect(error).toMatch(/eventStoragePath/);
   });
 });
 
@@ -149,5 +134,5 @@ test("throws when config cannot be loaded", () => {
 
   expect(() => {
     load(projectPath);
-  }).toThrowError(/Unable to load configuration/);
+  }).toThrowError(/Cannot find module/);
 });
