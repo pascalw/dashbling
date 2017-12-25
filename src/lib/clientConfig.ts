@@ -1,6 +1,7 @@
 const cron = require("node-cron");
 import * as path from "path";
 import logger from "./logger";
+import { generate as generateAuthToken } from "./authToken";
 import { SendEvent } from "./sendEvent";
 
 interface ConfigSource {
@@ -31,13 +32,24 @@ export interface ClientConfig {
   readonly forceHttps: boolean;
   readonly port: number;
   readonly eventStoragePath: string;
+  readonly authToken: string;
 }
 
-const DEFAULTS: any = {
+const DEFAULTS: { [key: string]: any } = {
   port: 3000,
   forceHttps: false,
   eventStoragePath: path.join(process.cwd(), "dashbling-events"),
-  onStart: () => {}
+  onStart: () => () => {},
+  authToken: () => {
+    const token = generateAuthToken();
+
+    logger.warn(
+      "No authToken was specified, using random token %s for authentication.",
+      token
+    );
+
+    return token;
+  }
 };
 
 const error = (name: string, expectation: string, actualValue: any): Error => {
@@ -111,7 +123,10 @@ const envConfigSource = (env: NodeJS.ProcessEnv) => {
 const objectConfigSource = (object: any) => {
   return <ConfigSource>{
     get(option) {
-      return object[option];
+      let value = object[option];
+      if (typeof value === "function") value = value();
+
+      return value;
     }
   };
 };
@@ -161,6 +176,7 @@ export const parse = (
     jobs: input.jobs,
     forceHttps: loadConfigOption("forceHttps", tryParseBool),
     port: loadConfigOption("port", tryParseNumber),
-    eventStoragePath: loadConfigOption("eventStoragePath", tryParseString)
+    eventStoragePath: loadConfigOption("eventStoragePath", tryParseString),
+    authToken: loadConfigOption("authToken", tryParseString)
   };
 };

@@ -5,6 +5,8 @@ import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 import { ClientConfig, load } from "./lib/clientConfig";
 import { install as installHttpsEnforcement } from "./server/forceHttps";
+import { install as installRoutes } from "./server/routes";
+import { install as installLogging } from "./server/logging";
 
 const installAssetHandling = (
   environment: string,
@@ -32,8 +34,8 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
     port: clientConfig.port
   });
 
-  require("./server/logging").install(server);
-  require("./server/routes").install(server, eventBus);
+  installLogging(server);
+  installRoutes(server, eventBus, clientConfig);
   installHttpsEnforcement(server, clientConfig);
   await installAssetHandling(environment, server, clientConfig);
 
