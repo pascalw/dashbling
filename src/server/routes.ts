@@ -3,12 +3,17 @@ import { EventBus } from "../lib/eventBus";
 import { Event } from "../lib/Event";
 import logger from "../lib/logger";
 import { heartbeat } from "../lib/constants";
+import { ClientConfig } from "../lib/clientConfig";
 
 interface PassThroughWithHeaders extends PassThrough {
   headers: { [key: string]: string };
 }
 
-module.exports.install = (server: any, eventBus: EventBus) => {
+export const install = (
+  server: any,
+  eventBus: EventBus,
+  clientConfig: ClientConfig
+) => {
   server.route({
     method: "GET",
     path: "/events",
@@ -21,25 +26,8 @@ module.exports.install = (server: any, eventBus: EventBus) => {
     options: {
       payload: { allow: "application/json" }
     },
-    handler: postEventHandler(eventBus, postEventToken())
+    handler: postEventHandler(eventBus, clientConfig.authToken)
   });
-};
-
-const postEventToken = (): string => {
-  let token = process.env.AUTH_TOKEN as string;
-  if (token) return token;
-
-  token = require("crypto")
-    .randomBytes(20)
-    .toString("base64")
-    .replace(/\W/g, "");
-
-  logger.warn(
-    "No AUTH_TOKEN was specified, using random token %s for authentication.",
-    token
-  );
-
-  return token;
 };
 
 const streamEventsHandler = (eventBus: EventBus) => (req: any, h: any) => {

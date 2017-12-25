@@ -122,6 +122,20 @@ describe("eventStoragePath", () => {
   });
 });
 
+describe("authToken", () => {
+  test("sets default", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+    expect(typeof config.authToken).toBe("string");
+  });
+
+  test("supports env var", () => {
+    const env = { AUTH_TOKEN: "s3cr3t" };
+
+    const config: ClientConfig = parse(basicValidConfig, projectPath, env);
+    expect(config.authToken).toEqual("s3cr3t");
+  });
+});
+
 test("loads and validates config from file", () => {
   const projectPath = path.join(__dirname, "fixture");
   const config: ClientConfig = load(projectPath);
