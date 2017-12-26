@@ -80,35 +80,71 @@ test("sends events over /events stream", async () => {
   });
 });
 
-test("supports receiving events over HTTP", async () => {
-  const eventBus = new EventBus(createEventHistory());
-  serverInstance = await server.start(
-    path.join(__dirname, "..", "fixture"),
-    eventBus
-  );
+describe("receiving events over HTTP", () => {
+  test("requires AUTH_TOKEN", async () => {
+    const eventBus = new EventBus(createEventHistory());
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
 
-  return new Promise((resolve, reject) => {
-    eventBus.subscribe(event => {
-      expect(event).toEqual({
-        id: "myEvent",
-        data: { some: "arg" },
-        updatedAt: NOW
+    return new Promise((resolve, reject) => {
+      eventBus.subscribe(event => {
+        expect(event).toEqual({
+          id: "myEvent",
+          data: { some: "arg" },
+          updatedAt: NOW
+        });
+        resolve();
       });
-      resolve();
-    });
 
-    const request = http.request({
-      hostname: "127.0.0.1",
-      port: 12345,
-      path: "/events/myEvent",
-      method: "POST",
-      headers: {
-        Authorization: `bearer ${process.env.AUTH_TOKEN}`
-      }
-    });
+      const request = http.request({
+        hostname: "127.0.0.1",
+        port: 12345,
+        path: "/events/myEvent",
+        method: "POST",
+        headers: {
+          Authorization: `bearer ${process.env.AUTH_TOKEN}`
+        }
+      });
 
-    request.write(JSON.stringify({ some: "arg" }));
-    request.end();
+      request.write(JSON.stringify({ some: "arg" }));
+      request.end();
+    });
+  });
+
+  test("with basicAuth enabled, still requires AUTH_TOKEN", async () => {
+    dashblingConfig.basicAuth = "username:password";
+
+    const eventBus = new EventBus(createEventHistory());
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    return new Promise((resolve, reject) => {
+      eventBus.subscribe(event => {
+        expect(event).toEqual({
+          id: "myEvent",
+          data: { some: "arg" },
+          updatedAt: NOW
+        });
+        resolve();
+      });
+
+      const request = http.request({
+        hostname: "127.0.0.1",
+        port: 12345,
+        path: "/events/myEvent",
+        method: "POST",
+        headers: {
+          Authorization: `bearer ${process.env.AUTH_TOKEN}`
+        }
+      });
+
+      request.write(JSON.stringify({ some: "arg" }));
+      request.end();
+    });
   });
 });
 
@@ -206,5 +242,55 @@ describe("forcing https", () => {
     });
 
     expect(response.status).not.toEqual(301);
+  });
+});
+
+describe("basic auth", () => {
+  test("401 if no auth provided", async () => {
+    dashblingConfig.basicAuth = "username:password";
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`);
+    expect(response.status).toEqual(401);
+  });
+
+  test("401 if invalid auth provided", async () => {
+    dashblingConfig.basicAuth = "username:password";
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`, {
+      headers: {
+        "Authorization": "Basic " + new Buffer("foo:bar").toString("base64")
+      }
+    });
+
+    expect(response.status).toEqual(401);
+  });
+
+  test("Pass if valid auth provided", async () => {
+    dashblingConfig.basicAuth = "username:password";
+    const eventBus = new EventBus(createEventHistory());
+
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    const response = await fetch(`http://localhost:${process.env.PORT}/`, {
+      headers: {
+        "Authorization": "Basic " + new Buffer(dashblingConfig.basicAuth).toString("base64")
+      }
+    });
+    expect(response.status).not.toEqual(401);
   });
 });

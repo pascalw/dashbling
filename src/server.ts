@@ -7,6 +7,7 @@ import { ClientConfig, load } from "./lib/clientConfig";
 import { install as installHttpsEnforcement } from "./server/forceHttps";
 import { install as installRoutes } from "./server/routes";
 import { install as installLogging } from "./server/logging";
+import { install as installBasicAuth } from "./server/basicAuth";
 
 const installAssetHandling = (
   environment: string,
@@ -35,9 +36,10 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   });
 
   installLogging(server);
-  installRoutes(server, eventBus, clientConfig);
   installHttpsEnforcement(server, clientConfig);
+  await installBasicAuth(server, clientConfig);
   await installAssetHandling(environment, server, clientConfig);
+  installRoutes(server, eventBus, clientConfig);
 
   const sendEvent = eventBus.publish.bind(eventBus);
   jobs.start(clientConfig, sendEvent);

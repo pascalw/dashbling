@@ -24,7 +24,8 @@ export const install = (
     method: "POST",
     path: "/events/{id}",
     options: {
-      payload: { allow: "application/json" }
+      payload: { allow: "application/json" },
+      auth: false // disable basic auth, uses custom authToken
     },
     handler: postEventHandler(eventBus, clientConfig.authToken)
   });
