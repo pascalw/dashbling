@@ -136,6 +136,20 @@ describe("authToken", () => {
   });
 });
 
+describe("basicAuth", () => {
+  test("no default", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+    expect(config.basicAuth).toBeNull();
+  });
+
+  test("supports env var", () => {
+    const env = { BASIC_AUTH: "username:password" };
+
+    const config: ClientConfig = parse(basicValidConfig, projectPath, env);
+    expect(config.basicAuth).toEqual("username:password");
+  });
+});
+
 test("loads and validates config from file", () => {
   const projectPath = path.join(__dirname, "fixture");
   const config: ClientConfig = load(projectPath);

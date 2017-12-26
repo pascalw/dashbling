@@ -33,6 +33,7 @@
     "date-fns": "^1.29.0",
     "file-loader": "^1.1.5",
     "hapi": "17.1.1",
+    "hapi-auth-basic": "^5.0.0",
     "html-webpack-plugin": "^2.30.1",
     "inert": "^5.0.1",
     "node-cron": "^1.2.1",

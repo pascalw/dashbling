@@ -33,6 +33,7 @@ export interface ClientConfig {
   readonly port: number;
   readonly eventStoragePath: string;
   readonly authToken: string;
+  readonly basicAuth: string | null;
 }
 
 const DEFAULTS: { [key: string]: any } = {
@@ -90,6 +91,7 @@ tryParseNumber.expected = "a number";
 const tryParseString: Parser = (input: any) => {
   return typeof input === "string" ? input : null;
 };
+tryParseString.expected = "a string";
 
 const getConfigOption = (configSources: ConfigSource[]) => (
   option: string,
@@ -109,7 +111,7 @@ const getConfigOption = (configSources: ConfigSource[]) => (
     }
   }
 
-  throw new Error("Missing required config option " + option);
+  return null;
 };
 
 const envConfigSource = (env: NodeJS.ProcessEnv) => {
@@ -177,6 +179,7 @@ export const parse = (
     forceHttps: loadConfigOption("forceHttps", tryParseBool),
     port: loadConfigOption("port", tryParseNumber),
     eventStoragePath: loadConfigOption("eventStoragePath", tryParseString),
-    authToken: loadConfigOption("authToken", tryParseString)
+    authToken: loadConfigOption("authToken", tryParseString),
+    basicAuth: loadConfigOption("basicAuth", tryParseString)
   };
 };
