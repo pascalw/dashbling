@@ -1,3 +1,5 @@
 *.d.ts
 *.js
+!postcss.config.js
+!webpack.config.js
 *.js.map
