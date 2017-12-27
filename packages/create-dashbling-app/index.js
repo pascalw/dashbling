@@ -5,14 +5,18 @@ const Generator = require("yeoman-generator");
 
 const supportsYarn = commandExistsSync("yarnpkg");
 const installer = supportsYarn ? "yarn" : "npm";
-const dashblingCorePackage = process.env.DASHBLING_CORE_PACKAGE || "@dashbling/core";
-const dashblingBuildSupportPackage = process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || "@dashbling/build-support";
+const dashblingCorePackage =
+  process.env.DASHBLING_CORE_PACKAGE || "@dashbling/core";
+const dashblingBuildSupportPackage =
+  process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || "@dashbling/build-support";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
     this.installDependency = supportsYarn ? this.yarnInstall : this.npmInstall;
-    this.devDependencyOption = supportsYarn ? { "dev": true } : { "save-dev": true };
+    this.devDependencyOption = supportsYarn
+      ? { dev: true }
+      : { "save-dev": true };
   }
 
   paths() {
@@ -28,7 +32,10 @@ module.exports = class extends Generator {
 
     this.spawnCommandSync(installer, ["init", "--yes"]);
     this.installDependency([dashblingCorePackage]);
-    this.installDependency([dashblingBuildSupportPackage], this.devDependencyOption);
+    this.installDependency(
+      [dashblingBuildSupportPackage],
+      this.devDependencyOption
+    );
 
     const jsonPath = this.destinationPath("package.json");
     const json = readJsonSync(jsonPath);

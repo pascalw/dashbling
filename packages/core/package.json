@@ -7,7 +7,8 @@
     "dashbling": "./lib/cli.js"
   },
   "scripts": {
-    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
+    "dev":
+      "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
     "prettier": "prettier '**/*.@(js|ts|json)'",
     "test": "yarn run --silent build && jest",
     "test:watch": "jest --watch",
@@ -15,12 +16,7 @@
     "build": "./node_modules/.bin/tsc -p .",
     "prepare": "yarn run --silent build && chmod +x lib/cli.js"
   },
-  "files": [
-    "/client/",
-    "/example/",
-    "/lib/",
-    "/src/"
-  ],
+  "files": ["/client/", "/example/", "/lib/", "/src/"],
   "dependencies": {
     "commander": "^2.12.2",
     "date-fns": "^1.29.0",
@@ -58,11 +54,6 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx"]
   }
 }

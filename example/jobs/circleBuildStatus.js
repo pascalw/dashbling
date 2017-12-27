@@ -5,9 +5,7 @@ module.exports = (repo, eventId) =>
     try {
       const headers = { Accept: "application/json" };
       const response = await fetch(
-        `https://circleci.com/api/v1.1/project/${
-          repo
-        }?filter=completed&limit=1`,
+        `https://circleci.com/api/v1.1/project/${repo}?filter=completed&limit=1`,
         { headers: headers }
       );
       const json = await response.json();
