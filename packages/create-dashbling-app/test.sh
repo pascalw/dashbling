@@ -13,6 +13,7 @@ trap "cleanup" INT TERM EXIT
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
 DASHBLING_CORE_PACKAGE="$SCRIPTPATH/../core/" \
 DASHBLING_BUILD_SUPPORT_PACKAGE="$SCRIPTPATH/../build-support/" \
+DASHBLING_CLIENT_PACKAGE="$SCRIPTPATH/../client/" \
   "$SCRIPTPATH/create-dashboard.js" "$TMP_DIR"
 
 cd "$TMP_DIR"

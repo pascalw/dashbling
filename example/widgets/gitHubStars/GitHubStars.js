@@ -3,7 +3,7 @@ import Widget, {
   SmallLabel,
   MediumLabel,
   LargeLabel
-} from "@dashbling/core/client/Widget";
+} from "@dashbling/client/Widget";
 
 export const GitHubStars = ({ full_name, stargazers_count }) => {
   if (stargazers_count === undefined) return null;

@@ -1,4 +1,4 @@
-import store, { dashblingConnected, eventReceived } from "../../client/store";
+import store, { dashblingConnected, eventReceived } from "../store";
 const NOW = new Date();
 
 test("sets connected state", () => {

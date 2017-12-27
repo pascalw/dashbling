@@ -9,6 +9,8 @@ const dashblingCorePackage =
   process.env.DASHBLING_CORE_PACKAGE || "@dashbling/core";
 const dashblingBuildSupportPackage =
   process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || "@dashbling/build-support";
+const dashblingClientPackage =
+  process.env.DASHBLING_CLIENT_PACKAGE || "@dashbling/client";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
@@ -32,6 +34,7 @@ module.exports = class extends Generator {
 
     this.spawnCommandSync(installer, ["init", "--yes"]);
     this.installDependency([dashblingCorePackage]);
+    this.installDependency([dashblingClientPackage]);
     this.installDependency(
       [dashblingBuildSupportPackage],
       this.devDependencyOption
