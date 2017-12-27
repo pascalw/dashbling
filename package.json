@@ -1,83 +1,12 @@
 {
-  "name": "@dashbling/core",
-  "version": "0.0.1-beta5",
-  "author": "Pascal Widdershoven",
-  "license": "MIT",
-  "bin": {
-    "dashbling": "./lib/cli.js"
-  },
-  "scripts": {
-    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
-    "prettier": "prettier '**/*.@(js|ts|json)'",
-    "test": "yarn run --silent build && jest",
-    "test:watch": "jest --watch",
-    "test:e2e": "./script/e2e-tests.sh",
-    "build": "./node_modules/.bin/tsc -p .",
-    "prepare": "yarn run --silent build && chmod +x lib/cli.js"
-  },
-  "files": [
-    "/client/",
-    "/example/",
-    "/lib/",
-    "/src/"
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "dependencies": {
-    "@babel/core": "^7.0.0-beta.34",
-    "@babel/preset-env": "^7.0.0-beta.34",
-    "@babel/preset-react": "^7.0.0-beta.34",
-    "autoprefixer": "^7.1.6",
-    "babel-loader": "^8.0.0-beta.0",
-    "clean-webpack-plugin": "^0.1.17",
-    "commander": "^2.12.2",
-    "css-loader": "^0.28.7",
-    "date-fns": "^1.29.0",
-    "file-loader": "^1.1.5",
-    "hapi": "17.1.1",
-    "hapi-auth-basic": "^5.0.0",
-    "html-webpack-plugin": "^2.30.1",
-    "inert": "^5.0.1",
-    "node-cron": "^1.2.1",
-    "node-fetch": "^1.7.3",
-    "node-sass": "^4.7.2",
-    "postcss-loader": "^2.0.9",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^5.0.6",
-    "redux": "^3.7.2",
-    "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0",
-    "timezone": "^1.0.13",
-    "tracer": "^0.8.11",
-    "webpack": "^3.9.1",
-    "webpack-dev-middleware": "^1.12.2",
-    "webpack-hot-middleware": "^2.21.0"
-  },
-  "engines": {
-    "node": ">= 8.9.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^21.1.8",
-    "@types/node": "^8.0.57",
-    "babel-core": "^7.0.0-0",
-    "babel-jest": "^21.2.0",
-    "jest": "^21.2.1",
-    "nodemon": "^1.13.3",
-    "prettier": "^1.9.2",
-    "ts-jest": "^21.2.4",
-    "ts-node": "^3.3.0",
-    "typescript": "^2.6.2"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest",
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx"
-    ]
+  "scripts": {
+    "dev": "NODE_ENV=development nodemon --config ./packages/core/nodemon.json --watch packages/core/src/ --exec 'bash -c' 'cd example && ts-node ../packages/core/src/cli.ts start'",
+    "prettier": "prettier '**/*.@(js|ts|json)'",
+    "test": "cd packages/core && yarn test",
+    "test:e2e": "./script/e2e-tests.sh"
   }
 }

@@ -11,7 +11,9 @@ cleanup() {
 trap "cleanup" INT TERM EXIT
 
 SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
-DASHBLING_PACKAGE="$SCRIPTPATH/../../" "$SCRIPTPATH/create-dashboard.js" "$TMP_DIR"
+DASHBLING_CORE_PACKAGE="$SCRIPTPATH/../core/" \
+DASHBLING_BUILD_SUPPORT_PACKAGE="$SCRIPTPATH/../build-support/" \
+  "$SCRIPTPATH/create-dashboard.js" "$TMP_DIR"
 
 cd "$TMP_DIR"
 ./node_modules/.bin/dashbling compile

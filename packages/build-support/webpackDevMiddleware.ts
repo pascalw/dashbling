@@ -1,5 +1,4 @@
-import * as assets from "../lib/assets";
-import { ClientConfig } from "../lib/clientConfig";
+import * as assets from "./assets";
 
 const addMiddleware = (server: any, middleware: any) => {
   server.ext("onRequest", (request: any, h: any) => {
@@ -18,8 +17,8 @@ const addMiddleware = (server: any, middleware: any) => {
   });
 };
 
-export const install = (server: any, clientConfig: ClientConfig) => {
-  assets.devMiddlewares(clientConfig).forEach((middleware: any) => {
+export const install = (server: any, projectPath: string) => {
+  assets.devMiddlewares(projectPath).forEach((middleware: any) => {
     addMiddleware(server, middleware);
   });
 

@@ -8,6 +8,7 @@
     "create-dashboard": "./create-dashboard.js"
   },
   "scripts": {
+    "prepare": "./script/prepare.sh",
     "test": "./test.sh"
   },
   "dependencies": {

@@ -15,12 +15,15 @@ const installAssetHandling = (
   clientConfig: ClientConfig
 ) => {
   if (environment === "development") {
-    return require("./server/webpackDevMiddleware").install(
+    return require("@dashbling/build-support/webpackDevMiddleware").install(
       server,
-      clientConfig
+      clientConfig.projectPath
     );
   } else {
-    return require("./server/compiledAssets").install(server, clientConfig);
+    return require("./server/compiledAssets").install(
+      server,
+      clientConfig.projectPath
+    );
   }
 };
 
