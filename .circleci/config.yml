@@ -18,6 +18,7 @@ shared: &shared
           - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
 
+    - run: yarn prettier --list-different
     - run: yarn test
     - run: yarn test:e2e
 
