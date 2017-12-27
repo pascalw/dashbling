@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
-yarn build
+pushd ./packages/build-support/
+  yarn build
+popd
+
+pushd ./packages/core/
+  yarn build
+popd
 
 pushd ./packages/create-dashbling-app/
   yarn install

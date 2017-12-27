@@ -6,7 +6,7 @@ const { resolve, basename } = require("path");
 
 const env = createEnv();
 const done = exitCode => process.exit(exitCode || 0);
-const dashboardGenerator = resolve(__dirname, "./generators/dashboard");
+const dashboardGenerator = resolve(__dirname);
 env.register(require.resolve(dashboardGenerator), "create-dashboard");
 
 const cli = yargs

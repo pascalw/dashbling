@@ -1,6 +1,6 @@
 import { connect as connectRedux } from "react-redux";
 import { eventReceived, dashblingConnected } from "./store";
-import { heartbeat } from "../lib/lib/constants";
+import { heartbeat } from "../src/lib/constants.ts";
 
 export const connectStoreToDashbling = store => {
   const eventSource = new EventSource("/events");
