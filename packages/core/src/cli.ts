@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as server from "./server";
-import * as assets from "./lib/assets";
+import * as assets from "@dashbling/build-support/assets";
 import logger from "./lib/logger";
 import * as program from "commander";
 program.version(require("../package.json").version);
