@@ -3,6 +3,9 @@
   "version": "0.0.1-beta4",
   "author": "Pascal Widdershoven",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "create-dashbling-dashboard": "./create-dashboard.js",
     "create-dashboard": "./create-dashboard.js"

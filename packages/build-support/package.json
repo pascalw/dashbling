@@ -3,6 +3,9 @@
   "version": "0.0.1-beta1",
   "author": "Pascal Widdershoven",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "./node_modules/.bin/tsc -p .",
     "prepare": "yarn run --silent build"

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "workspaces": ["packages/*", "example/"],
+  "workspaces": ["packages/*"],
   "scripts": {
     "dev":
       "NODE_ENV=development nodemon --config ./packages/core/nodemon.json --watch packages/core/src/ --exec 'bash -c' 'cd example && ts-node ../packages/core/src/cli.ts start'",

@@ -3,6 +3,9 @@
   "version": "0.0.1-beta5",
   "author": "Pascal Widdershoven",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "dashbling": "./lib/cli.js"
   },

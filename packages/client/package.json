@@ -3,6 +3,9 @@
   "version": "0.0.1-beta1",
   "author": "Pascal Widdershoven",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch"
