@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import * as server from "./server";
-import * as assets from "@dashbling/build-support/assets";
 import logger from "./lib/logger";
 import * as program from "commander";
 program.version(require("../package.json").version);
@@ -20,6 +19,7 @@ program.command("compile").action(async () => {
   process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
   try {
+    const assets = await import("@dashbling/build-support/assets");
     const stats: any = await assets.compile(projectPath);
     console.log(stats.toString({ colors: true }));
 
