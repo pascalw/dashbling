@@ -11,5 +11,5 @@ popd
 
 pushd ./packages/create-dashbling-app/
   yarn install
-  yarn test
+  yarn test:e2e
 popd

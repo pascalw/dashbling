@@ -11,7 +11,7 @@ shared: &shared
         - v1-dependencies-{{ checksum "package.json" }}
         - v1-dependencies-
 
-    - run: yarn install
+    - run: yarn lerna bootstrap
 
     - save_cache:
         paths:
