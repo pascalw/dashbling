@@ -5,10 +5,12 @@
     "dev":
       "NODE_ENV=development nodemon --config ./packages/core/nodemon.json --watch packages/core/src/ --exec 'bash -c' 'cd example && ts-node ../packages/core/src/cli.ts start'",
     "prettier": "prettier '**/*.@(js|ts|tsx|jsx|json)'",
-    "test": "cd packages/core && yarn test",
-    "test:e2e": "./script/e2e-tests.sh"
+    "test": "lerna run test",
+    "test:e2e": "./script/e2e-tests.sh",
+    "lerna": "lerna"
   },
   "devDependencies": {
+    "lerna": "^2.5.1",
     "prettier": "^1.9.2"
   }
 }
