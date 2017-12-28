@@ -11,6 +11,7 @@ shared: &shared
         - v1-dependencies-{{ checksum "package.json" }}
         - v1-dependencies-
 
+    - run: npm config set unsafe-perm=true
     - run: yarn lerna bootstrap
 
     - save_cache:
