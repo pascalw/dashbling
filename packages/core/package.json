@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/core",
-  "version": "0.0.1-beta6",
+  "version": "0.0.1-beta7",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "publishConfig": {
@@ -32,7 +32,7 @@
     "node": ">= 8.9.0"
   },
   "devDependencies": {
-    "@dashbling/build-support": "^0.0.1-beta6",
+    "@dashbling/build-support": "^0.0.1-beta7",
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
     "jest": "^21.2.1",
