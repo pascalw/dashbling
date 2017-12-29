@@ -8,7 +8,15 @@ const projectPath = process.cwd();
 
 program.command("start").action(async () => {
   try {
-    await server.start(projectPath);
+    const serverInstance = await server.start(projectPath);
+    const gracefulShutdown = async () => {
+      logger.info("Stopping server...");
+      await serverInstance.stop();
+      process.exit(0);
+    };
+
+    process.once("SIGINT", gracefulShutdown);
+    process.once("SIGTERM", gracefulShutdown);
   } catch (e) {
     logger.error(e);
     process.exit(1);
