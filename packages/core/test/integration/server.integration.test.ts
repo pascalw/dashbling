@@ -9,7 +9,6 @@ import {
   createEventHistory,
   mkTempFile
 } from "../utils";
-import logger from "../../src/lib/logger";
 import fetch from "node-fetch";
 
 const dashblingConfig = require("../fixture/dashbling.config");
@@ -28,10 +27,6 @@ const extractEvents = onEvent => response => {
 };
 
 const NOW = new Date();
-
-beforeAll(() => {
-  logger.close();
-});
 
 beforeEach(async () => {
   mockDate(NOW);

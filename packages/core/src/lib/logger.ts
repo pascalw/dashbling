@@ -24,8 +24,4 @@ logger.setLevel = (level: Level) => {
   tracer.setLevel(level);
 };
 
-logger.close = () => {
-  tracer.close();
-};
-
 export default logger;

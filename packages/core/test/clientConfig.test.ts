@@ -1,7 +1,5 @@
 import * as path from "path";
 import { ClientConfig, parse, load } from "../src/lib/clientConfig";
-import logger from "../src/lib/logger";
-logger.close();
 
 const projectPath = "/fake";
 const basicValidConfig = {
