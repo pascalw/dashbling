@@ -1,4 +1,5 @@
 import * as assets from "./assets";
+import { ClientConfig } from "@dashbling/core/src/lib/clientConfig";
 
 const addMiddleware = (server: any, middleware: any) => {
   server.ext("onRequest", (request: any, h: any) => {
@@ -17,8 +18,8 @@ const addMiddleware = (server: any, middleware: any) => {
   });
 };
 
-export const install = (server: any, projectPath: string) => {
-  assets.devMiddlewares(projectPath).forEach((middleware: any) => {
+export const install = (server: any, clientConfig: ClientConfig) => {
+  assets.devMiddlewares(clientConfig).forEach((middleware: any) => {
     addMiddleware(server, middleware);
   });
 
