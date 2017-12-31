@@ -14,6 +14,7 @@
     "@babel/core": "^7.0.0-beta.34",
     "@babel/preset-env": "^7.0.0-beta.34",
     "@babel/preset-react": "^7.0.0-beta.34",
+    "@dashbling/core": "^0.0.1-beta.9",
     "autoprefixer": "^7.1.6",
     "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^0.1.17",

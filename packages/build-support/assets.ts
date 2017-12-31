@@ -1,13 +1,14 @@
 const Webpack = require("webpack");
+import { ClientConfig } from "@dashbling/core/src/lib/clientConfig";
 
-const buildCompiler = (projectPath: string) => {
-  const webpackConfig = require("./webpack.config")(projectPath);
+const buildCompiler = (clientConfig: ClientConfig) => {
+  const webpackConfig = require("./webpack.config")(clientConfig.projectPath);
   return Webpack(webpackConfig);
 };
 
-export const compile = (projectPath: string) => {
+export const compile = (clientConfig: ClientConfig) => {
   return new Promise((resolve, reject) => {
-    buildCompiler(projectPath).run((err: Error, stats: any) => {
+    buildCompiler(clientConfig).run((err: Error, stats: any) => {
       if (err) {
         reject(err);
       } else {
@@ -17,8 +18,8 @@ export const compile = (projectPath: string) => {
   });
 };
 
-export const devMiddlewares = (projectPath: string) => {
-  const compiler = buildCompiler(projectPath);
+export const devMiddlewares = (clientConfig: ClientConfig) => {
+  const compiler = buildCompiler(clientConfig);
 
   const devMiddleware = require("webpack-dev-middleware")(compiler);
   const hotMiddleware = require("webpack-hot-middleware")(compiler);

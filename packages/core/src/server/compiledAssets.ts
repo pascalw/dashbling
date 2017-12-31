@@ -1,5 +1,4 @@
 import * as path from "path";
-import { ClientConfig } from "../lib/clientConfig";
 
 module.exports.install = async (server: any, projectPath: string) => {
   await server.register(require("inert"));

@@ -17,7 +17,7 @@ const installAssetHandling = (
   if (environment === "development") {
     return require("@dashbling/build-support/webpackDevMiddleware").install(
       server,
-      clientConfig.projectPath
+      clientConfig
     );
   } else {
     return require("./server/compiledAssets").install(

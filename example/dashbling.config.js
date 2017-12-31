@@ -1,4 +1,8 @@
 module.exports = {
+  webpackConfig: config => {
+    console.log(config);
+    return config;
+  },
   onStart: sendEvent => {
     // start custom code that sends events here,
     // for example listen to streams etc.

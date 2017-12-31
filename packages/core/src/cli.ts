@@ -2,6 +2,7 @@
 import * as server from "./server";
 import logger from "./lib/logger";
 import * as program from "commander";
+import { ClientConfig, load } from "./lib/clientConfig";
 program.version(require("../package.json").version);
 
 const projectPath = process.cwd();
@@ -28,7 +29,9 @@ program.command("compile").action(async () => {
 
   try {
     const assets = await import("@dashbling/build-support/assets");
-    const stats: any = await assets.compile(projectPath);
+    const clientConfig = load(projectPath);
+
+    const stats: any = await assets.compile(clientConfig);
     console.log(stats.toString({ colors: true }));
 
     if (stats.hasErrors()) {
