@@ -2,9 +2,10 @@ import { connect as connectRedux } from "react-redux";
 import { eventReceived, dashblingConnected } from "./store";
 import { heartbeat } from "../core/src/lib/constants.ts";
 
-export const connectStoreToDashbling = store => {
-  const eventSource = new EventSource("/events");
-
+export const connectStoreToDashbling = (
+  store,
+  eventSource = new EventSource("/events")
+) => {
   let wasConnected = false;
   let reconnectTimer = null;
 

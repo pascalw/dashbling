@@ -2,8 +2,8 @@ import { PassThrough } from "stream";
 import { EventBus } from "../lib/eventBus";
 import { Event } from "../lib/Event";
 import logger from "../lib/logger";
-import { heartbeat } from "../lib/constants";
 import { ClientConfig } from "../lib/clientConfig";
+const { heartbeat } = require("../lib/constants");
 
 interface PassThroughWithHeaders extends PassThrough {
   headers: { [key: string]: string };

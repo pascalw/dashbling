@@ -1,1 +1,1 @@
-export const heartbeat = "\uD83D\uDC93";
+module.exports.heartbeat = "\uD83D\uDC93";

@@ -30,6 +30,7 @@
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
-    }
+    },
+    "silent": true
   }
 }
