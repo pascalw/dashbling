@@ -9,21 +9,17 @@ import { install as installRoutes } from "./server/routes";
 import { install as installLogging } from "./server/logging";
 import { install as installBasicAuth } from "./server/basicAuth";
 
-const installAssetHandling = (
+const installAssetHandling = async (
   environment: string,
   server: any,
   clientConfig: ClientConfig
 ) => {
   if (environment === "development") {
-    return require("@dashbling/build-support/webpackDevMiddleware").install(
-      server,
-      clientConfig
-    );
+    const devMiddleware = await import("@dashbling/build-support/webpackDevMiddleware");
+    return devMiddleware.install(server, clientConfig);
   } else {
-    return require("./server/compiledAssets").install(
-      server,
-      clientConfig.projectPath
-    );
+    const compiledAssets = await import("./server/compiledAssets");
+    return compiledAssets.install(server, clientConfig.projectPath);
   }
 };
 

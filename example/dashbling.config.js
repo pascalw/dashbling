@@ -1,6 +1,13 @@
 module.exports = {
   webpackConfig: config => {
-    console.log(config);
+    // return modified config
+    // or even completely custom config.
+    //
+    // Example:
+    // config.module.rules.push({
+    //   test: /\.jpg$/,
+    //   loader: "file-loader"
+    // });
     return config;
   },
   onStart: sendEvent => {

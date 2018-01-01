@@ -28,6 +28,7 @@ export interface ClientConfig {
   readonly projectPath: string;
   readonly jobs: JobConfig[];
   readonly onStart: (sendEvent: SendEvent) => void;
+  readonly webpackConfig: (defaultConfig: any) => any;
 
   readonly forceHttps: boolean;
   readonly port: number;
@@ -40,7 +41,8 @@ const DEFAULTS: { [key: string]: any } = {
   port: 3000,
   forceHttps: false,
   eventStoragePath: path.join(process.cwd(), "dashbling-events"),
-  onStart: () => () => {},
+  onStart: () => {},
+  webpackConfig: (config: any) => config,
   authToken: () => {
     const token = generateAuthToken();
 
@@ -166,6 +168,10 @@ export const parse = (
     throw error("onStart", "a function", input.onStart);
   }
 
+  if (input.webpackConfig != null && !isFunction(input.webpackConfig)) {
+    throw error("webpackConfig", "a function", input.webpackConfig);
+  }
+
   const loadConfigOption = getConfigOption([
     envConfigSource(env),
     objectConfigSource(input),
@@ -175,6 +181,7 @@ export const parse = (
   return {
     projectPath: projectPath,
     onStart: input.onStart || DEFAULTS.onStart,
+    webpackConfig: input.webpackConfig || DEFAULTS.webpackConfig,
     jobs: input.jobs,
     forceHttps: loadConfigOption("forceHttps", tryParseBool),
     port: loadConfigOption("port", tryParseNumber),
