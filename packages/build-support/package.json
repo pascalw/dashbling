@@ -8,7 +8,9 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc -p .",
-    "prepare": "yarn run --silent build"
+    "prepare": "yarn run --silent build",
+    "test": "yarn run --silent build && jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@babel/core": "^7.0.0-beta.34",
@@ -30,9 +32,21 @@
     "webpack-hot-middleware": "^2.21.0"
   },
   "devDependencies": {
+    "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
     "ts-node": "^3.3.0",
+    "jest": "^21.2.1",
+    "ts-jest": "^21.2.4",
     "typescript": "^2.6.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts?$": "ts-jest"
+    },
+    "transformIgnorePatterns": ["node_modules/(?!(@dashbling)/)"],
+    "testRegex": "((\\.|/)test)\\.(js|ts)$",
+    "moduleFileExtensions": ["ts", "js"],
+    "silent": true
   },
   "engines": {
     "node": ">= 8.9.0"

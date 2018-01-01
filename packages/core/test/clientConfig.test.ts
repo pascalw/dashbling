@@ -148,6 +148,24 @@ describe("basicAuth", () => {
   });
 });
 
+describe("webpackConfig", () => {
+  test("default no-op", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+
+    const webpackConfig = {};
+    expect(config.webpackConfig(webpackConfig)).toBe(webpackConfig);
+  });
+
+  test("validates is a function", () => {
+    const rawConfig = Object.assign({}, basicValidConfig, {
+      webpackConfig: 123
+    });
+
+    const error = parseAndExtractError(rawConfig);
+    expect(error).toMatch(/webpackConfig/);
+  });
+});
+
 test("loads and validates config from file", () => {
   const projectPath = path.join(__dirname, "fixture");
   const config: ClientConfig = load(projectPath);
