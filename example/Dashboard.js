@@ -1,8 +1,8 @@
 import React from "react";
 
 import { connect } from "@dashbling/client/dashbling";
-import { Dashboard } from "@dashbling/client/components/Dashboard";
-import { Clock } from "@dashbling/client/widgets/Clock";
+import { Dashboard } from "@dashbling/client/components";
+import { Clock } from "@dashbling/client/widgets";
 import { Counter } from "./widgets/Counter";
 import { GitHubStars } from "./widgets/gitHubStars/GitHubStars";
 import { CircleCiStatus } from "./widgets/circleCi/CircleCiStatus";

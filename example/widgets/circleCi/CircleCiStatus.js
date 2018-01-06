@@ -1,5 +1,5 @@
 import React from "react";
-import Widget, { LargeLabel, MediumLabel } from "@dashbling/client/Widget";
+import { Widget, LargeLabel, MediumLabel } from "@dashbling/client/Widget";
 
 const bgColor = props => {
   return props.outcome === "success" ? "#429c6a" : "#dd1506";

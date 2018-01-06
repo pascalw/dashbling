@@ -1,5 +1,6 @@
 import React from "react";
-import Widget, {
+import {
+  Widget,
   SmallLabel,
   MediumLabel,
   LargeLabel

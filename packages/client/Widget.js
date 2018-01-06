@@ -10,7 +10,7 @@ const bgImage = image => {
   );
 };
 
-export default function(props) {
+export const Widget = props => {
   const className =
     styles.widget + (props.className ? " " + props.className : "");
 
@@ -22,24 +22,24 @@ export default function(props) {
       {props.bgImage && bgImage(props.bgImage)}
     </div>
   );
-}
+};
 
-export function SmallLabel(props) {
+export const SmallLabel = props => {
   return Label(props, styles.labelSmall);
-}
+};
 
-export function MediumLabel(props) {
+export const MediumLabel = props => {
   return Label(props, styles.labelMedium);
-}
+};
 
-export function LargeLabel(props) {
+export const LargeLabel = props => {
   return Label(props, styles.labelLarge);
-}
+};
 
-function Label(props, className) {
+export const Label = (props, className) => {
   return (
     <span className={className} {...props}>
       {props.children}
     </span>
   );
-}
+};

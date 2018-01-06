@@ -1,5 +1,5 @@
 import React from "react";
-import Widget, { MediumLabel, LargeLabel } from "../Widget";
+import { Widget, MediumLabel, LargeLabel } from "../Widget";
 import tz from "timezone";
 
 const dateFormatter = (tzdata, timezone, format) => date => {

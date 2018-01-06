@@ -1,5 +1,5 @@
 import React from "react";
-import Widget, { LargeLabel } from "@dashbling/client/Widget";
+import { Widget, LargeLabel } from "@dashbling/client/Widget";
 
 export const Counter = class Counter extends React.Component {
   constructor(props) {
