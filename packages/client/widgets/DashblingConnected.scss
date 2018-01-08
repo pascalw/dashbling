@@ -1,9 +1,11 @@
-@import "../styles/mixins";
-
 $background-color-1: #e82711;
 $background-color-2: #9b2d23;
 
-@include pulse-animation("pulse-connection-lost", $background-color-1, $background-color-2);
+@keyframes pulse-connection-lost {
+  0%   { background-color: $background-color-1; }
+  50%  { background-color: $background-color-2; }
+  100% { background-color: $background-color-1; }
+}
 
 .connectionLost {
   animation: pulse-connection-lost 2s infinite;

@@ -1,11 +1,12 @@
 import React from "react";
-import styles from "./Dashboard.scss";
+import PropTypes from "prop-types";
+import flexLayout from "../layouts/FlexLayout.scss";
 import LastUpdatedAt from "../widgets/LastUpdatedAt";
 import DashblingConnected from "../widgets/DashblingConnected";
 
 const MetaContainer = props => {
   return (
-    <div className={styles.meta}>
+    <div className={props.layout.metaContainer}>
       <DashblingConnected />
       <LastUpdatedAt />
     </div>
@@ -13,15 +14,31 @@ const MetaContainer = props => {
 };
 
 const WidgetContainer = props => {
-  return <div className={styles.container}>{props.children}</div>;
+  return <div className={props.layout.widgetContainer}>{props.children}</div>;
 };
 
-export const Dashboard = props => {
-  return (
-    <div className={styles.dashboard}>
-      <WidgetContainer>{props.children}</WidgetContainer>
+export class Dashboard extends React.Component {
+  getChildContext() {
+    return { layout: this.props.layout };
+  }
 
-      <MetaContainer />
-    </div>
-  );
+  render() {
+    const { layout } = this.props;
+
+    return (
+      <div className={layout.dashboard}>
+        <WidgetContainer layout={layout}>{this.props.children}</WidgetContainer>
+
+        <MetaContainer layout={layout} />
+      </div>
+    );
+  }
+}
+
+Dashboard.defaultProps = {
+  layout: flexLayout
+};
+
+Dashboard.childContextTypes = {
+  layout: PropTypes.object
 };
