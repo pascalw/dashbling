@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styles from "./Widget.scss";
 
 const bgImage = image => {
@@ -10,9 +11,10 @@ const bgImage = image => {
   );
 };
 
-export const Widget = props => {
-  const className =
-    styles.widget + (props.className ? " " + props.className : "");
+export const Widget = (props, context) => {
+  const className = `${styles.widget} ${context.layout.widget}${
+    props.className ? " " + props.className : ""
+  }`;
 
   return (
     <div className={className} style={props.style}>
@@ -23,6 +25,7 @@ export const Widget = props => {
     </div>
   );
 };
+Widget.contextTypes = { layout: PropTypes.object };
 
 export const SmallLabel = props => {
   return Label(props, styles.labelSmall);
