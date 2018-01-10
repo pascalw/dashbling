@@ -3,6 +3,7 @@ const { resolve, dirname } = require("path");
 const { sync: commandExistsSync } = require("command-exists");
 const Generator = require("yeoman-generator");
 
+const supportsGit = commandExistsSync("git");
 const supportsYarn = commandExistsSync("yarnpkg");
 const installer = supportsYarn ? "yarn" : "npm";
 const dashblingCorePackage =
@@ -33,12 +34,13 @@ module.exports = class extends Generator {
     ensureDirSync(this.destinationPath());
 
     this.spawnCommandSync(installer, ["init", "--yes"]);
-    this.installDependency([dashblingCorePackage]);
-    this.installDependency([dashblingClientPackage]);
-    this.installDependency(
-      [dashblingBuildSupportPackage],
-      this.devDependencyOption
-    );
+    this.installDependency([dashblingCorePackage, dashblingClientPackage], {
+      silent: true
+    });
+    this.installDependency([dashblingBuildSupportPackage], {
+      ...this.devDependencyOption,
+      silent: true
+    });
 
     const jsonPath = this.destinationPath("package.json");
     const json = readJsonSync(jsonPath);
@@ -60,7 +62,21 @@ module.exports = class extends Generator {
       "Dashboard.js",
       "widgets/",
       "styles/",
-      "jobs/"
+      "jobs/",
+      ".gitignore"
     ].forEach(this._copy.bind(this));
+  }
+
+  end() {
+    if (supportsGit) {
+      this.spawnCommandSync("git", ["init", "--quiet"]);
+      this.spawnCommandSync("git", ["add", "--all"]);
+      this.spawnCommandSync("git", [
+        "commit",
+        "-m",
+        "Initial commit - new dashbling project.",
+        "--quiet"
+      ]);
+    }
   }
 };
