@@ -8,5 +8,4 @@ cd ../../example && \
     --exclude=node_modules/ \
     --exclude=package.json \
     --exclude=yarn.lock \
-    --exclude=.gitignore \
     . | (cd "$TEMPLATES_DIR" && tar xvf - )
