@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/build-support",
-  "version": "0.0.1-beta.9",
+  "version": "0.0.1-beta.10",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "publishConfig": {
@@ -16,7 +16,7 @@
     "@babel/core": "^7.0.0-beta.34",
     "@babel/preset-env": "^7.0.0-beta.34",
     "@babel/preset-react": "^7.0.0-beta.34",
-    "@dashbling/core": "^0.0.1-beta.9",
+    "@dashbling/core": "^0.0.1-beta.10",
     "autoprefixer": "^7.1.6",
     "babel-loader": "^8.0.0-beta.0",
     "clean-webpack-plugin": "^0.1.17",
@@ -34,9 +34,9 @@
   "devDependencies": {
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
-    "ts-node": "^3.3.0",
     "jest": "^21.2.1",
     "ts-jest": "^21.2.4",
+    "ts-node": "^3.3.0",
     "typescript": "^2.6.2"
   },
   "jest": {
