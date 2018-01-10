@@ -9,3 +9,6 @@ cd ../../example && \
     --exclude=package.json \
     --exclude=yarn.lock \
     . | (cd "$TEMPLATES_DIR" && tar xvf - )
+
+# npm packages don't support .gitignore files :(
+mv "$TEMPLATES_DIR/.gitignore" "$TEMPLATES_DIR/gitignore"

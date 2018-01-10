@@ -62,9 +62,13 @@ module.exports = class extends Generator {
       "Dashboard.js",
       "widgets/",
       "styles/",
-      "jobs/",
-      ".gitignore"
+      "jobs/"
     ].forEach(this._copy.bind(this));
+
+    this.fs.copy(
+      this.templatePath("gitignore"),
+      this.destinationPath(".gitignore")
+    );
   }
 
   end() {
