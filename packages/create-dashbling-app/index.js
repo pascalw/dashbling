@@ -58,6 +58,7 @@ module.exports = class extends Generator {
       "dashbling.config.js",
       "index.html",
       "index.js",
+      "Dockerfile",
       "Dashboard.js",
       "widgets/",
       "styles/",
