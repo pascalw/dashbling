@@ -87,7 +87,7 @@ module.exports = projectPath => {
           ]
         },
         {
-          test: /\.(png|svg)$/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/,
           loader: "file-loader",
           exclude: /node_modules/
         }
