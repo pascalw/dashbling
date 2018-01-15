@@ -65,7 +65,7 @@ module.exports = projectPath => {
           }
         },
         {
-          test: /\.scss$/,
+          test: /\.s?css$/,
           use: [
             { loader: "style-loader" },
             {
