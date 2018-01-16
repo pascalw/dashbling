@@ -6,12 +6,12 @@ import * as util from "util";
 const writeToFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 
-class PersistentEventHistory implements EventHistory {
+class FileEventHistory implements EventHistory {
   private history: { [key: string]: Event } = {};
   private historyFile: string;
 
-  static async create(historyFile: string): Promise<PersistentEventHistory> {
-    const history = new PersistentEventHistory(historyFile);
+  static async create(historyFile: string): Promise<FileEventHistory> {
+    const history = new FileEventHistory(historyFile);
     await history.loadHistory();
 
     return history;
@@ -61,5 +61,5 @@ class PersistentEventHistory implements EventHistory {
 export const createHistory = async (
   historyFile: string
 ): Promise<EventHistory> => {
-  return PersistentEventHistory.create(historyFile);
+  return FileEventHistory.create(historyFile);
 };

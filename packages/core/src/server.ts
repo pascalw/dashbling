@@ -1,6 +1,6 @@
 const Hapi = require("hapi");
 import { EventBus } from "./lib/eventBus";
-import { createHistory } from "./lib/PersistentEventHistory";
+import { createHistory } from "./lib/FileEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 import { ClientConfig, load } from "./lib/clientConfig";
