@@ -1,5 +1,4 @@
-import { createHistory } from "../src/lib/PersistentEventHistory";
-import { Event } from "../src/lib/eventBus";
+import { createHistory } from "../src/lib/FileEventHistory";
 import { mkTempFile, mkTempDir } from "./utils";
 
 import * as fs from "fs";
