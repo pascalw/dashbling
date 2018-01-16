@@ -2,10 +2,21 @@ import { connect as connectRedux } from "react-redux";
 import { eventReceived, dashblingConnected } from "./store";
 import { heartbeat } from "../core/src/lib/constants.ts";
 
-export const connectStoreToDashbling = (
-  store,
-  eventSource = new EventSource("/events")
-) => {
+window.__dashblingEventSource = window.__dashblingEventSource || null;
+
+export const connectStoreToDashbling = (store, eventSource) => {
+  // during development with HMR, this will get called multiple
+  // times, so make sure to cleanup to prevent breaking HMR.
+  if (window.__dashblingEventSource != null) {
+    window.__dashblingEventSource.close();
+  }
+
+  if (eventSource == null) {
+    eventSource = new EventSource("/events");
+  }
+
+  window.__dashblingEventSource = eventSource;
+
   let wasConnected = false;
   let reconnectTimer = null;
 

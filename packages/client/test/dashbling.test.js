@@ -3,14 +3,20 @@ import { heartbeat } from "../../core/src/lib/constants.ts";
 import { dashblingConnected, eventReceived } from "../store";
 
 const storeMock = () => {
-  const store = jest.fn();
-  store.dispatch = jest.fn();
-  return store;
+  return {
+    dispatch: jest.fn()
+  };
+};
+
+const eventSourceMock = () => {
+  return {
+    close: jest.fn()
+  };
 };
 
 test("dispatches connected message when event source is opened", () => {
   const store = storeMock();
-  const eventSource = jest.fn();
+  const eventSource = eventSourceMock();
 
   dashbling.connectStoreToDashbling(store, eventSource);
   eventSource.onopen();
@@ -20,7 +26,7 @@ test("dispatches connected message when event source is opened", () => {
 
 test("dispatches disconnected message on error", () => {
   const store = storeMock();
-  const eventSource = jest.fn();
+  const eventSource = eventSourceMock();
 
   dashbling.connectStoreToDashbling(store, eventSource);
   eventSource.onerror();
@@ -30,7 +36,7 @@ test("dispatches disconnected message on error", () => {
 
 test("dispatches received messages", () => {
   const store = storeMock();
-  const eventSource = jest.fn();
+  const eventSource = eventSourceMock();
 
   dashbling.connectStoreToDashbling(store, eventSource);
 
@@ -51,7 +57,7 @@ test("dispatches received messages", () => {
 
 test("ignores heartbeat messages", () => {
   const store = storeMock();
-  const eventSource = jest.fn();
+  const eventSource = eventSourceMock();
 
   dashbling.connectStoreToDashbling(store, eventSource);
 
@@ -59,4 +65,15 @@ test("ignores heartbeat messages", () => {
   eventSource.onmessage(event);
 
   expect(store.dispatch).not.toHaveBeenCalled();
+});
+
+test("closes existing eventSources", () => {
+  const store = storeMock();
+  const eventSource1 = eventSourceMock();
+  const eventSource2 = eventSourceMock();
+
+  dashbling.connectStoreToDashbling(store, eventSource1);
+  dashbling.connectStoreToDashbling(store, eventSource2);
+
+  expect(eventSource1.close).toHaveBeenCalled();
 });
