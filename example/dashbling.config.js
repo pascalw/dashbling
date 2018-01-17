@@ -1,3 +1,9 @@
+const { createHistory } = require("@dashbling/core/lib/lib/FileEventHistory");
+const eventHistoryPath = require("path").join(
+  process.cwd(),
+  "dashbling-events"
+);
+
 module.exports = {
   webpackConfig: config => {
     // return modified config
@@ -14,6 +20,7 @@ module.exports = {
     // start custom code that sends events here,
     // for example listen to streams etc.
   },
+  eventHistory: createHistory(eventHistoryPath),
   forceHttps: false,
   jobs: [
     {
