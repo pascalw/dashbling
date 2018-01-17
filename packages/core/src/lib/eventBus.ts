@@ -27,7 +27,7 @@ export class EventBus {
     const event: Event = { id, data, updatedAt: new Date(Date.now()) };
     this.subscribers.forEach(subscriber => subscriber(event));
 
-    this.history.put(event);
+    this.history.put(event.id, event);
   }
 
   replayHistory(subscriber: Subscriber) {

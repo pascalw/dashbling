@@ -1,5 +1,6 @@
 import { EventBus } from "../src/lib/eventBus";
-import { mockDate, restoreDate, createEventHistory } from "./utils";
+import { mockDate, restoreDate } from "./utils";
+import { createHistory } from "../src/lib/InMemoryEventHistory";
 
 const NOW = new Date();
 
@@ -11,11 +12,13 @@ afterEach(() => {
   restoreDate();
 });
 
-test("sends events to all subscribers", () => {
+test("sends events to all subscribers", async () => {
   const subscriber1 = jest.fn();
   const subscriber2 = jest.fn();
 
-  const eventBus = new EventBus(createEventHistory());
+  const history = await createHistory();
+  const eventBus = new EventBus(history);
+
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
 
@@ -33,10 +36,12 @@ test("sends events to all subscribers", () => {
   });
 });
 
-test("replays previously received events", () => {
+test("replays previously received events", async () => {
   const subscriber = jest.fn();
 
-  const eventBus = new EventBus(createEventHistory());
+  const history = await createHistory();
+  const eventBus = new EventBus(history);
+
   eventBus.publish("myEvent", { arg: "1" });
   eventBus.publish("myEvent", { arg: "2" }); // last per id is replayed
   eventBus.publish("myOtherEvent", { arg: "3" });
@@ -56,11 +61,13 @@ test("replays previously received events", () => {
   });
 });
 
-test("stops sending events after unsubscribe", () => {
+test("stops sending events after unsubscribe", async () => {
   const subscriber1 = jest.fn();
   const subscriber2 = jest.fn();
 
-  const eventBus = new EventBus(createEventHistory());
+  const history = await createHistory();
+  const eventBus = new EventBus(history);
+
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
   eventBus.unsubscribe(subscriber1);

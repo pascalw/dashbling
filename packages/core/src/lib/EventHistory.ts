@@ -1,6 +1,6 @@
 import { Event } from "./Event";
 
 export interface EventHistory {
-  put(event: Event): void;
+  put(id: string, event: Event): void;
   get(): Event[];
 }

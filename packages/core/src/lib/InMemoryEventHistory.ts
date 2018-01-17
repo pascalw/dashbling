@@ -4,8 +4,8 @@ import { Event } from "./Event";
 class InMemoryEventHistory implements EventHistory {
   private history: { [key: string]: Event } = {};
 
-  async put(event: Event) {
-    this.history[event.id] = event;
+  async put(id: string, event: Event) {
+    this.history[id] = event;
   }
 
   get(): Event[] {

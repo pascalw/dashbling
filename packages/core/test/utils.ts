@@ -1,5 +1,4 @@
 import { EventHistory } from "../src/lib/EventHistory";
-import { Event } from "../src/lib/eventBus";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -15,19 +14,6 @@ export const mockDate = (date: Date) => {
 
 export const restoreDate = () => {
   (Date.now as any).restore();
-};
-
-export const createEventHistory = () => {
-  const _history = {};
-
-  return <EventHistory>{
-    put(event: Event) {
-      _history[event.id] = event;
-    },
-    get(): Event[] {
-      return Object.values(_history);
-    }
-  };
 };
 
 export const mkTempDir = async () => {

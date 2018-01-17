@@ -3,12 +3,8 @@ import { EventBus } from "../../src/lib/eventBus";
 import { SendEvent } from "../../src/lib/sendEvent";
 import * as path from "path";
 import * as http from "http";
-import {
-  mockDate,
-  restoreDate,
-  createEventHistory,
-  mkTempFile
-} from "../utils";
+import { mockDate, restoreDate, mkTempFile } from "../utils";
+import { createHistory } from "../../src/lib/InMemoryEventHistory";
 import fetch from "node-fetch";
 
 const dashblingConfig = require("../fixture/dashbling.config");
@@ -24,6 +20,11 @@ const extractEvents = onEvent => response => {
       onEvent(eventData);
     }
   });
+};
+
+const createEventBus = async () => {
+  const history = await createHistory();
+  return new EventBus(history);
 };
 
 const NOW = new Date();
@@ -51,7 +52,7 @@ afterEach(() => {
 });
 
 test("sends events over /events stream", async () => {
-  const eventBus = new EventBus(createEventHistory());
+  const eventBus = await createEventBus();
   serverInstance = await server.start(
     path.join(__dirname, "..", "fixture"),
     eventBus
@@ -77,7 +78,7 @@ test("sends events over /events stream", async () => {
 
 describe("receiving events over HTTP", () => {
   test("requires AUTH_TOKEN", async () => {
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
       eventBus
@@ -111,7 +112,7 @@ describe("receiving events over HTTP", () => {
   test("with basicAuth enabled, still requires AUTH_TOKEN", async () => {
     dashblingConfig.basicAuth = "username:password";
 
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
       eventBus
@@ -144,7 +145,7 @@ describe("receiving events over HTTP", () => {
 });
 
 test("executes jobs on start", async () => {
-  const eventBus = new EventBus(createEventHistory());
+  const eventBus = await createEventBus();
   const publishSpy = jest.spyOn(eventBus, "publish");
 
   const jobFn = (sendEvent: SendEvent) => {
@@ -164,7 +165,7 @@ test("executes jobs on start", async () => {
 });
 
 test("calls config.onStart", async () => {
-  const eventBus = new EventBus(createEventHistory());
+  const eventBus = await createEventBus();
   const publishSpy = jest.spyOn(eventBus, "publish");
 
   dashblingConfig.onStart = jest.fn((sendEvent: SendEvent) => {
@@ -183,7 +184,7 @@ test("calls config.onStart", async () => {
 describe("forcing https", () => {
   test("supports forcing https", async () => {
     dashblingConfig.forceHttps = true;
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -202,7 +203,7 @@ describe("forcing https", () => {
 
   test("redirects to x-forwarded-host", async () => {
     dashblingConfig.forceHttps = true;
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -222,7 +223,7 @@ describe("forcing https", () => {
 
   test("does not redirect if x-forwarded-proto is https", async () => {
     dashblingConfig.forceHttps = true;
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -243,7 +244,7 @@ describe("forcing https", () => {
 describe("basic auth", () => {
   test("401 if no auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -256,7 +257,7 @@ describe("basic auth", () => {
 
   test("401 if invalid auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -274,7 +275,7 @@ describe("basic auth", () => {
 
   test("Pass if valid auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
-    const eventBus = new EventBus(createEventHistory());
+    const eventBus = await createEventBus();
 
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),

@@ -14,7 +14,7 @@ test("stores latest event per id", async () => {
     data: { first: "event" },
     updatedAt: new Date()
   };
-  history.put(myEvent1);
+  history.put("myEvent", myEvent1);
 
   expect(history.get()).toEqual([myEvent1]);
 
@@ -23,12 +23,12 @@ test("stores latest event per id", async () => {
     data: { second: "event" },
     updatedAt: new Date()
   };
-  history.put(myEvent2);
+  history.put("myEvent", myEvent2);
 
   expect(history.get()).toEqual([myEvent2]);
 
   const anotherEvent = { id: "anotherEvent", data: {}, updatedAt: new Date() };
-  history.put(anotherEvent);
+  history.put("anotherEvent", anotherEvent);
 
   expect(history.get()).toEqual([myEvent2, anotherEvent]);
 });
@@ -42,7 +42,7 @@ test("writes events to file", async () => {
     data: { first: "event" },
     updatedAt: new Date()
   };
-  await history.put(myEvent1);
+  await history.put("myEvent", myEvent1);
 
   const contents = await promisify(fs.readFile)(historyPath);
   expect(contents.toString()).toEqual(JSON.stringify([myEvent1]));
@@ -57,7 +57,7 @@ test("reads initial history from file", async () => {
     data: { first: "event" },
     updatedAt: new Date()
   };
-  await history1.put(myEvent1);
+  await history1.put("myEvent", myEvent1);
 
   const history2 = await createHistory(historyPath);
   expect(history2.get()).toEqual([myEvent1]);

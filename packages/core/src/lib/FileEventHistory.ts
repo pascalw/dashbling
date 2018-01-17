@@ -26,8 +26,8 @@ class FileEventHistory implements EventHistory {
     });
   }
 
-  async put(event: Event) {
-    this.inMemoryHistory.put(event);
+  async put(id: string, event: Event) {
+    this.inMemoryHistory.put(id, event);
     await writeToFile(this.historyFile, JSON.stringify(this.get()));
   }
 
@@ -58,7 +58,7 @@ class FileEventHistory implements EventHistory {
 
     serializedEvents.forEach((event: any) => {
       event.updatedAt = new Date(event.updatedAt);
-      this.put(event);
+      this.put(event.id, event);
     });
   }
 }
