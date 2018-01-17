@@ -3,6 +3,7 @@ import * as path from "path";
 import logger from "./logger";
 import { generate as generateAuthToken } from "./authToken";
 import { SendEvent } from "./sendEvent";
+import { EventHistory } from "./EventHistory";
 
 interface ConfigSource {
   get: (option: string) => any;
@@ -29,6 +30,7 @@ export interface ClientConfig {
   readonly jobs: JobConfig[];
   readonly onStart: (sendEvent: SendEvent) => void;
   readonly webpackConfig: (defaultConfig: any) => any;
+  readonly eventHistory: false | Promise<EventHistory>;
 
   readonly forceHttps: boolean;
   readonly port: number;
@@ -52,7 +54,8 @@ const DEFAULTS: { [key: string]: any } = {
     );
 
     return token;
-  }
+  },
+  eventHistory: false
 };
 
 const error = (name: string, expectation: string, actualValue: any): Error => {
@@ -172,6 +175,18 @@ export const parse = (
     throw error("webpackConfig", "a function", input.webpackConfig);
   }
 
+  if (
+    input.eventHistory != null &&
+    input.eventHistory !== false &&
+    !(input.eventHistory instanceof Promise)
+  ) {
+    throw error(
+      "eventHistory",
+      "`false` or a Promise<EventHistory>",
+      input.eventHistory
+    );
+  }
+
   const loadConfigOption = getConfigOption([
     envConfigSource(env),
     objectConfigSource(input),
@@ -187,6 +202,7 @@ export const parse = (
     port: loadConfigOption("port", tryParseNumber),
     eventStoragePath: loadConfigOption("eventStoragePath", tryParseString),
     authToken: loadConfigOption("authToken", tryParseString),
-    basicAuth: loadConfigOption("basicAuth", tryParseString)
+    basicAuth: loadConfigOption("basicAuth", tryParseString),
+    eventHistory: input.eventHistory || DEFAULTS.eventHistory
   };
 };

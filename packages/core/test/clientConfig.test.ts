@@ -16,6 +16,7 @@ const parseAndExtractError = (config: any, env?) => {
 
 test("returns typed configuration if valid", () => {
   const raw = {
+    ...basicValidConfig,
     jobs: [{ id: "myJob", schedule: "*/5 * * * *", fn: () => {} }]
   };
 
@@ -34,7 +35,7 @@ test("throws if configuration invalid", () => {
 
 test("validates onStart", () => {
   const config = {
-    jobs: [],
+    ...basicValidConfig,
     onStart: "wrong type"
   };
 
@@ -43,7 +44,10 @@ test("validates onStart", () => {
 });
 
 test("throws if passed invalid cron expression", () => {
-  const raw = { jobs: [{ schedule: "not a cron exp", fn: () => {} }] };
+  const raw = {
+    ...basicValidConfig,
+    jobs: [{ schedule: "not a cron exp", fn: () => {} }]
+  };
 
   const error = parseAndExtractError(raw);
 
@@ -54,18 +58,20 @@ test("throws if passed invalid cron expression", () => {
 
 describe("forceHttps", () => {
   test("throws if invalid forceHttps", () => {
-    const rawConfig = Object.assign({}, basicValidConfig, {
+    const rawConfig = {
+      ...basicValidConfig,
       forceHttps: "not a bool"
-    });
+    };
 
     const error = parseAndExtractError(rawConfig);
     expect(error).toMatch(/forceHttps/);
   });
 
   test("takes env var over config.js", () => {
-    const rawConfig = Object.assign({}, basicValidConfig, {
+    const rawConfig = {
+      ...basicValidConfig,
       forceHttps: false
-    });
+    };
 
     const env = { FORCE_HTTPS: "true" };
 
@@ -111,9 +117,10 @@ describe("eventStoragePath", () => {
   });
 
   test("throws if not a string", () => {
-    const rawConfig = Object.assign({}, basicValidConfig, {
+    const rawConfig = {
+      ...basicValidConfig,
       eventStoragePath: 123
-    });
+    };
 
     const error = parseAndExtractError(rawConfig);
     expect(error).toMatch(/eventStoragePath/);
@@ -157,9 +164,10 @@ describe("webpackConfig", () => {
   });
 
   test("validates is a function", () => {
-    const rawConfig = Object.assign({}, basicValidConfig, {
+    const rawConfig = {
+      ...basicValidConfig,
       webpackConfig: 123
-    });
+    };
 
     const error = parseAndExtractError(rawConfig);
     expect(error).toMatch(/webpackConfig/);
@@ -179,4 +187,43 @@ test("throws when config cannot be loaded", () => {
   expect(() => {
     load(projectPath);
   }).toThrowError(/Cannot find module/);
+});
+
+describe("eventHistory", () => {
+  test("supports 'false'", () => {
+    const rawConfig = {
+      ...basicValidConfig,
+      eventHistory: false
+    };
+
+    const config: ClientConfig = parse(rawConfig, projectPath);
+    expect(config.eventHistory).toEqual(false);
+  });
+
+  test("supports promise", () => {
+    const rawConfig = {
+      ...basicValidConfig,
+      eventHistory: Promise.resolve("this should yield an EventHistory, really")
+    };
+
+    const config: ClientConfig = parse(rawConfig, projectPath);
+    expect(config.eventHistory).toEqual(rawConfig.eventHistory);
+  });
+
+  test("throws if invalid", () => {
+    const assertThrowsEventHistoryError = (input: any) => {
+      const rawConfig = {
+        ...basicValidConfig,
+        eventHistory: input
+      };
+
+      const error = parseAndExtractError(rawConfig);
+      expect(error).toMatch(/eventHistory/);
+    };
+
+    assertThrowsEventHistoryError(true);
+    assertThrowsEventHistoryError(0);
+    assertThrowsEventHistoryError({});
+    assertThrowsEventHistoryError(() => "");
+  });
 });
