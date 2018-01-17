@@ -1,6 +1,6 @@
 const Hapi = require("hapi");
 import { EventBus } from "./lib/eventBus";
-import { createHistory as createNoOpHistory } from "./lib/NoOpEventHistory";
+import { createHistory as createInMemoryHistory } from "./lib/InMemoryEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 import { ClientConfig, load } from "./lib/clientConfig";
@@ -29,7 +29,7 @@ const createEventHistory = (config: ClientConfig) => {
   }
 
   if (config.eventHistory === false) {
-    return createNoOpHistory();
+    return createInMemoryHistory();
   }
 
   throw new Error(`Invalid eventHistory: ${config.eventHistory}`);

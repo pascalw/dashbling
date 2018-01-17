@@ -1,1 +1,4 @@
-module.exports.jobs = [];
+module.exports = {
+  jobs: [],
+  eventHistory: Promise.resolve()
+};

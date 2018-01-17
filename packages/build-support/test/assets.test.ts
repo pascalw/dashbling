@@ -12,7 +12,7 @@ test("resolves with webpack stats if compilation succeeds", () => {
   const webpackMock = jest.fn(() => {
     return {
       run: (callback: (error: Error, stats: any) => void) => {
-        callback(null, stats);
+        callback(null!, stats);
       }
     };
   });

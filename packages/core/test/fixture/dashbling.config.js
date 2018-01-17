@@ -1,3 +1,6 @@
+const { createHistory } = require("../../src/lib/InMemoryEventHistory");
+
 module.exports = {
-  jobs: []
+  jobs: [],
+  eventHistory: createHistory()
 };
