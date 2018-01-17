@@ -34,7 +34,6 @@ export interface ClientConfig {
 
   readonly forceHttps: boolean;
   readonly port: number;
-  readonly eventStoragePath: string;
   readonly authToken: string;
   readonly basicAuth: string | null;
 }
@@ -42,7 +41,6 @@ export interface ClientConfig {
 const DEFAULTS: { [key: string]: any } = {
   port: 3000,
   forceHttps: false,
-  eventStoragePath: path.join(process.cwd(), "dashbling-events"),
   onStart: () => {},
   webpackConfig: (config: any) => config,
   authToken: () => {
@@ -200,7 +198,6 @@ export const parse = (
     jobs: input.jobs,
     forceHttps: loadConfigOption("forceHttps", tryParseBool),
     port: loadConfigOption("port", tryParseNumber),
-    eventStoragePath: loadConfigOption("eventStoragePath", tryParseString),
     authToken: loadConfigOption("authToken", tryParseString),
     basicAuth: loadConfigOption("basicAuth", tryParseString),
     eventHistory: input.eventHistory || DEFAULTS.eventHistory
