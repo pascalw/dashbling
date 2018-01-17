@@ -1,1 +1,3 @@
-module.exports.jobs = [];
+module.exports = {
+  jobs: []
+};

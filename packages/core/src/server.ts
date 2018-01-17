@@ -1,6 +1,6 @@
 const Hapi = require("hapi");
 import { EventBus } from "./lib/eventBus";
-import { createHistory } from "./lib/FileEventHistory";
+import { createHistory as createNoOpHistory } from "./lib/NoOpEventHistory";
 import * as jobs from "./lib/jobs";
 import logger from "./lib/logger";
 import { ClientConfig, load } from "./lib/clientConfig";
@@ -23,11 +23,23 @@ const installAssetHandling = async (
   }
 };
 
+const createEventHistory = (config: ClientConfig) => {
+  if (config.eventHistory instanceof Promise) {
+    return config.eventHistory;
+  }
+
+  if (config.eventHistory === false) {
+    return createNoOpHistory();
+  }
+
+  throw new Error(`Invalid eventHistory: ${config.eventHistory}`);
+};
+
 export const start = async (projectPath: string, eventBus?: EventBus) => {
   const clientConfig: ClientConfig = load(projectPath);
   const environment = process.env.NODE_ENV || "production";
 
-  const history = await createHistory(clientConfig.eventStoragePath);
+  const history = await createEventHistory(clientConfig);
   eventBus = eventBus || new EventBus(history);
 
   const server = new Hapi.Server({
