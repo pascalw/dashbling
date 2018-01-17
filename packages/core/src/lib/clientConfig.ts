@@ -30,7 +30,7 @@ export interface ClientConfig {
   readonly jobs: JobConfig[];
   readonly onStart: (sendEvent: SendEvent) => void;
   readonly webpackConfig: (defaultConfig: any) => any;
-  readonly eventHistory: false | Promise<EventHistory>;
+  readonly eventHistory: Promise<EventHistory>;
 
   readonly forceHttps: boolean;
   readonly port: number;
@@ -52,8 +52,7 @@ const DEFAULTS: { [key: string]: any } = {
     );
 
     return token;
-  },
-  eventHistory: false
+  }
 };
 
 const error = (name: string, expectation: string, actualValue: any): Error => {
@@ -173,16 +172,8 @@ export const parse = (
     throw error("webpackConfig", "a function", input.webpackConfig);
   }
 
-  if (
-    input.eventHistory != null &&
-    input.eventHistory !== false &&
-    !(input.eventHistory instanceof Promise)
-  ) {
-    throw error(
-      "eventHistory",
-      "`false` or a Promise<EventHistory>",
-      input.eventHistory
-    );
+  if (!(input.eventHistory instanceof Promise)) {
+    throw error("eventHistory", "`a Promise<EventHistory>", input.eventHistory);
   }
 
   const loadConfigOption = getConfigOption([

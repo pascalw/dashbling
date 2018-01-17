@@ -3,10 +3,11 @@ import { ClientConfig, parse, load } from "../src/lib/clientConfig";
 
 const projectPath = "/fake";
 const basicValidConfig = {
-  jobs: []
+  jobs: [],
+  eventHistory: Promise.resolve()
 };
 
-const parseAndExtractError = (config: any, env?) => {
+const parseAndExtractError = (config: any, env?: any) => {
   try {
     parse(config, projectPath, env);
   } catch (e) {
@@ -164,16 +165,6 @@ test("throws when config cannot be loaded", () => {
 });
 
 describe("eventHistory", () => {
-  test("supports 'false'", () => {
-    const rawConfig = {
-      ...basicValidConfig,
-      eventHistory: false
-    };
-
-    const config: ClientConfig = parse(rawConfig, projectPath);
-    expect(config.eventHistory).toEqual(false);
-  });
-
   test("supports promise", () => {
     const rawConfig = {
       ...basicValidConfig,
@@ -196,6 +187,7 @@ describe("eventHistory", () => {
     };
 
     assertThrowsEventHistoryError(true);
+    assertThrowsEventHistoryError(false);
     assertThrowsEventHistoryError(0);
     assertThrowsEventHistoryError({});
     assertThrowsEventHistoryError(() => "");

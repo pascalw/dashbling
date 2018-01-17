@@ -1,4 +1,5 @@
 import { EventHistory } from "./EventHistory";
+import { createHistory as createInMemoryHistory } from "./InMemoryEventHistory";
 import { Event } from "./Event";
 import * as fs from "fs";
 import * as util from "util";
@@ -7,7 +8,7 @@ const writeToFile = util.promisify(fs.writeFile);
 const readFile = util.promisify(fs.readFile);
 
 class FileEventHistory implements EventHistory {
-  private history: { [key: string]: Event } = {};
+  private inMemoryHistory: EventHistory;
   private historyFile: string;
 
   static async create(historyFile: string): Promise<FileEventHistory> {
@@ -19,15 +20,19 @@ class FileEventHistory implements EventHistory {
 
   private constructor(historyFile: string) {
     this.historyFile = historyFile;
+
+    createInMemoryHistory().then(h => {
+      this.inMemoryHistory = h;
+    });
   }
 
   async put(event: Event) {
-    this.history[event.id] = event;
+    this.inMemoryHistory.put(event);
     await writeToFile(this.historyFile, JSON.stringify(this.get()));
   }
 
   get(): Event[] {
-    return Object.values(this.history);
+    return this.inMemoryHistory.get();
   }
 
   private async saveHistory() {
