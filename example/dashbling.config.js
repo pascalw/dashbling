@@ -1,4 +1,4 @@
-const { createHistory } = require("@dashbling/core/lib/lib/FileEventHistory");
+const { createFileHistory } = require("@dashbling/core/history");
 const eventHistoryPath = require("path").join(
   process.cwd(),
   "dashbling-events"
@@ -20,7 +20,7 @@ module.exports = {
     // start custom code that sends events here,
     // for example listen to streams etc.
   },
-  eventHistory: createHistory(eventHistoryPath),
+  eventHistory: createFileHistory(eventHistoryPath),
   forceHttps: false,
   jobs: [
     {
