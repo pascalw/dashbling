@@ -101,32 +101,6 @@ describe("port", () => {
   });
 });
 
-describe("eventStoragePath", () => {
-  test("sets default", () => {
-    const config: ClientConfig = parse(basicValidConfig, projectPath);
-    expect(config.eventStoragePath).toEqual(
-      path.join(process.cwd(), "dashbling-events")
-    );
-  });
-
-  test("supports env var", () => {
-    const env = { EVENT_STORAGE_PATH: "/tmp/some/where" };
-
-    const config: ClientConfig = parse(basicValidConfig, projectPath, env);
-    expect(config.eventStoragePath).toEqual("/tmp/some/where");
-  });
-
-  test("throws if not a string", () => {
-    const rawConfig = {
-      ...basicValidConfig,
-      eventStoragePath: 123
-    };
-
-    const error = parseAndExtractError(rawConfig);
-    expect(error).toMatch(/eventStoragePath/);
-  });
-});
-
 describe("authToken", () => {
   test("sets default", () => {
     const config: ClientConfig = parse(basicValidConfig, projectPath);
