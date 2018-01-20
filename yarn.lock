@@ -186,6 +186,12 @@
     "@babel/helper-remap-async-to-generator" "7.0.0-beta.36"
     "@babel/plugin-syntax-async-generators" "7.0.0-beta.36"
 
+"@babel/plugin-proposal-object-rest-spread@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.0.0-beta.34.tgz#46720e93548d7504a11933b720bd3784426a9026"
+  dependencies:
+    "@babel/plugin-syntax-object-rest-spread" "7.0.0-beta.34"
+
 "@babel/plugin-proposal-object-rest-spread@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-object-rest-spread/-/plugin-proposal-object-rest-spread-7.0.0-beta.36.tgz#9712585326ee8b1c0bd069af6583d3511d4bf66f"
@@ -212,6 +218,10 @@
 "@babel/plugin-syntax-jsx@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-jsx/-/plugin-syntax-jsx-7.0.0-beta.36.tgz#ed12dafe2cb9d3533050d3935d703ef168143371"
+
+"@babel/plugin-syntax-object-rest-spread@7.0.0-beta.34":
+  version "7.0.0-beta.34"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-object-rest-spread/-/plugin-syntax-object-rest-spread-7.0.0-beta.34.tgz#01883a3e6e29d842e88c54d146addd88eedbe0e8"
 
 "@babel/plugin-syntax-object-rest-spread@7.0.0-beta.36":
   version "7.0.0-beta.36"
