@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "my-dashboard",
+  "name": "@dashbling/example",
   "version": "1.0.0",
   "author": "Pascal Widdershoven",
   "license": "MIT",

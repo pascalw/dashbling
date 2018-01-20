@@ -3,5 +3,10 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",
-  "registry": "https://registry.npmjs.org/"
+  "registry": "https://registry.npmjs.org/",
+  "commands": {
+    "publish": {
+      "ignore": ["@dashbling/example"]
+    }
+  }
 }
