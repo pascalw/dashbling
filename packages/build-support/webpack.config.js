@@ -56,7 +56,8 @@ module.exports = projectPath => {
           exclude: modulePath => {
             return (
               /node_modules/.test(modulePath) &&
-              !/node_modules\/@dashbling/.test(modulePath)
+              !/node_modules\/@dashbling/.test(modulePath) &&
+              !/node_modules\/.*?dashbling-widget.*/.test(modulePath)
             );
           },
           loader: "babel-loader",
@@ -94,6 +95,6 @@ module.exports = projectPath => {
       ]
     },
     plugins: plugins,
-    devtool: !isProd && "eval"
+    devtool: !isProd && "cheap-module-source-map"
   };
 };
