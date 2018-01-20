@@ -49,7 +49,10 @@ module.exports = class extends Generator {
         start: "NODE_ENV=${NODE_ENV:-development} dashbling start",
         build: "dashbling compile"
       },
-      browserslist: "last 2 versions"
+      browserslist: "last 2 versions",
+      dependencies: {
+        "dashbling-widget-weather": "^1.0.0"
+      }
     });
 
     writeJsonSync(jsonPath, packageJson, { spaces: 2 });

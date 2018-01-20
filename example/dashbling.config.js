@@ -36,6 +36,10 @@ module.exports = {
         "github/pascalw/dashbling",
         "dashbling-ci-status"
       )
+    },
+    {
+      schedule: "*/30 * * * *",
+      fn: require("dashbling-widget-weather/job")("weather-amsterdam", "727232")
     }
   ]
 };
