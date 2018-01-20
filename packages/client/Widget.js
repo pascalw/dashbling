@@ -16,11 +16,17 @@ export const Widget = (props, context) => {
     props.className ? " " + props.className : ""
   }`;
 
+  const children = props.title
+    ? [
+        <MediumLabel>{props.title}</MediumLabel>,
+        <div className={styles.inner}>{props.children}</div>
+      ]
+    : props.children;
+
   return (
     <div className={className} style={props.style}>
-      {props.title && <MediumLabel>{props.title}</MediumLabel>}
+      {children}
 
-      <div className={styles.inner}>{props.children}</div>
       {props.bgImage && bgImage(props.bgImage)}
     </div>
   );
