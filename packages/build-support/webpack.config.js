@@ -3,6 +3,14 @@ const webpack = require("webpack");
 const HTML = require("html-webpack-plugin");
 const Clean = require("clean-webpack-plugin");
 
+const exclude = modulePath => {
+  return (
+    /node_modules/.test(modulePath) &&
+    !/node_modules\/@dashbling/.test(modulePath) &&
+    !/node_modules\/.*?dashbling-widget.*/.test(modulePath)
+  );
+};
+
 module.exports = projectPath => {
   const env = process.env.NODE_ENV || "development";
   const isProd = env === "production";
@@ -53,13 +61,7 @@ module.exports = projectPath => {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: modulePath => {
-            return (
-              /node_modules/.test(modulePath) &&
-              !/node_modules\/@dashbling/.test(modulePath) &&
-              !/node_modules\/.*?dashbling-widget.*/.test(modulePath)
-            );
-          },
+          exclude: exclude,
           loader: "babel-loader",
           options: {
             extends: path.join(__dirname, ".babelrc")
@@ -67,6 +69,7 @@ module.exports = projectPath => {
         },
         {
           test: /\.s?css$/,
+          exclude: exclude,
           use: [
             { loader: "style-loader" },
             {
@@ -90,7 +93,7 @@ module.exports = projectPath => {
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/,
           loader: "file-loader",
-          exclude: /node_modules/
+          exclude: exclude
         }
       ]
     },
