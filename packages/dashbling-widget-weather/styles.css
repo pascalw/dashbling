@@ -1,0 +1,14 @@
+.widget {
+    background-color: #2f2268;
+}
+
+.yahooLogo {
+    width: 134px;
+    height: 29px;
+    align-self: center;
+    margin-top: 20px;
+}
+
+.inner {
+    margin: auto 0;
+}
