@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/core",
-  "version": "0.0.1-beta.15",
+  "version": "0.0.1-beta.16",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "publishConfig": {
@@ -10,15 +10,19 @@
     "dashbling": "./lib/cli.js"
   },
   "scripts": {
-    "dev":
-      "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
+    "dev": "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
     "test": "yarn run --silent build && jest",
     "test:watch": "jest --watch",
     "test:e2e": "./script/e2e-tests.sh",
     "build": "./node_modules/.bin/tsc -p .",
     "prepare": "yarn run --silent build && chmod +x lib/cli.js"
   },
-  "files": ["/client/", "/example/", "/lib/", "/src/"],
+  "files": [
+    "/client/",
+    "/example/",
+    "/lib/",
+    "/src/"
+  ],
   "dependencies": {
     "commander": "^2.12.2",
     "hapi": "17.1.1",
@@ -45,7 +49,12 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
     "silent": true
   }
 }
