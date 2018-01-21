@@ -2,7 +2,7 @@
 
 Dashbling uses Webpack under the hood to build your dashboard.
 
-It's possible to customize the webpack configuration. To do this, specify a `webpackConfig` property in your `dashbling.config.js` as follows:
+To customize the Webpack configuration, specify a `webpackConfig` property in your `dashbling.config.js` as follows:
 
 ```js
 module.exports = {
@@ -20,4 +20,4 @@ module.exports = {
 };
 ```
 
-The default Webpack configuration can be viewed [here](https://github.com/pascalw/dashbling/blob/master/packages/build-support/webpack.config.js).
+The default Webpack configuration can be found [here](https://github.com/pascalw/dashbling/blob/master/packages/build-support/webpack.config.js).

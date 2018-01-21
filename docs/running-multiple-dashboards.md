@@ -1,8 +1,8 @@
 # Running multiple dashboards
 
-A single Dashbling instance can run mulitple dashboards.
+A single Dashbling instance can run multiple dashboards.
 
-This can be achieved in several ways, but the gist is that you need to render a certain dashboard based on URL or location hash.
+This can be achieved in several ways, but the gist of it is that you need to render a certain dashboard based on a URL or location hash.
 
 By default Dashbling projects render the only available dashboard like this (see the `index.js` file in your dashboard project):
 
@@ -11,7 +11,7 @@ import Dashboard from "./Dashboard";
 dashbling.start(document.getElementById("root"), Dashboard);
 ```
 
-Chosing a specific dashboard to render based on the location hash:
+Choosing a specific dashboard to render based on the location hash:
 
 ```js
 import Dashboard from "./Dashboard";
