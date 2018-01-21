@@ -5,12 +5,12 @@
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "devDependencies": {
-    "@dashbling/client": "^0.0.1"
+    "@dashbling/client": "^0"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
   },
   "peerDependencies": {
-    "@dashbling/client": "^0.0.1-beta.15"
+    "@dashbling/client": "^0"
   }
 }
