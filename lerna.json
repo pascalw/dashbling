@@ -6,7 +6,7 @@
   "registry": "https://registry.npmjs.org/",
   "commands": {
     "publish": {
-      "ignore": ["@dashbling/example"]
+      "ignore": ["@dashbling/example", "*.md"]
     }
   }
 }
