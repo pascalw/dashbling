@@ -6,8 +6,7 @@ const Generator = require("yeoman-generator");
 const supportsGit = commandExistsSync("git");
 const supportsYarn = commandExistsSync("yarnpkg");
 const installer = supportsYarn ? "yarn" : "npm";
-const dashblingClientPackage =
-  process.env.DASHBLING_CLIENT_PACKAGE || "0.0.1-beta.16";
+const dashblingClientPackage = process.env.DASHBLING_CLIENT_PACKAGE || "^0";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
