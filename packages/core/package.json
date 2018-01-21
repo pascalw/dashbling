@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/core",
-  "version": "0.0.1-beta.16",
+  "version": "0.0.1",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "publishConfig": {
