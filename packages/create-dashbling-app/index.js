@@ -7,7 +7,7 @@ const supportsGit = commandExistsSync("git");
 const supportsYarn = commandExistsSync("yarnpkg");
 const installer = supportsYarn ? "yarn" : "npm";
 
-const dashblingVersion = "^0.0.1-beta.16";
+const dashblingVersion = "^0";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
