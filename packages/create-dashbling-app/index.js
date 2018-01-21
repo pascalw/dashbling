@@ -6,20 +6,15 @@ const Generator = require("yeoman-generator");
 const supportsGit = commandExistsSync("git");
 const supportsYarn = commandExistsSync("yarnpkg");
 const installer = supportsYarn ? "yarn" : "npm";
-const dashblingCorePackage =
-  process.env.DASHBLING_CORE_PACKAGE || "@dashbling/core";
-const dashblingBuildSupportPackage =
-  process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || "@dashbling/build-support";
-const dashblingClientPackage =
-  process.env.DASHBLING_CLIENT_PACKAGE || "@dashbling/client";
+
+const dashblingVersion = "^0.0.1-beta.16";
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
-    this.installDependency = supportsYarn ? this.yarnInstall : this.npmInstall;
-    this.devDependencyOption = supportsYarn
-      ? { dev: true }
-      : { "save-dev": true };
+    this.installDependencies = supportsYarn
+      ? this.yarnInstall
+      : this.npmInstall;
   }
 
   paths() {
@@ -34,13 +29,6 @@ module.exports = class extends Generator {
     ensureDirSync(this.destinationPath());
 
     this.spawnCommandSync(installer, ["init", "--yes"]);
-    this.installDependency([dashblingCorePackage, dashblingClientPackage], {
-      silent: true
-    });
-    this.installDependency([dashblingBuildSupportPackage], {
-      ...this.devDependencyOption,
-      silent: true
-    });
 
     const jsonPath = this.destinationPath("package.json");
     const json = readJsonSync(jsonPath);
@@ -50,7 +38,15 @@ module.exports = class extends Generator {
         build: "dashbling compile"
       },
       browserslist: "last 2 versions",
+      devDependencies: {
+        "@dashbling/build-support":
+          process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || dashblingVersion
+      },
       dependencies: {
+        "@dashbling/core":
+          process.env.DASHBLING_CORE_PACKAGE || dashblingVersion,
+        "@dashbling/client":
+          process.env.DASHBLING_CLIENT_PACKAGE || dashblingVersion,
         "dashbling-widget-weather": "^1.0.0"
       }
     });
@@ -72,6 +68,8 @@ module.exports = class extends Generator {
       this.templatePath("gitignore"),
       this.destinationPath(".gitignore")
     );
+
+    this.installDependencies();
   }
 
   end() {
