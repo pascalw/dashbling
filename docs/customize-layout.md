@@ -14,14 +14,14 @@ export default props => {
 };
 ```
 
-A layout is an object that specifies which class names are applied to certain DOM elements. The following keys are expected to be present in your layout:
+A layout is an object that specifies which class names are applied to certain DOM elements. The following keys should be present in your layout:
 
 * `dashboard` - this is the outer-most component in the Dashbling DOM.
 * `metaContainer` - this is the container holding the `last updated` information.
 * `widgetContainer` - this is the container containing the widgets.
 * `widget` - this class is applied to each widget.
 
-It's most convenient to create a custom layout using a CSS module. Simply create a a (S)CSS file somewhere:
+The suggested approach is to create a custom layout using a CSS module. Simply create a a (S)CSS file somewhere with:
 
 ```scss
 // myCustomLayout.scss

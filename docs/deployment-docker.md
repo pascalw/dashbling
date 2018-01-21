@@ -1,6 +1,6 @@
 # Deployment on Docker
 
-Dashbling dashboards ships with a Dockerfile.
+Dashbling dashboards ship with a Dockerfile.
 
 1. Build a Docker image:
 

@@ -23,16 +23,17 @@ Now open http://localhost:3000/ in your browser to see your dashboard.
 
 Note that Dashbling does not care about the directory structure at all, so adapt to your own taste!
 
-The guide below describes the process of developing your Dasbhbling dashboard.  
-There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo and a running [demo](https://dashbling.herokuapp.com/).
+The guide below describes the process of developing and running your Dashbling dashboard.  
+There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo, and a live [demo](https://dashbling.herokuapp.com/).
 
 **Deployment**
 
-For production usage it's recommended to precompile your dashboard. Running `yarn build` in the root of your project will compile the dashboard. Running `NODE_ENV=production yarn start` will make use of the compiled dashboard and disable all dev tools.
+For production use it's recommended to precompile your dashboard - you can do this by running `yarn build` from the root of your project.
+Running the server with `NODE_ENV=production yarn start` will make use of the compiled dashboard and disable all dev tools.
 
 **Writing a custom widget**
 
-Widgets in Dashbling are just React components. By convention widgets make use of the `@dashbling/client/Widget` component, to ensure consistent looking widgets and provide some often needed functionality out of the box. This however is not required; a widget can return any HTML desired!
+Widgets in Dashbling are just React components. By convention widgets make use of the `@dashbling/client/Widget` component, to ensure consistent looking widgets and provide some often needed functionality out of the box. This however is not required - a widget can return any HTML!
 
 Most widgets need data to display. In Dashbling, widget data is provided by React component props. A simple `Hello` widget might look like this:
 
@@ -54,6 +55,8 @@ Notice that the widget doesn't care where the data is coming from. All it knows 
 When using widgets in your dashboard you bind data to the widgets using the `connect` function:
 
 ```js
+import { connect } from "@dashbling/client/dashbling";
+
 const HelloWorld = connect("hello-world")(HelloWidget);
 
 export default props => {
@@ -65,22 +68,20 @@ export default props => {
 };
 ```
 
-As you can see here we defined that our `HelloWorld` widget should be fed with data from the `hello-world` event. What this means is that any time a `hello-world` event is sent by the Dashboard backend, the `HelloWorld` widget will automatically be updated with this data.
+Here we define that our `HelloWorld` widget should be fed with data from the `hello-world` event. This means that any time a `hello-world` event is sent by the Dashboard backend, the `HelloWorld` widget will automatically be updated with the event data.
 
-As mentioned before, Widgets are simply React components. This means that you can use any React component inside your widgets, for graphs, charts, progressbars etc.
-
-For more information about dashboard data and events, see below.
+As mentioned before, Widgets are simply React components. This means that you can use any React component inside your widgets, for graphs, charts, progress bars, etc.
 
 **Getting data into your dashboard**
 
-There are two ways to get data in your dashboard:
+There are 2 ways to get data in your dashboard:
 
 * Push data into your dashboard via HTTP
 * Pull data into your dashboard by using jobs
 
 **Pushing data into your dashboard**
 
-Pushing data requires a token for security reasons. Dashbling uses the configured `authToken`, or generates a random token if no token is configured.
+Pushing data requires a token for security reasons. Dashbling uses the configured `authToken`, or generates a random token (if none is configured).
 
 ```sh
 curl -XPOST -H "Content-Type: application/json" \
@@ -100,11 +101,9 @@ curl -XPOST -H "Content-Type: application/json" \
 
 **Pulling data into your dashboard - jobs**
 
-Besides pushing data can also be pulled into the dashboard.
+Dashbling supports `jobs` - functions that are invoked at specified intervals and expected to publish events.
 
-Dashbling supports `jobs`, which are basically functions that are invoked at specified intervals and are expected to publish events.
-
-A typical jobs looks something like this:
+A typical job looks something like this:
 
 ```js
 module.exports = async function myJob(sendEvent) {
@@ -130,14 +129,14 @@ module.exports = {
 };
 ```
 
-Each job should have a schedule (cron expression) and a function to run. Functions can also be defined inline if you want:
+Each job should have a schedule (cron expression) and a function to run. Functions can also be defined inline:
 
 ```js
 module.exports = {
   jobs: [
     {
       schedule: "*/5 * * * *",
-      fn: (sendEvent) => sendEvent("myEvent", { message: "hello world! " })
+      fn: sendEvent => sendEvent("myEvent", { message: "hello world! " })
     }
   ]
 };
@@ -148,7 +147,7 @@ A single job can also publish multiple events.
 
 **Pulling data into your dashboard - streams**
 
-Besides running jobs like above it's also possible to get direct access to the `sendEvent` function.
+Besides running scheduled jobs like above it's also possible to hold a reference to the `sendEvent` function from the start.
 This allows you to build any custom logic that pulls in data into your dashboard, for example using streams.
 
 To get access to the `sendEvent` function you can register an `onStart` function in the `dashbling.config.js`:

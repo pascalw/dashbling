@@ -11,10 +11,11 @@ Features:
 * Looks great out of the box, or fully adapt to your taste.
 * Great developer experience with hot reloading, ES2015+ and Sass.
 * Extensible build system powered by Webpack.
-* Can easily be hosted on Heroku, and platform supporting Docker.
+* Can easily be hosted on Heroku, or any platform supporting Docker.
 * Widgets can easily be shared via NPM packages.
 
 Follow [this guide](./docs/getstarted.md) to get started with your first Dashbling dashboard.  
 Read the full docs [here](./docs/).
 
 There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo and a running [demo](https://dashbling.herokuapp.com/).
+
