@@ -1,0 +1,23 @@
+{
+  "name": "@dashbling/create-widget",
+  "version": "0.0.1-beta.16",
+  "author": "Pascal Widdershoven",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "create-dashbling-widget": "./create-widget.js",
+    "create-widget": "./create-widget"
+  },
+  "dependencies": {
+    "command-exists": "^1.2.2",
+    "fs-extra": "^5.0.0",
+    "yargs": "^10.0.3",
+    "yeoman-environment": "^2.0.5",
+    "yeoman-generator": "^2.0.1"
+  },
+  "engines": {
+    "node": ">= 8.9.0"
+  }
+}
