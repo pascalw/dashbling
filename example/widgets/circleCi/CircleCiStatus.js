@@ -10,6 +10,7 @@ export const CircleCiStatus = props => {
     <Widget
       bgImage={require("./circleci.svg")}
       style={{ backgroundColor: bgColor(props) }}
+      href={props.buildUrl}
     >
       <LargeLabel>{props.repo}</LargeLabel>
       <MediumLabel>{props.outcome}</MediumLabel>

@@ -19,6 +19,7 @@
   right: 1em;
   left: 1em;
   opacity: 0.15;
+  pointer-events: none;
 }
 
 .inner {
@@ -45,4 +46,13 @@ span {
   display: block;
   width: 100%;
   text-align: center;
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
 }

@@ -16,12 +16,20 @@ export const Widget = (props, context) => {
     props.className ? " " + props.className : ""
   }`;
 
-  const children = props.title
+  let children = props.title
     ? [
         <MediumLabel>{props.title}</MediumLabel>,
         <div className={styles.inner}>{props.children}</div>
       ]
     : props.children;
+
+  if (props.href) {
+    children = (
+      <a href={props.href} className={styles.link} target="_blank">
+        {children}
+      </a>
+    );
+  }
 
   return (
     <div className={className} style={props.style}>

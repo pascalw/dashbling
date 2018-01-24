@@ -13,7 +13,8 @@ module.exports = (repo, eventId) =>
 
       const event = {
         repo: buildStatus.reponame,
-        outcome: buildStatus.outcome
+        outcome: buildStatus.outcome,
+        buildUrl: buildStatus.build_url
       };
 
       sendEvent(eventId, event);
