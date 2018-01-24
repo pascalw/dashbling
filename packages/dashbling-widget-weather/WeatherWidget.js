@@ -4,14 +4,6 @@ import { Climacon } from "./Climacon";
 
 import styles from "./styles.css";
 
-const YahooAttribution = ({ url }) => {
-  return (
-    <a href={url} target="_blank">
-      <img className={styles.yahooLogo} src={require("./yahoo.png")} />
-    </a>
-  );
-};
-
 const formatTemp = (temp, unit) => {
   return (temp && `${temp} °${unit}`) || "--";
 };
@@ -31,7 +23,7 @@ export const WeatherWidget = props => {
         <SmallLabel>{text}</SmallLabel>
       </div>
 
-      <YahooAttribution url={url} />
+      <img className={styles.yahooLogo} src={require("./yahoo.png")} />
     </Widget>
   );
 };
