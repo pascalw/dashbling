@@ -20,7 +20,7 @@ export const WeatherWidget = props => {
   const { title, temp, unit, climacon, text, url, ...restProps } = props;
 
   return (
-    <Widget className={styles.widget} {...restProps}>
+    <Widget className={styles.widget} {...restProps} href={url}>
       <MediumLabel>{title}</MediumLabel>
 
       <div className={styles.inner}>
