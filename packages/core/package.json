@@ -2,9 +2,14 @@
   "name": "@dashbling/core",
   "version": "0.0.2",
   "author": "Pascal Widdershoven",
+  "description": "Hackable React based dashboards for developers",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pascalw/dashbling.git"
   },
   "bin": {
     "dashbling": "./lib/cli.js"
