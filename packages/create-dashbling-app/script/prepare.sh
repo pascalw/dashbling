@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+cp ../../README.md .
+
 TEMPLATES_DIR=$(pwd)/templates
 [ -e "$TEMPLATES_DIR" ] && rm -r "$TEMPLATES_DIR"
 mkdir "$TEMPLATES_DIR"
@@ -12,5 +14,3 @@ cd ../../example && \
 
 # npm packages don't support .gitignore files :(
 mv "$TEMPLATES_DIR/.gitignore" "$TEMPLATES_DIR/gitignore"
-
-cp ../../README.md .
