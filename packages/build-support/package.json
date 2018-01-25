@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc -p .",
-    "prepare": "yarn run --silent build",
+    "prepare": "yarn run --silent build && cp ../../README.md .",
     "test": "yarn run --silent build && jest",
     "test:watch": "jest --watch"
   },

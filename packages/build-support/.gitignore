@@ -3,3 +3,4 @@
 /*.js.map
 !postcss.config.js
 !webpack.config.js
+README.md

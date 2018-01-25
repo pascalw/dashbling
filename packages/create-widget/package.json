@@ -15,6 +15,9 @@
     "create-dashbling-widget": "./create-widget.js",
     "create-widget": "./create-widget.js"
   },
+  "scripts": {
+    "prepare": "cp ../../README.md ."
+  },
   "dependencies": {
     "command-exists": "^1.2.2",
     "fs-extra": "^5.0.0",

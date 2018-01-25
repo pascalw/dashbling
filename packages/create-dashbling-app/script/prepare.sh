@@ -12,3 +12,5 @@ cd ../../example && \
 
 # npm packages don't support .gitignore files :(
 mv "$TEMPLATES_DIR/.gitignore" "$TEMPLATES_DIR/gitignore"
+
+cp ../../README.md .

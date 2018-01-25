@@ -19,4 +19,4 @@ Read the full docs [here](./docs/).
 
 There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo and a running [demo](https://dashbling.herokuapp.com/).
 
-![example](./example.png)
+![example](https://raw.githubusercontent.com/pascalw/dashbling/master/example.png)
