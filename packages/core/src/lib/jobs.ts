@@ -12,9 +12,15 @@ interface Job {
 
 let jobs: Job[] = [];
 
-const executeJob = (sendEvent: SendEvent) => (job: Job) => {
-  logger.debug("Executing job: %s", job.id || job.fn.name || "unknown");
-  job.fn(sendEvent);
+const executeJob = (sendEvent: SendEvent) => async (job: Job) => {
+  const jobId = job.id || job.fn.name || "unknown";
+  logger.debug("Executing job: %s", jobId);
+
+  try {
+    await job.fn(sendEvent);
+  } catch (e) {
+    console.warn(`Failed to execute job ${jobId}: ${e}`);
+  }
 };
 
 const scheduleJob = (sendEvent: SendEvent) => (job: Job) => {
