@@ -35,6 +35,14 @@ const createEventHistory = (config: ClientConfig) => {
   throw new Error(`Invalid eventHistory: ${config.eventHistory}`);
 };
 
+const installUnhandledRejectionHandler = (environment: string) => {
+  if (environment === "production") {
+    process.on("unhandledRejection", (reason, p) => {
+      console.warn("Unhandled Rejection at:", p, "reason:", reason);
+    });
+  }
+};
+
 export const start = async (projectPath: string, eventBus?: EventBus) => {
   const clientConfig: ClientConfig = load(projectPath);
   const environment = process.env.NODE_ENV || "production";
@@ -58,6 +66,8 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
 
   await server.initialize();
   await server.start();
+
+  installUnhandledRejectionHandler(environment);
 
   logger.info("Server running at: %s", server.info.uri);
   return server;
