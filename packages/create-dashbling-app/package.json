@@ -17,7 +17,7 @@
   },
   "scripts": {
     "prepare": "./script/prepare.sh",
-    "test:e2e": "./test.sh"
+    "test:e2e": "node ./test.js"
   },
   "dependencies": {
     "command-exists": "^1.2.2",
