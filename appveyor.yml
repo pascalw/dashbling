@@ -24,7 +24,6 @@ cache:
   - node_modules -> yarn.lock
 
 test_script:
-  - yarn prettier --list-different
   - yarn test
   - yarn test:e2e
 
