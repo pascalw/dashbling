@@ -1,1 +1,32 @@
-../build-support/.babelrc
+{
+  "presets": [
+    "@babel/react",
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread"
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        "@babel/react",
+        [
+          "@babel/preset-env",
+          {
+            "modules": "commonjs",
+            "useBuiltIns": "usage",
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}
