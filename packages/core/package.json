@@ -18,7 +18,6 @@
     "dev": "NODE_ENV=development nodemon --config ./nodemon.json --watch src/ --exec 'bash -c' 'cd example && ts-node ../src/cli.ts start'",
     "test": "yarn run --silent build && jest",
     "test:watch": "jest --watch",
-    "test:e2e": "./script/e2e-tests.sh",
     "build": "./node_modules/.bin/tsc -p .",
     "prepare": "yarn run --silent build && chmod +x lib/cli.js && cp ../../README.md ."
   },

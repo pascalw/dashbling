@@ -16,7 +16,7 @@
     "create-dashboard": "./create-dashboard.js"
   },
   "scripts": {
-    "prepare": "./script/prepare.sh",
+    "prepare": "node ./script/prepare.js",
     "test:e2e": "node ./test.js"
   },
   "dependencies": {
