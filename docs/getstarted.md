@@ -8,6 +8,8 @@ cd my-dashboard
 yarn start # or `npm start`
 ```
 
+**Note: current versions of Yarn do not support `yarn create` with scoped packages. Use `npx` instead if `yarn create` doesn't work. Dependencies will still be managed by Yarn if `yarn` is in your `$PATH`.
+
 Now open http://localhost:3000/ in your browser to see your dashboard.
 
 **Files and directories**
