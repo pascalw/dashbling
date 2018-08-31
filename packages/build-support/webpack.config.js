@@ -6,7 +6,7 @@ const Clean = require("clean-webpack-plugin");
 const exclude = modulePath => {
   return (
     /node_modules/.test(modulePath) &&
-    !/node_modules\/@dashbling/.test(modulePath) &&
+    !/node_modules\/@dashbling\/(?!node_modules)/.test(modulePath) &&
     !/node_modules\/.*?dashbling-widget.*/.test(modulePath)
   );
 };
