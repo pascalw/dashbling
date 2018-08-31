@@ -40,3 +40,14 @@ workflows:
     jobs:
       - "node-8.9"
       - "node-9"
+  nightly:
+    jobs:
+      - "node-8.9"
+      - "node-9"
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
