@@ -1,11 +1,11 @@
 {
   "name": "dashbling-widget-weather",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "main": "WeatherWidget.js",
   "author": "Pascal Widdershoven",
   "license": "MIT",
   "devDependencies": {
-    "@dashbling/client": "^0.1.2"
+    "@dashbling/client": "^0.1.3"
   },
   "dependencies": {
     "node-fetch": "^1.7.3"
