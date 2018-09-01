@@ -18,13 +18,13 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.34",
-    "@babel/plugin-proposal-object-rest-spread": "7.0.0-beta.34",
-    "@babel/preset-env": "^7.0.0-beta.34",
-    "@babel/preset-react": "^7.0.0-beta.34",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "@dashbling/core": "^0.1.2",
     "autoprefixer": "^7.1.6",
-    "babel-loader": "^8.0.0-beta.0",
+    "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.17",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.5",
