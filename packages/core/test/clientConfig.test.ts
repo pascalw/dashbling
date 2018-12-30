@@ -44,6 +44,16 @@ test("validates onStart", () => {
   expect(error).toMatch(/Invalid 'onStart'/);
 });
 
+test("validates configureServer", () => {
+  const config = {
+    ...basicValidConfig,
+    configureServer: "wrong type"
+  };
+
+  const error = parseAndExtractError(config);
+  expect(error).toMatch(/Invalid 'configureServer'/);
+});
+
 test("throws if passed invalid cron expression", () => {
   const raw = {
     ...basicValidConfig,

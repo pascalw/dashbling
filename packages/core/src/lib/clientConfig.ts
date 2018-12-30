@@ -29,6 +29,7 @@ export interface ClientConfig {
   readonly projectPath: string;
   readonly jobs: JobConfig[];
   readonly onStart: (sendEvent: SendEvent) => void;
+  readonly configureServer: (server: any) => Promise<void>;
   readonly webpackConfig: (defaultConfig: any) => any;
   readonly eventHistory: Promise<EventHistory>;
 
@@ -42,6 +43,7 @@ const DEFAULTS: { [key: string]: any } = {
   port: 3000,
   forceHttps: false,
   onStart: () => {},
+  configureServer: () => Promise.resolve(),
   webpackConfig: (config: any) => config,
   authToken: () => {
     const token = generateAuthToken();
@@ -168,6 +170,10 @@ export const parse = (
     throw error("onStart", "a function", input.onStart);
   }
 
+  if (input.configureServer != null && !isFunction(input.configureServer)) {
+    throw error("configureServer", "a function", input.configureServer);
+  }
+
   if (input.webpackConfig != null && !isFunction(input.webpackConfig)) {
     throw error("webpackConfig", "a function", input.webpackConfig);
   }
@@ -185,6 +191,7 @@ export const parse = (
   return {
     projectPath: projectPath,
     onStart: input.onStart || DEFAULTS.onStart,
+    configureServer: input.configureServer || DEFAULTS.configureServer,
     webpackConfig: input.webpackConfig || DEFAULTS.webpackConfig,
     jobs: input.jobs,
     forceHttps: loadConfigOption("forceHttps", tryParseBool),

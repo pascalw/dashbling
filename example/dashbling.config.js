@@ -20,6 +20,22 @@ module.exports = {
     // start custom code that sends events here,
     // for example listen to streams etc.
   },
+  configureServer: hapiServer => {
+    // Configure the Hapi server here.
+    // See https://hapijs.com/api/17.1.1 docs for details.
+    // This is only needed for more advanced use cases.
+    hapiServer.route({
+      method: "GET",
+      path: "/ping",
+      handler: (_request, _h) => {
+        return "pong";
+      }
+    });
+
+    // Be sure to return a Promise, so the initialization process
+    // waits for this configuration to be completed.
+    return Promise.resolve();
+  },
   eventHistory: createFileHistory(eventHistoryPath),
   forceHttps: false,
   jobs: [
