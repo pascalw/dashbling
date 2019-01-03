@@ -181,6 +181,22 @@ test("calls config.onStart", async () => {
   expect(publishSpy).toHaveBeenCalledWith("myEvent", {});
 });
 
+test("calls config.configureServer", async () => {
+  const eventBus = await createEventBus();
+
+  dashblingConfig.configureServer = jest.fn((server: any) => {
+    expect(server.route).not.toBeUndefined();
+    return Promise.resolve();
+  });
+
+  serverInstance = await server.start(
+    path.join(__dirname, "..", "fixture"),
+    eventBus
+  );
+
+  expect(dashblingConfig.configureServer).toHaveBeenCalled();
+});
+
 describe("forcing https", () => {
   test("supports forcing https", async () => {
     dashblingConfig.forceHttps = true;

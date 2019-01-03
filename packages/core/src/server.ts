@@ -62,7 +62,9 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
 
   const sendEvent = eventBus.publish.bind(eventBus);
   jobs.start(clientConfig, sendEvent);
+
   clientConfig.onStart(sendEvent);
+  await clientConfig.configureServer(server);
 
   await server.initialize();
   await server.start();
