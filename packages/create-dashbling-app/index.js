@@ -47,7 +47,7 @@ module.exports = class extends Generator {
           process.env.DASHBLING_CORE_PACKAGE || dashblingVersion,
         "@dashbling/client":
           process.env.DASHBLING_CLIENT_PACKAGE || dashblingVersion,
-        "dashbling-widget-weather": "^1.0.0"
+        "dashbling-widget-weather": "^2.0.0"
       }
     });
 

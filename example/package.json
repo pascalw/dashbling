@@ -10,6 +10,6 @@
   },
   "browserslist": "last 2 versions",
   "dependencies": {
-    "dashbling-widget-weather": "^1.0.0"
+    "dashbling-widget-weather": "^2.0.0"
   }
 }
