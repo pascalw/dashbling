@@ -51,7 +51,11 @@ module.exports = {
     },
     {
       schedule: "*/30 * * * *",
-      fn: require("dashbling-widget-weather/job")("weather-amsterdam", "727232")
+      fn: require("dashbling-widget-weather/job")(
+        "weather-amsterdam",
+        process.env.OPEN_WEATHER_MAP_APP_ID,
+        "2759794"
+      )
     }
   ]
 };

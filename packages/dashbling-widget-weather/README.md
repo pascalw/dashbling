@@ -2,6 +2,11 @@
 
 This is a widget for Dashbling, displaying local Weather information.
 
+Weather information is provided by [OpenWeatherMap](https://openweathermap.org/).
+This widget requires a (free) OpenWeatherMap API key. Register at https://openweathermap.org/appid.
+
+## Usage
+
 Add to your project:
 
 ```sh
@@ -17,8 +22,9 @@ module.exports = {
         {
             schedule: "*/30 * * * *",
             fn: require("dashbling-widget-weather/job")(
-                "weather-amsterdam",
-                "727232"
+                "weather-amsterdam", // event id
+                "YOUR OPENWEATHERMAP APPID HERE",
+                "2759794" // city id
             )
         }
     ]

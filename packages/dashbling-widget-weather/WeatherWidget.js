@@ -5,7 +5,7 @@ import { Climacon } from "./Climacon";
 import styles from "./styles.css";
 
 const formatTemp = (temp, unit) => {
-  return (temp && `${temp} °${unit}`) || "--";
+  return (temp && `${temp} ${unit}`) || "--";
 };
 
 export const WeatherWidget = props => {
@@ -23,7 +23,7 @@ export const WeatherWidget = props => {
         <SmallLabel>{text}</SmallLabel>
       </div>
 
-      <img className={styles.yahooLogo} src={require("./yahoo.png")} />
+      <img className={styles.logo} src={require("./logo_OpenWeatherMap.svg")} />
     </Widget>
   );
 };
