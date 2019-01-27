@@ -12,7 +12,7 @@ shared: &shared
         - v1-dependencies-
 
     - run: npm config set unsafe-perm=true
-    - run: yarn install && yarn lerna bootstrap
+    - run: yarn install
 
     - save_cache:
         paths:
