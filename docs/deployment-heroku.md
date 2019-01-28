@@ -21,5 +21,3 @@ web: yarn start
 
 3. Commit your changes to and push to Heroku.
 4. You're done!
-
-[1] This is required because Heroku doesn't install `devDependencies`.
