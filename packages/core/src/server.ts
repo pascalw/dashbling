@@ -48,7 +48,7 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   const environment = process.env.NODE_ENV || "production";
 
   const history = await createEventHistory(clientConfig);
-  eventBus = eventBus || new EventBus(history);
+  eventBus = eventBus || new EventBus(history, clientConfig.eventReducer);
 
   const server = new Hapi.Server({
     port: clientConfig.port

@@ -1,4 +1,4 @@
-import { EventBus } from "../src/lib/eventBus";
+import { EventBus, defaultReducer } from "../src/lib/eventBus";
 import { mockDate, restoreDate } from "./utils";
 import { createHistory } from "../src/lib/InMemoryEventHistory";
 
@@ -17,7 +17,7 @@ test("sends events to all subscribers", async () => {
   const subscriber2 = jest.fn();
 
   const history = await createHistory();
-  const eventBus = new EventBus(history);
+  const eventBus = new EventBus(history, defaultReducer);
 
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
@@ -36,11 +36,31 @@ test("sends events to all subscribers", async () => {
   });
 });
 
+test("passes the event data to the reducer", async () => {
+  const subscriber1 = jest.fn();
+  const history = await createHistory();
+
+  const reducer = (_id: string, _previousState: any, eventData: any) => {
+    return { wrapped: eventData };
+  };
+
+  const eventBus = new EventBus(history, reducer);
+
+  eventBus.subscribe(subscriber1);
+  await eventBus.publish("myEvent", { arg: "1" });
+
+  expect(subscriber1).toBeCalledWith({
+    id: "myEvent",
+    data: { wrapped: { arg: "1" } },
+    updatedAt: NOW
+  });
+});
+
 test("replays previously received events", async () => {
   const subscriber = jest.fn();
 
   const history = await createHistory();
-  const eventBus = new EventBus(history);
+  const eventBus = new EventBus(history, defaultReducer);
 
   await eventBus.publish("myEvent", { arg: "1" });
   await eventBus.publish("myEvent", { arg: "2" }); // last per id is replayed
@@ -66,7 +86,7 @@ test("stops sending events after unsubscribe", async () => {
   const subscriber2 = jest.fn();
 
   const history = await createHistory();
-  const eventBus = new EventBus(history);
+  const eventBus = new EventBus(history, defaultReducer);
 
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
