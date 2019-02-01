@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/build-support",
-  "version": "0.2.1",
+  "version": "0.3.0-1",
   "author": "Pascal Widdershoven",
   "description": "Hackable React based dashboards for developers",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "@babel/plugin-proposal-object-rest-spread": "7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@dashbling/core": "^0.2.1",
+    "@dashbling/core": "^0.3.0-1",
     "autoprefixer": "^7.1.6",
     "babel-loader": "^8.0.0",
     "clean-webpack-plugin": "^0.1.17",
