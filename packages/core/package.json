@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
-    "jest": "^21.2.1",
+    "jest": "^24",
     "nodemon": "^1.13.3",
     "ts-jest": "^21.2.4",
     "ts-node": "^3.3.0",
@@ -59,7 +59,6 @@
       "tsx",
       "js",
       "jsx"
-    ],
-    "silent": true
+    ]
   }
 }
