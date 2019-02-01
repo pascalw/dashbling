@@ -16,6 +16,15 @@ module.exports = projectPath => {
   const isProd = env === "production";
   const out = path.join(projectPath, "./dist");
 
+  const optimization = {
+    splitChunks: isProd && { chunks: "all" },
+    minimize: isProd,
+    // prints more readable module names in the browser console on HMR updates, in dev
+    namedModules: !isProd,
+    // prevent emitting assets with errors, in dev
+    noEmitOnErrors: !isProd
+  };
+
   const plugins = [
     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify(env) }),
     new Clean([out], { root: projectPath }),
@@ -31,12 +40,7 @@ module.exports = projectPath => {
     })
   ];
 
-  if (isProd) {
-    plugins.push(
-      new webpack.LoaderOptionsPlugin({ minimize: true, debug: false }),
-      new webpack.optimize.UglifyJsPlugin()
-    );
-  } else {
+  if (!isProd) {
     // dev only
     plugins.push(
       new webpack.HotModuleReplacementPlugin(),
@@ -46,6 +50,7 @@ module.exports = projectPath => {
   }
 
   return {
+    mode: isProd ? "production" : "development",
     entry: {
       app: [
         path.join(projectPath, "./index.js"),
@@ -97,7 +102,8 @@ module.exports = projectPath => {
         }
       ]
     },
-    plugins: plugins,
+    plugins,
+    optimization,
     devtool: !isProd && "cheap-module-source-map"
   };
 };

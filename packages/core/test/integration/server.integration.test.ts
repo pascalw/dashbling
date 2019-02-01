@@ -10,9 +10,11 @@ import fetch from "node-fetch";
 const dashblingConfig = require("../fixture/dashbling.config");
 const originalConfig = Object.assign({}, dashblingConfig);
 
-let serverInstance;
+let serverInstance: any;
 
-const extractEvents = onEvent => response => {
+const extractEvents = (onEvent: ((event: any) => void)) => (
+  response: http.IncomingMessage
+) => {
   response.on("data", data => {
     const stringData = data.toString();
     if (stringData.startsWith("data:")) {
@@ -59,7 +61,7 @@ test("sends events over /events stream", async () => {
   );
   eventBus.publish("myEvent", { some: "arg" });
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     const req = http.get(
       "http://127.0.0.1:12345/events",
       extractEvents(event => {
@@ -84,7 +86,7 @@ describe("receiving events over HTTP", () => {
       eventBus
     );
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       eventBus.subscribe(event => {
         expect(event).toEqual({
           id: "myEvent",
@@ -118,7 +120,7 @@ describe("receiving events over HTTP", () => {
       eventBus
     );
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _reject) => {
       eventBus.subscribe(event => {
         expect(event).toEqual({
           id: "myEvent",

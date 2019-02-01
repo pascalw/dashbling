@@ -5,6 +5,6 @@ const style = {
   flexWrap: "wrap"
 };
 
-export default function(props) {
+export const Flex = props => {
   return <div style={style}>{props.children}</div>;
-}
+};
