@@ -21,7 +21,7 @@ A layout is an object that specifies which class names are applied to certain DO
 * `widgetContainer` - this is the container containing the widgets.
 * `widget` - this class is applied to each widget.
 
-The suggested approach is to create a custom layout using a CSS module. Create a a (S)CSS file somewhere with:
+The suggested approach is to create a custom layout using a CSS module. Create a (S)CSS file somewhere with:
 
 ```scss
 // myCustomLayout.scss
