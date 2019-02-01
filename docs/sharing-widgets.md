@@ -5,7 +5,7 @@ Widgets can be shared via NPM packages.
 Dashbling provides a generator to create a new widget package. Run it with:
 
 ```sh
-yarn create @dashbling/widget ~/Code/my-dashbling-widget
+yarn create @dashbling/widget ~/Code/my-widget
 # or
 npx @dashbling/create-widget my-widget
 ```

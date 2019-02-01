@@ -2,7 +2,7 @@
 
 By default, Dashbling uses a [Flexbox based layout](https://github.com/pascalw/dashbling/blob/master/packages/client/layouts/FlexLayout.scss).
 
-If this doesn't suit your needs however it's possible to use a different layout by passing it to your `Dashboard` instance:
+However, if this doesn't suit your needs it's possible to use a different layout by passing it to your `Dashboard` instance:
 
 ```js
 export default props => {
@@ -21,7 +21,7 @@ A layout is an object that specifies which class names are applied to certain DO
 * `widgetContainer` - this is the container containing the widgets.
 * `widget` - this class is applied to each widget.
 
-The suggested approach is to create a custom layout using a CSS module. Simply create a a (S)CSS file somewhere with:
+The suggested approach is to create a custom layout using a CSS module. Create a (S)CSS file somewhere with:
 
 ```scss
 // myCustomLayout.scss
@@ -60,7 +60,7 @@ export default props => {
 };
 ```
 
-For example a 3 column grid layout could look like this:
+For example a three column grid layout could look like this:
 
 ```scss
 $base-widget-size: 300px;
