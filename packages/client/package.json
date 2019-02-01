@@ -29,16 +29,17 @@
     "react-dom": "^16.2.0"
   },
   "engines": {
-    "node": ">= 8.9.0"
+    "node": ">= 10"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0",
     "@dashbling/build-support": "^0.2.1",
-    "babel-core": "^7.0.0-0",
-    "babel-jest": "^21.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^24",
+    "jest": "^23",
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"

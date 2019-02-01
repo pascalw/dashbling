@@ -25,25 +25,25 @@ shared: &shared
 
 
 jobs:
-  "node-8.9":
+  "node-10":
     <<: *shared
     docker:
-      - image: node:8.9
-  "node-9":
+      - image: node:10
+  "node-11":
     <<: *shared
     docker:
-      - image: node:9
+      - image: node:11
 
 workflows:
   version: 2
   build:
     jobs:
-      - "node-8.9"
-      - "node-9"
+      - "node-10"
+      - "node-11"
   nightly:
     jobs:
-      - "node-8.9"
-      - "node-9"
+      - "node-10"
+      - "node-11"
     triggers:
       - schedule:
           cron: "0 0 * * *"

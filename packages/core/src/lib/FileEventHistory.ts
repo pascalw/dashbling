@@ -12,18 +12,17 @@ class FileEventHistory implements EventHistory {
   private historyFile: string;
 
   static async create(historyFile: string): Promise<FileEventHistory> {
-    const history = new FileEventHistory(historyFile);
+    const inMemoryHistory = await createInMemoryHistory();
+
+    const history = new FileEventHistory(historyFile, inMemoryHistory);
     await history.loadHistory();
 
     return history;
   }
 
-  private constructor(historyFile: string) {
+  private constructor(historyFile: string, inMemoryHistory: EventHistory) {
     this.historyFile = historyFile;
-
-    createInMemoryHistory().then(h => {
-      this.inMemoryHistory = h;
-    });
+    this.inMemoryHistory = inMemoryHistory;
   }
 
   async put(id: string, event: Event) {

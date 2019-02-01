@@ -38,16 +38,17 @@
     "tracer": "^0.8.11"
   },
   "engines": {
-    "node": ">= 8.9.0"
+    "node": ">= 10"
   },
   "devDependencies": {
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
-    "jest": "^24",
-    "nodemon": "^1.13.3",
-    "ts-jest": "^21.2.4",
+    "@types/node-fetch": "^2.1.4",
+    "jest": "^23",
+    "nodemon": "^1.18.9",
+    "ts-jest": "^23.10.5",
     "ts-node": "^3.3.0",
-    "typescript": "^2.6.2"
+    "typescript": "^3.3.1"
   },
   "jest": {
     "transform": {
