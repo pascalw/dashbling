@@ -6,10 +6,6 @@ class MongoDbHistory {
     this.db = this.mongo.db();
   }
 
-  async disconnect() {
-    return this.mongo.close();
-  }
-
   put(id, eventData) {
     return this._collection().replaceOne(
       { _id: id },
@@ -48,7 +44,9 @@ module.exports.createHistory = async mongoUrl => {
     useNewUrlParser: true,
     w: "majority"
   });
+
   await client.connect();
+  process.on("exit", client.close.bind(client));
 
   return new MongoDbHistory(client);
 };
