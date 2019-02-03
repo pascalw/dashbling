@@ -1,0 +1,24 @@
+{
+  "name": "@dashbling/mongodb-history",
+  "version": "1.0.0",
+  "main": "mongodb-history.js",
+  "author": "Pascal Widdershoven",
+  "description": "Hackable React based dashboards for developers",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pascalw/dashbling.git"
+  },
+  "dependencies": {
+    "mongodb": "^3.1.13"
+  },
+  "peerDependencies": {
+    "@dashbling/core": "^0.2.1"
+  },
+  "devDependencies": {
+    "@dashbling/core": "^0.2.1"
+  }
+}
