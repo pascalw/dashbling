@@ -1,21 +1,8 @@
 const { createFileHistory } = require("@dashbling/core/history");
-const {
-  createHistory: createMongoHistory
-} = require("@dashbling/mongodb-history");
 const eventHistoryPath = require("path").join(
   process.cwd(),
   "dashbling-events"
 );
-
-const history = () => {
-  if (process.env.MONGODB_URI) {
-    console.log("Using MongoDB history storage.");
-    return createMongoHistory(process.env.MONGODB_URI);
-  } else {
-    console.log("Using filesystem history storage.");
-    return createFileHistory(eventHistoryPath);
-  }
-};
 
 module.exports = {
   webpackConfig: config => {
@@ -45,7 +32,7 @@ module.exports = {
       }
     });
   },
-  eventHistory: history(),
+  eventHistory: createFileHistory(eventHistoryPath),
   forceHttps: false,
   jobs: [
     {
