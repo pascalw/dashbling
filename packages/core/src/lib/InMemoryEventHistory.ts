@@ -8,7 +8,11 @@ class InMemoryEventHistory implements EventHistory {
     this.history[id] = event;
   }
 
-  get(): Event[] {
+  async get(id: string) {
+    return this.history[id];
+  }
+
+  async getAll(): Promise<Event[]> {
     return Object.values(this.history);
   }
 }

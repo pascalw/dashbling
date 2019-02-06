@@ -14,23 +14,42 @@ test("stores latest event per id", async () => {
     data: { first: "event" },
     updatedAt: new Date()
   };
-  history.put("myEvent", myEvent1);
+  await history.put("myEvent", myEvent1);
+  let events = await history.getAll();
 
-  expect(history.get()).toEqual([myEvent1]);
+  expect(events).toEqual([myEvent1]);
 
   const myEvent2 = {
     id: "myEvent",
     data: { second: "event" },
     updatedAt: new Date()
   };
-  history.put("myEvent", myEvent2);
+  await history.put("myEvent", myEvent2);
 
-  expect(history.get()).toEqual([myEvent2]);
+  events = await history.getAll();
+  expect(events).toEqual([myEvent2]);
 
   const anotherEvent = { id: "anotherEvent", data: {}, updatedAt: new Date() };
-  history.put("anotherEvent", anotherEvent);
+  await history.put("anotherEvent", anotherEvent);
 
-  expect(history.get()).toEqual([myEvent2, anotherEvent]);
+  events = await history.getAll();
+  expect(events).toEqual([myEvent2, anotherEvent]);
+});
+
+test("get event data by id", async () => {
+  const historyPath = await mkTempFile("history");
+  const history = await createHistory(historyPath);
+
+  const myEvent = {
+    id: "myEvent",
+    data: { first: "event" },
+    updatedAt: new Date()
+  };
+
+  await history.put("myEvent", myEvent);
+  const eventFromHistory = await history.get("myEvent");
+
+  expect(eventFromHistory).toEqual(myEvent);
 });
 
 test("writes events to file", async () => {
@@ -60,13 +79,15 @@ test("reads initial history from file", async () => {
   await history1.put("myEvent", myEvent1);
 
   const history2 = await createHistory(historyPath);
-  expect(history2.get()).toEqual([myEvent1]);
+  let events = await history2.getAll();
+
+  expect(events).toEqual([myEvent1]);
 });
 
 test("creates history file if it doesnt exist", async () => {
   const tmpDir = await mkTempDir();
   const historyPath = path.join(tmpDir, "doesntexist");
-  const history = await createHistory(historyPath);
+  const _ = await createHistory(historyPath);
 
   expect(fs.accessSync(historyPath)).toBeTruthy;
 });

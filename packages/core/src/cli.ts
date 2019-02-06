@@ -2,7 +2,7 @@
 import * as server from "./server";
 import logger from "./lib/logger";
 import * as program from "commander";
-import { ClientConfig, load } from "./lib/clientConfig";
+import { load } from "./lib/clientConfig";
 program.version(require("../package.json").version);
 
 const projectPath = process.cwd();
@@ -36,6 +36,8 @@ program.command("compile").action(async () => {
 
     if (stats.hasErrors()) {
       process.exit(1);
+    } else {
+      process.exit(0);
     }
   } catch (e) {
     console.error(e);

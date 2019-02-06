@@ -22,7 +22,7 @@ test("sends events to all subscribers", async () => {
   eventBus.subscribe(subscriber1);
   eventBus.subscribe(subscriber2);
 
-  eventBus.publish("myEvent", { arg: "1" });
+  await eventBus.publish("myEvent", { arg: "1" });
 
   expect(subscriber1).toBeCalledWith({
     id: "myEvent",
@@ -42,12 +42,12 @@ test("replays previously received events", async () => {
   const history = await createHistory();
   const eventBus = new EventBus(history);
 
-  eventBus.publish("myEvent", { arg: "1" });
-  eventBus.publish("myEvent", { arg: "2" }); // last per id is replayed
-  eventBus.publish("myOtherEvent", { arg: "3" });
+  await eventBus.publish("myEvent", { arg: "1" });
+  await eventBus.publish("myEvent", { arg: "2" }); // last per id is replayed
+  await eventBus.publish("myOtherEvent", { arg: "3" });
 
   eventBus.subscribe(subscriber);
-  eventBus.replayHistory(subscriber);
+  await eventBus.replayHistory(subscriber);
 
   expect(subscriber).toBeCalledWith({
     id: "myEvent",
@@ -72,7 +72,7 @@ test("stops sending events after unsubscribe", async () => {
   eventBus.subscribe(subscriber2);
   eventBus.unsubscribe(subscriber1);
 
-  eventBus.publish("myEvent", { arg: "1" });
+  await eventBus.publish("myEvent", { arg: "1" });
 
   expect(subscriber2).toBeCalledWith({
     id: "myEvent",
