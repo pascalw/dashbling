@@ -6,8 +6,8 @@ export interface Subscriber {
 }
 
 export class EventBus {
-  subscribers: Subscriber[];
-  history: EventHistory;
+  private subscribers: Subscriber[];
+  private history: EventHistory;
 
   constructor(history: EventHistory) {
     this.subscribers = [];
@@ -23,14 +23,14 @@ export class EventBus {
     this.subscribers.splice(idx, 1);
   }
 
-  publish(id: string, data: any) {
+  async publish(id: string, data: any) {
     const event: Event = { id, data, updatedAt: new Date(Date.now()) };
     this.subscribers.forEach(subscriber => subscriber(event));
-
-    this.history.put(event.id, event);
+    return this.history.put(id, event);
   }
 
-  replayHistory(subscriber: Subscriber) {
-    this.history.get().forEach(event => subscriber(event));
+  async replayHistory(subscriber: Subscriber) {
+    const events = await this.history.getAll();
+    events.forEach(event => subscriber(event));
   }
 }
