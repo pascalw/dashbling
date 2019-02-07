@@ -6,7 +6,7 @@ An `EventReducer` looks like this:
 
 ```typescript
 interface Reducer {
-  (eventId: string, previousState: any | null, eventData: any): any;
+  (eventId: string, previousState: any | undefined, eventData: any): any;
 }
 ```
 
@@ -33,7 +33,7 @@ const event = {
 And you want to aggregate all events, you might define a reducer like this:
 
 ```javascript
-eventReducer: (id, eventState, event) => {
+eventReducer: (id, eventState = {}, event) => {
     switch (id) {
       case "hello":
         if (eventState.names) {
