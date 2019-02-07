@@ -36,23 +36,40 @@ test("sends events to all subscribers", async () => {
   });
 });
 
-test("passes the event data to the reducer", async () => {
-  const subscriber1 = jest.fn();
-  const history = await createHistory();
+describe("event reducing", () => {
+  test("passes the event data to the reducer", async () => {
+    const subscriber1 = jest.fn();
+    const history = await createHistory();
 
-  const reducer = (_id: string, _previousState: any, eventData: any) => {
-    return { wrapped: eventData };
-  };
+    const reducer = (_id: string, _previousState: any, eventData: any) => {
+      return { wrapped: eventData };
+    };
 
-  const eventBus = new EventBus(history, reducer);
+    const eventBus = new EventBus(history, reducer);
 
-  eventBus.subscribe(subscriber1);
-  await eventBus.publish("myEvent", { arg: "1" });
+    eventBus.subscribe(subscriber1);
+    await eventBus.publish("myEvent", { arg: "1" });
 
-  expect(subscriber1).toBeCalledWith({
-    id: "myEvent",
-    data: { wrapped: { arg: "1" } },
-    updatedAt: NOW
+    expect(subscriber1).toBeCalledWith({
+      id: "myEvent",
+      data: { wrapped: { arg: "1" } },
+      updatedAt: NOW
+    });
+  });
+
+  test("previousState is undefined if no previousState was stored", async () => {
+    const previousStateSpy = jest.fn();
+    const history = await createHistory();
+
+    const reducer = (_id: string, previousState: any, eventData: any) => {
+      previousStateSpy(previousState);
+      return eventData;
+    };
+
+    const eventBus = new EventBus(history, reducer);
+    await eventBus.publish("myEvent", { arg: "1" });
+
+    expect(previousStateSpy).toBeCalledWith(undefined);
   });
 });
 

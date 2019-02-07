@@ -6,12 +6,12 @@ export interface Subscriber {
 }
 
 export interface Reducer {
-  (eventId: string, previousState: any | null, eventData: any): any;
+  (eventId: string, previousState: any | undefined, eventData: any): any;
 }
 
 export const defaultReducer: Reducer = (
   _id: string,
-  _oldState: any | null,
+  _previousState: any | undefined,
   event: any
 ): any => {
   return event;
@@ -43,7 +43,7 @@ export class EventBus {
 
   async publish(id: string, data: any) {
     const previousState = await this.history.get(id);
-    const previousData = previousState == null ? null : previousState.data;
+    const previousData = previousState ? previousState.data : undefined;
 
     const reducedData = this.reducer(id, previousData, data);
     const event: Event = {
