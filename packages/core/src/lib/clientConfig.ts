@@ -4,6 +4,7 @@ import logger from "./logger";
 import { generate as generateAuthToken } from "./authToken";
 import { SendEvent } from "./sendEvent";
 import { EventHistory } from "./EventHistory";
+import { Reducer, defaultReducer } from "./eventBus";
 
 interface ConfigSource {
   get: (option: string) => any;
@@ -32,6 +33,7 @@ export interface ClientConfig {
   readonly configureServer: (server: any) => Promise<void>;
   readonly webpackConfig: (defaultConfig: any) => any;
   readonly eventHistory: Promise<EventHistory>;
+  readonly eventReducer: Reducer;
 
   readonly forceHttps: boolean;
   readonly port: number;
@@ -54,7 +56,8 @@ const DEFAULTS: { [key: string]: any } = {
     );
 
     return token;
-  }
+  },
+  eventReducer: defaultReducer
 };
 
 const error = (name: string, expectation: string, actualValue: any): Error => {
@@ -179,7 +182,11 @@ export const parse = (
   }
 
   if (!(input.eventHistory instanceof Promise)) {
-    throw error("eventHistory", "`a Promise<EventHistory>", input.eventHistory);
+    throw error("eventHistory", "a Promise<EventHistory>", input.eventHistory);
+  }
+
+  if (input.eventReducer != null && !isFunction(input.eventReducer)) {
+    throw error("eventReducer", "a function", input.eventReducer);
   }
 
   const loadConfigOption = getConfigOption([
@@ -193,6 +200,7 @@ export const parse = (
     onStart: input.onStart || DEFAULTS.onStart,
     configureServer: input.configureServer || DEFAULTS.configureServer,
     webpackConfig: input.webpackConfig || DEFAULTS.webpackConfig,
+    eventReducer: input.eventReducer || DEFAULTS.eventReducer,
     jobs: input.jobs,
     forceHttps: loadConfigOption("forceHttps", tryParseBool),
     port: loadConfigOption("port", tryParseNumber),

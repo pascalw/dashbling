@@ -1,5 +1,6 @@
 import * as path from "path";
 import { ClientConfig, parse, load } from "../src/lib/clientConfig";
+import { defaultReducer } from "../src/lib/eventBus";
 
 const projectPath = "/fake";
 const basicValidConfig = {
@@ -156,6 +157,23 @@ describe("webpackConfig", () => {
 
     const error = parseAndExtractError(rawConfig);
     expect(error).toMatch(/webpackConfig/);
+  });
+});
+
+describe("eventReducer", () => {
+  test("defaults to defaultReducer", () => {
+    const config: ClientConfig = parse(basicValidConfig, projectPath);
+    expect(config.eventReducer).toEqual(defaultReducer);
+  });
+
+  test("validates is a function", () => {
+    const rawConfig = {
+      ...basicValidConfig,
+      eventReducer: 123
+    };
+
+    const error = parseAndExtractError(rawConfig);
+    expect(error).toMatch(/eventReducer/);
   });
 });
 

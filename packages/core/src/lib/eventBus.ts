@@ -5,13 +5,31 @@ export interface Subscriber {
   (event: Event): void;
 }
 
+export interface Reducer {
+  (eventId: string, previousState: any | undefined, eventData: any): any;
+}
+
+export const defaultReducer: Reducer = (
+  _id: string,
+  _previousState: any | undefined,
+  event: any
+): any => {
+  return event;
+};
+
 export class EventBus {
   private subscribers: Subscriber[];
   private history: EventHistory;
+  private reducer: Reducer;
 
-  constructor(history: EventHistory) {
+  static withDefaultReducer(history: EventHistory) {
+    return new EventBus(history, defaultReducer);
+  }
+
+  constructor(history: EventHistory, reducer: Reducer) {
     this.subscribers = [];
     this.history = history;
+    this.reducer = reducer;
   }
 
   subscribe(subscriber: Subscriber) {
@@ -24,7 +42,16 @@ export class EventBus {
   }
 
   async publish(id: string, data: any) {
-    const event: Event = { id, data, updatedAt: new Date(Date.now()) };
+    const previousState = await this.history.get(id);
+    const previousData = previousState ? previousState.data : undefined;
+
+    const reducedData = this.reducer(id, previousData, data);
+    const event: Event = {
+      id,
+      data: reducedData,
+      updatedAt: new Date(Date.now())
+    };
+
     this.subscribers.forEach(subscriber => subscriber(event));
     return this.history.put(id, event);
   }
