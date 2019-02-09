@@ -111,6 +111,38 @@ describe("receiving events over HTTP", () => {
     });
   });
 
+  test("header specifying AUTH_TOKEN is case insensitive", async () => {
+    const eventBus = await createEventBus();
+    serverInstance = await server.start(
+      path.join(__dirname, "..", "fixture"),
+      eventBus
+    );
+
+    return new Promise((resolve, _reject) => {
+      eventBus.subscribe(event => {
+        expect(event).toEqual({
+          id: "myEvent",
+          data: { some: "arg" },
+          updatedAt: NOW
+        });
+        resolve();
+      });
+
+      const request = http.request({
+        hostname: "127.0.0.1",
+        port: 12345,
+        path: "/events/myEvent",
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.AUTH_TOKEN}`
+        }
+      });
+
+      request.write(JSON.stringify({ some: "arg" }));
+      request.end();
+    });
+  });
+
   test("with basicAuth enabled, still requires AUTH_TOKEN", async () => {
     dashblingConfig.basicAuth = "username:password";
 

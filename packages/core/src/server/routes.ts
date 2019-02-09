@@ -65,7 +65,8 @@ const postEventHandler = (eventBus: EventBus, token: string) => (
   req: any,
   h: any
 ) => {
-  if (`bearer ${token}` !== req.headers.authorization) {
+  const validAuthHeaders = [`Bearer ${token}`, `bearer ${token}`];
+  if (!validAuthHeaders.includes(req.headers.authorization)) {
     return h.response("Unauthorized").code(401);
   }
 
