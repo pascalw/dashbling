@@ -20,6 +20,7 @@ class MongoDbHistory {
   getAll() {
     return this._collection()
       .find({})
+      .sort([["data.updatedAt", 1]])
       .limit(1000)
       .map(this._toEvent)
       .toArray();
