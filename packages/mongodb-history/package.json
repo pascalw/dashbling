@@ -16,9 +16,9 @@
     "mongodb": "^3.1.13"
   },
   "peerDependencies": {
-    "@dashbling/core": "^0.2.1"
+    "@dashbling/core": ">= 0.3.0-0"
   },
   "devDependencies": {
-    "@dashbling/core": "^0.2.1"
+    "@dashbling/core": "0.3.0-1"
   }
 }

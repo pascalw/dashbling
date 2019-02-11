@@ -8,8 +8,5 @@
     "dev":
       "NODE_ENV=development ../node_modules/.bin/ts-node ../src/cli.ts start"
   },
-  "browserslist": "last 2 versions",
-  "dependencies": {
-    "dashbling-widget-weather": "^2.0.0"
-  }
+  "browserslist": "last 2 versions"
 }
