@@ -30,6 +30,12 @@
   max-height: 100%;
 }
 
+.label {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
 .labelLarge {
   font-size: 4em;
 }
@@ -40,12 +46,6 @@
 
 .labelSmall {
   font-size: 1.5em;
-}
-
-span {
-  display: block;
-  width: 100%;
-  text-align: center;
 }
 
 .link {

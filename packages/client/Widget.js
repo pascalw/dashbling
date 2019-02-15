@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Widget.scss";
 
+const classes = classNames => classNames.filter(Boolean).join(" ");
+
 const bgImage = image => {
   return (
     <div
@@ -12,9 +14,7 @@ const bgImage = image => {
 };
 
 export const Widget = (props, context) => {
-  const className = `${styles.widget} ${context.layout.widget}${
-    props.className ? " " + props.className : ""
-  }`;
+  const className =  classes([styles.widget, context.layout.widget, props.className]);
 
   let children = props.title ? (
     <React.Fragment>
@@ -56,8 +56,10 @@ export const LargeLabel = props => {
 };
 
 export const Label = (props, className) => {
+  const labelClassName = classes([styles.label, className]);
+
   return (
-    <span className={className} {...props}>
+    <span className={labelClassName} {...props}>
       {props.children}
     </span>
   );
