@@ -14,7 +14,11 @@ const bgImage = image => {
 };
 
 export const Widget = (props, context) => {
-  const className =  classes([styles.widget, context.layout.widget, props.className]);
+  const className = classes([
+    styles.widget,
+    context.layout.widget,
+    props.className
+  ]);
 
   let children = props.title ? (
     <React.Fragment>
