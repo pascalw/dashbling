@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/client",
-  "version": "0.3.0-2",
+  "version": "0.3.0",
   "author": "Pascal Widdershoven",
   "description": "Hackable React based dashboards for developers",
   "license": "MIT",
@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
-    "@dashbling/build-support": "^0.3.0-2",
+    "@dashbling/build-support": "^0.3.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23",
     "enzyme": "^3.3.0",

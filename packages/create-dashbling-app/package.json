@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/create-dashboard",
-  "version": "0.3.0-2",
+  "version": "0.3.0",
   "author": "Pascal Widdershoven",
   "description": "Hackable React based dashboards for developers",
   "license": "MIT",
