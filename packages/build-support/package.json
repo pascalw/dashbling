@@ -40,8 +40,8 @@
   "devDependencies": {
     "@types/jest": "^21.1.8",
     "@types/node": "^8.0.57",
-    "jest": "^23",
-    "ts-jest": "^23.10.5",
+    "jest": "^24",
+    "ts-jest": "^24",
     "ts-node": "^3.3.0",
     "typescript": "^3.3.1"
   },
