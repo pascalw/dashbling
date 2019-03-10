@@ -39,7 +39,7 @@
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23",
+    "jest": "^24",
     "raf": "^3.4.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
