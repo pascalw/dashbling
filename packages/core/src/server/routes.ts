@@ -14,6 +14,7 @@ export const install = (
   eventBus: EventBus,
   clientConfig: ClientConfig
 ) => {
+
   server.route({
     method: "GET",
     path: "/events",
