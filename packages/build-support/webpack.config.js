@@ -27,7 +27,7 @@ module.exports = projectPath => {
 
   const plugins = [
     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify(env) }),
-    new Clean([out], { root: projectPath }),
+    new Clean({ output: out }),
     new HTML({
       template: path.join(projectPath, "./index.html"),
       inject: true,
