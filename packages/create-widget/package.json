@@ -21,7 +21,7 @@
   "dependencies": {
     "command-exists": "^1.2.2",
     "fs-extra": "^7.0.1",
-    "yargs": "^10.0.3",
+    "yargs": "^13.2.2",
     "yeoman-environment": "^2.0.5",
     "yeoman-generator": "^2.0.1"
   },
