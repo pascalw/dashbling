@@ -32,7 +32,7 @@
     "@hapi/hapi": "18.3.1",
     "commander": "^2.12.2",
     "@hapi/basic": "^5.1.0",
-    "inert": "^5.0.1",
+    "@hapi/inert": "^5.2.0",
     "node-cron": "^1.2.1",
     "node-fetch": "^2.5.0",
     "tracer": "^0.9.8"
