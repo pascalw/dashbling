@@ -17,7 +17,7 @@
     "prepare": "cp ../../README.md ."
   },
   "dependencies": {
-    "core-js": "^2",
+    "core-js": "^3.0.1",
     "date-fns": "^1.29.0",
     "prop-types": "^15.6.0",
     "react-redux": "^5.0.6",
