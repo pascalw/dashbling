@@ -31,7 +31,7 @@ export const install = async (server: any, clientConfig: ClientConfig) => {
   if (!clientConfig.basicAuth) return;
 
   const credentials = new Credentials(clientConfig.basicAuth);
-  await server.register(require("hapi-auth-basic"));
+  await server.register(require("@hapi/basic"));
 
   server.auth.strategy("simple", "basic", { validate: validate(credentials) });
   server.auth.default("simple");

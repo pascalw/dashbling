@@ -8,7 +8,7 @@
     "@dashbling/client": "^0.3.0"
   },
   "dependencies": {
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^2.5.0"
   },
   "peerDependencies": {
     "@dashbling/client": "^0"
