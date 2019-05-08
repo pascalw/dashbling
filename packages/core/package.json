@@ -29,9 +29,9 @@
     "/src/"
   ],
   "dependencies": {
-    "hapi": "17.5.3",
+    "@hapi/hapi": "18.3.1",
     "commander": "^2.12.2",
-    "hapi-auth-basic": "^5.0.0",
+    "@hapi/basic": "^5.1.0",
     "inert": "^5.0.1",
     "node-cron": "^1.2.1",
     "node-fetch": "^2.5.0",

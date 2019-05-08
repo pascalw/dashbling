@@ -16,7 +16,7 @@ export const install = (server: any, clientConfig: ClientConfig) => {
     method: (request: any, h: any) => {
       if (isHttpRequest(request)) {
         return h
-          .redirect("https://" + extractHost(request) + request.url.path)
+          .redirect("https://" + extractHost(request) + request.url.pathname)
           .permanent(true)
           .takeover();
       }

@@ -53,7 +53,7 @@ afterEach(() => {
   serverInstance && serverInstance.stop();
 });
 
-xtest("sends events over /events stream", async () => {
+test("sends events over /events stream", async () => {
   const eventBus = await createEventBus();
   serverInstance = await server.start(
     path.join(__dirname, "..", "fixture"),
@@ -63,7 +63,7 @@ xtest("sends events over /events stream", async () => {
 
   return new Promise((resolve, _reject) => {
     const req = http.get(
-      "http://127.0.0.1:12345/events",
+      `http://127.0.0.1:${process.env.PORT}/events`,
       extractEvents(event => {
         expect(event).toEqual({
           id: "myEvent",
@@ -79,7 +79,7 @@ xtest("sends events over /events stream", async () => {
 });
 
 describe("receiving events over HTTP", () => {
-  xtest("requires AUTH_TOKEN", async () => {
+  test("requires AUTH_TOKEN", async () => {
     const eventBus = await createEventBus();
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -98,7 +98,7 @@ describe("receiving events over HTTP", () => {
 
       const request = http.request({
         hostname: "127.0.0.1",
-        port: 12345,
+        port: process.env.PORT,
         path: "/events/myEvent",
         method: "POST",
         headers: {
@@ -111,7 +111,7 @@ describe("receiving events over HTTP", () => {
     });
   });
 
-  xtest("header specifying AUTH_TOKEN is case insensitive", async () => {
+  test("header specifying AUTH_TOKEN is case insensitive", async () => {
     const eventBus = await createEventBus();
     serverInstance = await server.start(
       path.join(__dirname, "..", "fixture"),
@@ -130,7 +130,7 @@ describe("receiving events over HTTP", () => {
 
       const request = http.request({
         hostname: "127.0.0.1",
-        port: 12345,
+        port: process.env.PORT,
         path: "/events/myEvent",
         method: "POST",
         headers: {
@@ -143,7 +143,7 @@ describe("receiving events over HTTP", () => {
     });
   });
 
-  xtest("with basicAuth enabled, still requires AUTH_TOKEN", async () => {
+  test("with basicAuth enabled, still requires AUTH_TOKEN", async () => {
     dashblingConfig.basicAuth = "username:password";
 
     const eventBus = await createEventBus();
@@ -164,7 +164,7 @@ describe("receiving events over HTTP", () => {
 
       const request = http.request({
         hostname: "127.0.0.1",
-        port: 12345,
+        port: process.env.PORT,
         path: "/events/myEvent",
         method: "POST",
         headers: {
@@ -178,7 +178,7 @@ describe("receiving events over HTTP", () => {
   });
 });
 
-xtest("executes jobs on start", async () => {
+test("executes jobs on start", async () => {
   const eventBus = await createEventBus();
   const publishSpy = jest.spyOn(eventBus, "publish");
 
@@ -198,7 +198,7 @@ xtest("executes jobs on start", async () => {
   expect(publishSpy).toHaveBeenCalledWith("myJob", {});
 });
 
-xtest("calls config.onStart", async () => {
+test("calls config.onStart", async () => {
   const eventBus = await createEventBus();
   const publishSpy = jest.spyOn(eventBus, "publish");
 
@@ -215,7 +215,7 @@ xtest("calls config.onStart", async () => {
   expect(publishSpy).toHaveBeenCalledWith("myEvent", {});
 });
 
-xtest("calls config.configureServer", async () => {
+test("calls config.configureServer", async () => {
   const eventBus = await createEventBus();
 
   dashblingConfig.configureServer = jest.fn((server: any) => {
@@ -251,7 +251,7 @@ describe("forcing https", () => {
     );
   });
 
-  xtest("redirects to x-forwarded-host", async () => {
+  test("redirects to x-forwarded-host", async () => {
     dashblingConfig.forceHttps = true;
     const eventBus = await createEventBus();
 
@@ -271,7 +271,7 @@ describe("forcing https", () => {
     expect(response.headers.get("location")).toEqual(`https://example.org/`);
   });
 
-  xtest("does not redirect if x-forwarded-proto is https", async () => {
+  test("does not redirect if x-forwarded-proto is https", async () => {
     dashblingConfig.forceHttps = true;
     const eventBus = await createEventBus();
 
@@ -292,7 +292,7 @@ describe("forcing https", () => {
 });
 
 describe("basic auth", () => {
-  xtest("401 if no auth provided", async () => {
+  test("401 if no auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
     const eventBus = await createEventBus();
 
@@ -305,7 +305,7 @@ describe("basic auth", () => {
     expect(response.status).toEqual(401);
   });
 
-  xtest("401 if invalid auth provided", async () => {
+  test("401 if invalid auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
     const eventBus = await createEventBus();
 
@@ -323,7 +323,7 @@ describe("basic auth", () => {
     expect(response.status).toEqual(401);
   });
 
-  xtest("Pass if valid auth provided", async () => {
+  test("Pass if valid auth provided", async () => {
     dashblingConfig.basicAuth = "username:password";
     const eventBus = await createEventBus();
 
