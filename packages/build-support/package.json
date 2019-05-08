@@ -57,7 +57,8 @@
     "testRegex": "((\\.|/)test)\\.(js|ts)$",
     "moduleFileExtensions": [
       "ts",
-      "js"
+      "js",
+      "json"
     ]
   },
   "engines": {
