@@ -51,11 +51,10 @@
     "typescript": "^3.3.1"
   },
   "jest": {
-    "preset": "ts-jest",
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "testRegex": "((\\.|/)test)\\.(jsx?|tsx?|.ts?)$",
+    "testRegex": "((\\.|/)test)\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
