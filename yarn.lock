@@ -691,6 +691,30 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dashbling/build-support@file:packages/build-support", "@dashbling/core@file:packages/build-support":
+  version "0.3.1"
+  dependencies:
+    "@babel/core" "7.4.4"
+    "@babel/plugin-proposal-object-rest-spread" "7.4.4"
+    "@babel/preset-env" "7.4.4"
+    "@babel/preset-react" "^7.0.0"
+    "@dashbling/core" "file:packages/build-support"
+    autoprefixer "^9.5.1"
+    babel-loader "^8.0.0"
+    clean-webpack-plugin "^2.0.2"
+    css-loader "^2.1.1"
+    file-loader "^3.0.1"
+    html-webpack-plugin "^3.2.0"
+    lerna "^3.13.4"
+    node-sass "^4.7.2"
+    postcss-loader "^3.0.0"
+    prettier "^1.9.2"
+    sass-loader "^7.1.0"
+    style-loader "^0.23.1"
+    webpack "^4.29.0"
+    webpack-dev-middleware "^3.5.1"
+    webpack-hot-middleware "^2.24.3"
+
 "@hapi/accept@3.x.x":
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/@hapi/accept/-/accept-3.2.2.tgz#3a033af67be8196c23f8f51aa8756687b972c7cb"
@@ -7227,10 +7251,13 @@ no-case@^2.2.0:
   dependencies:
     lower-case "^1.1.1"
 
-node-cron@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/node-cron/-/node-cron-1.2.1.tgz#8c90bc5dc723a56289b0786655ab4a1c4cb60368"
-  integrity sha1-jJC8XccjpWKJsHhmVatKHEy2A2g=
+node-cron@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/node-cron/-/node-cron-2.0.3.tgz#b9649784d0d6c00758410eef22fa54a10e3f602d"
+  integrity sha512-eJI+QitXlwcgiZwNNSRbqsjeZMp5shyajMR81RZCqeW0ZDEj4zU9tpd4nTh/1JsBiKbF8d08FCewiipDmVIYjg==
+  dependencies:
+    opencollective-postinstall "^2.0.0"
+    tz-offset "0.0.1"
 
 node-fetch-npm@^2.0.2:
   version "2.0.2"
@@ -7641,6 +7668,11 @@ onetime@^2.0.0:
   integrity sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ=
   dependencies:
     mimic-fn "^1.0.0"
+
+opencollective-postinstall@^2.0.0:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
+  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
 optimist@^0.6.1:
   version "0.6.1"
@@ -9959,6 +9991,11 @@ typescript@^3.3.1:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.4.5.tgz#2d2618d10bb566572b8d7aad5180d84257d70a99"
   integrity sha512-YycBxUb49UUhdNMU5aJ7z5Ej2XGmaIBL0x34vZ82fn3hGvD+bgrMrVDpatgz2f7YxUMJxMkbWxJZeAvDxVe7Vw==
+
+tz-offset@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/tz-offset/-/tz-offset-0.0.1.tgz#fef920257024d3583ed9072a767721a18bdb8a76"
+  integrity sha512-kMBmblijHJXyOpKzgDhKx9INYU4u4E1RPMB0HqmKSgWG8vEcf3exEfLh4FFfzd3xdQOw9EuIy/cP0akY6rHopQ==
 
 uglify-js@3.4.x:
   version "3.4.10"
