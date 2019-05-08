@@ -43,8 +43,8 @@ module.exports = class extends Generator {
           process.env.DASHBLING_BUILD_SUPPORT_PACKAGE || dashblingVersion
       },
       dependencies: {
-        react: "^16.2",
-        "react-dom": "^16.2",
+        react: "^16.8.6",
+        "react-dom": "^16.8.6",
         "@dashbling/core":
           process.env.DASHBLING_CORE_PACKAGE || dashblingVersion,
         "@dashbling/client":

@@ -25,8 +25,8 @@
     "timezone": "^1.0.13"
   },
   "peerDependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "engines": {
     "node": ">= 10"
@@ -41,8 +41,8 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24",
     "raf": "^3.4.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "jest": {
     "transform": {
