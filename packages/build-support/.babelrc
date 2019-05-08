@@ -5,13 +5,12 @@
       "@babel/preset-env",
       {
         "modules": false,
-        "useBuiltIns": "usage"
+        "useBuiltIns": "usage",
+        "corejs": 3
       }
     ]
   ],
-  "plugins": [
-    "@babel/plugin-proposal-object-rest-spread"
-  ],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread"],
   "env": {
     "test": {
       "presets": [
@@ -21,12 +20,13 @@
           {
             "modules": "commonjs",
             "useBuiltIns": "usage",
+            "corejs": 3,
             "targets": {
               "node": "current"
             }
           }
         ]
-      ],
+      ]
     }
   }
 }
