@@ -29,12 +29,12 @@
     "/src/"
   ],
   "dependencies": {
-    "@hapi/hapi": "18.3.1",
     "commander": "^2.12.2",
+    "hapi": "17.1.1",
     "hapi-auth-basic": "^5.0.0",
     "inert": "^5.0.1",
     "node-cron": "^1.2.1",
-    "node-fetch": "^2.5.0",
+    "node-fetch": "^1.7.3",
     "tracer": "^0.8.11"
   },
   "engines": {

@@ -1,4 +1,4 @@
-const Hapi = require("@hapi/hapi");
+const Hapi = require("hapi");
 import { EventBus } from "./lib/eventBus";
 import { createHistory as createInMemoryHistory } from "./lib/InMemoryEventHistory";
 import * as jobs from "./lib/jobs";
