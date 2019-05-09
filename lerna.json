@@ -1,12 +1,12 @@
 {
-  "lerna": "2.5.1",
+  "lerna": "3.13.4",
   "npmClient": "npm",
   "useWorkspaces": true,
   "version": "independent",
   "registry": "https://registry.npmjs.org/",
-  "commands": {
+  "command": {
     "publish": {
-      "ignore": ["@dashbling/example", "*.md"]
+      "ignoreChanges": ["@dashbling/example", "*.md"]
     }
   }
 }

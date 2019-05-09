@@ -1,9 +1,11 @@
 {
   "private": true,
-  "workspaces": ["packages/*", "example/"],
+  "workspaces": [
+    "packages/*",
+    "example/"
+  ],
   "scripts": {
-    "dev":
-      "NODE_ENV=development AUTH_TOKEN=development nodemon --config ./packages/core/nodemon.json --watch packages/core/src/ --exec 'bash -c' 'cd example && ts-node ../packages/core/src/cli.ts start'",
+    "dev": "NODE_ENV=development AUTH_TOKEN=development nodemon --config ./packages/core/nodemon.json --watch packages/core/src/ --exec 'bash -c' 'cd example && ts-node ../packages/core/src/cli.ts start'",
     "prettier": "prettier '**/*.@(js|ts|tsx|jsx|json)'",
     "test": "lerna run test",
     "build": "lerna run build",
@@ -11,7 +13,7 @@
     "lerna": "lerna"
   },
   "devDependencies": {
-    "lerna": "^2.5.1",
+    "lerna": "^3.13.4",
     "prettier": "^1.9.2"
   }
 }
