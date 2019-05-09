@@ -34,7 +34,7 @@ module.exports = class extends Generator {
     const packageJson = Object.assign(json, {
       main: "MyWidget.js",
       dependencies: {
-        "node-fetch": "^1.7.3"
+        "node-fetch": "^2.5.0"
       },
       devDependencies: {
         "@dashbling/client": dashblingClientPackage
