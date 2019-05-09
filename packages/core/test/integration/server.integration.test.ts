@@ -12,7 +12,7 @@ const originalConfig = Object.assign({}, dashblingConfig);
 
 let serverInstance: any;
 
-const extractEvents = (onEvent: ((event: any) => void)) => (
+const extractEvents = (onEvent: (event: any) => void) => (
   response: http.IncomingMessage
 ) => {
   response.on("data", data => {

@@ -15,7 +15,9 @@ const installAssetHandling = async (
   clientConfig: ClientConfig
 ) => {
   if (environment === "development") {
-    const devMiddleware = await import("@dashbling/build-support/webpackDevMiddleware");
+    const devMiddleware = await import(
+      "@dashbling/build-support/webpackDevMiddleware"
+    );
     return devMiddleware.install(server, clientConfig);
   } else {
     const compiledAssets = await import("./server/compiledAssets");
