@@ -8,6 +8,8 @@ program.version(require("../package.json").version);
 const projectPath = process.cwd();
 
 program.command("start").action(async () => {
+  process.env.NODE_ENV = process.env.NODE_ENV || "development";
+
   try {
     const serverInstance = await server.start(projectPath);
     const gracefulShutdown = async () => {
