@@ -1,4 +1,5 @@
 const cron = require("node-cron");
+import { Server } from "@hapi/hapi";
 import * as path from "path";
 import logger from "./logger";
 import { generate as generateAuthToken } from "./authToken";
@@ -30,7 +31,7 @@ export interface ClientConfig {
   readonly projectPath: string;
   readonly jobs: JobConfig[];
   readonly onStart: (sendEvent: SendEvent) => void;
-  readonly configureServer: (server: any) => Promise<void>;
+  readonly configureServer: (server: Server) => Promise<void>;
   readonly webpackConfig: (defaultConfig: any) => any;
   readonly eventHistory: Promise<EventHistory>;
   readonly eventReducer: Reducer;

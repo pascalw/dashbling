@@ -1,4 +1,4 @@
-const Hapi = require("hapi");
+import { Server } from "@hapi/hapi";
 import { EventBus } from "./lib/eventBus";
 import { createHistory as createInMemoryHistory } from "./lib/InMemoryEventHistory";
 import * as jobs from "./lib/jobs";
@@ -11,7 +11,7 @@ import { install as installBasicAuth } from "./server/basicAuth";
 
 const installAssetHandling = async (
   environment: string,
-  server: any,
+  server: Server,
   clientConfig: ClientConfig
 ) => {
   if (environment === "development") {
@@ -50,7 +50,7 @@ export const start = async (projectPath: string, eventBus?: EventBus) => {
   const history = await createEventHistory(clientConfig);
   eventBus = eventBus || new EventBus(history, clientConfig.eventReducer);
 
-  const server = new Hapi.Server({
+  const server = new Server({
     port: clientConfig.port
   });
 
