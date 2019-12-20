@@ -34,7 +34,7 @@ module.exports = class extends Generator {
     const json = readJsonSync(jsonPath);
     const packageJson = Object.assign(json, {
       scripts: {
-        start: "NODE_ENV=${NODE_ENV:-development} dashbling start",
+        start: "dashbling start",
         build: "dashbling compile"
       },
       browserslist: "last 2 versions",
