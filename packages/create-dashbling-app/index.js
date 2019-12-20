@@ -33,6 +33,7 @@ module.exports = class extends Generator {
     const jsonPath = this.destinationPath("package.json");
     const json = readJsonSync(jsonPath);
     const packageJson = Object.assign(json, {
+      private: true,
       scripts: {
         start: "dashbling start",
         build: "dashbling compile"
@@ -52,6 +53,8 @@ module.exports = class extends Generator {
         "dashbling-widget-weather": "^2.0.0"
       }
     });
+
+    delete packageJson.license;
 
     writeJsonSync(jsonPath, packageJson, { spaces: 2 });
 
