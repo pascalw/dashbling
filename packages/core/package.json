@@ -31,6 +31,7 @@
   "dependencies": {
     "@hapi/basic": "^5.1.1",
     "@hapi/hapi": "^18.4.0",
+    "@hapi/inert": "^5.2.2",
     "commander": "^2.12.2",
     "node-cron": "^1.2.1",
     "node-fetch": "^1.7.3",
