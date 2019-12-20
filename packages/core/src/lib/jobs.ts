@@ -1,4 +1,3 @@
-const path = require("path");
 const cron = require("node-cron");
 import logger from "../lib/logger";
 import { SendEvent } from "../lib/sendEvent";

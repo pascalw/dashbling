@@ -1,16 +1,16 @@
 import { PassThrough } from "stream";
 import { EventBus } from "../lib/eventBus";
 import { Event } from "../lib/Event";
-import logger from "../lib/logger";
 import { ClientConfig } from "../lib/clientConfig";
 const { heartbeat } = require("../lib/constants");
+import { Server, Request, ResponseToolkit } from "@hapi/hapi";
 
 interface PassThroughWithHeaders extends PassThrough {
   headers: { [key: string]: string };
 }
 
 export const install = (
-  server: any,
+  server: Server,
   eventBus: EventBus,
   clientConfig: ClientConfig
 ) => {
@@ -31,7 +31,10 @@ export const install = (
   });
 };
 
-const streamEventsHandler = (eventBus: EventBus) => (req: any, h: any) => {
+const streamEventsHandler = (eventBus: EventBus) => (
+  _req: Request,
+  _h: ResponseToolkit
+) => {
   const stream = new PassThrough() as PassThroughWithHeaders;
   stream.headers = {
     "content-type": "text/event-stream",
@@ -62,8 +65,8 @@ const streamEventsHandler = (eventBus: EventBus) => (req: any, h: any) => {
 };
 
 const postEventHandler = (eventBus: EventBus, token: string) => (
-  req: any,
-  h: any
+  req: Request,
+  h: ResponseToolkit
 ) => {
   const validAuthHeaders = [`Bearer ${token}`, `bearer ${token}`];
   if (!validAuthHeaders.includes(req.headers.authorization)) {

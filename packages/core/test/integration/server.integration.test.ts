@@ -316,7 +316,7 @@ describe("basic auth", () => {
 
     const response = await fetch(`http://localhost:${process.env.PORT}/`, {
       headers: {
-        Authorization: "Basic " + new Buffer("foo:bar").toString("base64")
+        Authorization: "Basic " + Buffer.from("foo:bar").toString("base64")
       }
     });
 
@@ -335,7 +335,7 @@ describe("basic auth", () => {
     const response = await fetch(`http://localhost:${process.env.PORT}/`, {
       headers: {
         Authorization:
-          "Basic " + new Buffer(dashblingConfig.basicAuth).toString("base64")
+          "Basic " + Buffer.from(dashblingConfig.basicAuth).toString("base64")
       }
     });
     expect(response.status).not.toEqual(401);

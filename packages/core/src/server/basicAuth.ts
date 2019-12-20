@@ -1,4 +1,5 @@
 import { ClientConfig } from "../lib/clientConfig";
+import { Server, Request } from "@hapi/hapi";
 
 class Credentials {
   readonly username: string;
@@ -18,7 +19,7 @@ class Credentials {
 }
 
 const validate = (credentials: Credentials) => async (
-  request: any,
+  _request: Request,
   username: string,
   password: string
 ) => {
@@ -27,11 +28,11 @@ const validate = (credentials: Credentials) => async (
   return { isValid, credentials };
 };
 
-export const install = async (server: any, clientConfig: ClientConfig) => {
+export const install = async (server: Server, clientConfig: ClientConfig) => {
   if (!clientConfig.basicAuth) return;
 
   const credentials = new Credentials(clientConfig.basicAuth);
-  await server.register(require("hapi-auth-basic"));
+  await server.register(require("@hapi/basic"));
 
   server.auth.strategy("simple", "basic", { validate: validate(credentials) });
   server.auth.default("simple");
