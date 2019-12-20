@@ -1,6 +1,6 @@
 {
   "name": "@dashbling/mongodb-history",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "main": "mongodb-history.js",
   "author": "Pascal Widdershoven",
   "description": "Hackable React based dashboards for developers",
@@ -19,6 +19,6 @@
     "@dashbling/core": ">= 0.3.0-0"
   },
   "devDependencies": {
-    "@dashbling/core": "^0.3.0"
+    "@dashbling/core": "^0.4.1"
   }
 }
