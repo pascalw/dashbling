@@ -17,6 +17,6 @@ Features:
 Follow [this guide](./docs/getstarted.md) to get started with your first Dashbling dashboard.  
 Read the full docs [here](./docs/).
 
-There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo and a running [demo](https://dashbling.herokuapp.com/).
+There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo and a running [demo](https://dashbling.fly.dev).
 
 ![example](https://raw.githubusercontent.com/pascalw/dashbling/master/example.jpg)
