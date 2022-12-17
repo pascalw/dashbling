@@ -26,7 +26,7 @@ Now open http://localhost:3000/ in your browser to see your dashboard.
 Note that Dashbling does not care about the directory structure at all, so adapt to your own taste!
 
 The guide below describes the process of developing and running your Dashbling dashboard.
-There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo, and a live [demo](https://dashbling.herokuapp.com/).
+There's also an [example](https://github.com/pascalw/dashbling/tree/master/example) available in the repo, and a live [demo](https://dashbling.fly.dev/).
 
 ## Deployment
 
